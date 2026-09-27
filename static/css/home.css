@@ -1,6 +1,6 @@
 /* =========================================================
    HOME PAGE
-========================================================= */
+   ========================================================= */
 
 .home-page {
     width: 100%;
@@ -10,31 +10,25 @@
 
 /* =========================================================
    HERO SLIDER
-========================================================= */
+   ========================================================= */
 
 .hero-slider {
     position: relative;
-
     width: 100%;
     height: 680px;
-
     overflow: hidden;
 }
 
 .hero-track {
     display: flex;
-
     width: 100%;
     height: 100%;
-
     transition: transform 0.7s ease;
 }
 
 .hero-slide {
     position: relative;
-
     flex: 0 0 100%;
-
     width: 100%;
     height: 100%;
 
@@ -49,7 +43,7 @@
 
 /* =========================================================
    HERO CONTENT
-========================================================= */
+   ========================================================= */
 
 .hero-content {
     width: 100%;
@@ -115,7 +109,7 @@
 
 /* =========================================================
    HERO BUTTONS
-========================================================= */
+   ========================================================= */
 
 .hero-actions {
     display: flex;
@@ -127,7 +121,6 @@
 .hero-watch-button,
 .hero-details-button {
     display: inline-flex;
-
     align-items: center;
     justify-content: center;
 
@@ -173,11 +166,10 @@
 
 /* =========================================================
    HERO ARROWS
-========================================================= */
+   ========================================================= */
 
 .hero-arrow {
     position: absolute;
-
     top: 50%;
 
     transform: translateY(-50%);
@@ -228,7 +220,7 @@
 
 /* =========================================================
    HERO DOTS
-========================================================= */
+   ========================================================= */
 
 .hero-dots {
     position: absolute;
@@ -274,8 +266,129 @@
 
 
 /* =========================================================
+   HOMEPAGE STREAMING PROVIDERS
+   ========================================================= */
+
+.home-providers {
+    width: 100%;
+
+    padding: 30px 50px 10px;
+}
+
+.home-providers-container {
+    width: 100%;
+    margin: 0;
+}
+
+
+/* =========================================================
+   PROVIDER ROW
+   ========================================================= */
+
+.home-provider-list {
+    display: flex;
+    align-items: center;
+
+    gap: 12px;
+
+    width: 100%;
+
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    padding: 4px 2px 12px;
+
+    scrollbar-width: thin;
+    scrollbar-color: #333333 transparent;
+}
+
+.home-provider-list::-webkit-scrollbar {
+    height: 5px;
+}
+
+.home-provider-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.home-provider-list::-webkit-scrollbar-thumb {
+    background: #333333;
+    border-radius: 999px;
+}
+
+
+/* =========================================================
+   PROVIDER CARD
+   ========================================================= */
+
+.home-provider-card {
+    display: flex;
+
+    flex: 0 0 72px;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 72px;
+    height: 72px;
+
+    padding: 8px;
+
+    background: #111111;
+
+    border: 1px solid #222222;
+    border-radius: 10px;
+
+    text-decoration: none !important;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.home-provider-card:hover {
+    background: #181818;
+
+    border-color: #3a3a3a;
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   PROVIDER LOGO
+   ========================================================= */
+
+.home-provider-logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 52px;
+    height: 52px;
+
+    overflow: hidden;
+
+    background: #ffffff;
+
+    border-radius: 9px;
+}
+
+.home-provider-logo {
+    display: block;
+
+    width: 52px;
+    height: 52px;
+
+    object-fit: cover;
+
+    border-radius: 9px;
+}
+
+
+/* =========================================================
    HOME SECTIONS
-========================================================= */
+   ========================================================= */
 
 .home-section {
     width: 100%;
@@ -331,7 +444,7 @@
 
 /* =========================================================
    RESPONSIVE — TABLET
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 1200px) {
 
@@ -343,13 +456,12 @@
         padding-left: 60px;
         padding-right: 60px;
     }
-
 }
 
 
 /* =========================================================
    RESPONSIVE — SMALL TABLET
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 900px) {
 
@@ -370,12 +482,16 @@
         max-width: 580px;
     }
 
+    .home-providers {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
 }
 
 
 /* =========================================================
    RESPONSIVE — MOBILE
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 650px) {
 
@@ -455,6 +571,9 @@
         bottom: 20px;
     }
 
+
+    /* Home sections */
+
     .section-header h2 {
         font-size: 26px;
     }
@@ -463,12 +582,36 @@
         padding-top: 50px;
     }
 
+
+    /* Providers */
+
+    .home-providers {
+        padding-top: 25px;
+
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .home-provider-card {
+        flex-basis: 64px;
+
+        width: 64px;
+        height: 64px;
+
+        padding: 7px;
+    }
+
+    .home-provider-logo-wrapper,
+    .home-provider-logo {
+        width: 46px;
+        height: 46px;
+    }
 }
 
 
 /* =========================================================
    VERY SMALL MOBILE
-========================================================= */
+   ========================================================= */
 
 @media (max-width: 400px) {
 
@@ -494,4 +637,8 @@
         padding: 0 14px;
     }
 
+    .home-providers {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
 }
