@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Movies - MovieBox</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            background: #080808;
+
+            color: white;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+        }
+
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+
+            height: 70px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            padding: 0 50px;
+
+            background: #111;
+
+            border-bottom:
+                1px solid #222;
+
+        }
+
+
+        .logo {
+
+            font-size: 26px;
+
+            font-weight: 800;
+
+        }
+
+
+        .logo span {
+
+            color: #e50914;
+
+        }
+
+
+        .nav-links {
+
+            display: flex;
+
+            gap: 30px;
+
+        }
+
+
+        .nav-links a {
+
+            color: #aaa;
+
+            text-decoration: none;
+
+            font-size: 15px;
+
+        }
+
+
+        .nav-links a:hover,
+        .nav-links a.active {
+
+            color: white;
+
+        }
+
+
+        /* =========================
+           CONTAINER
+        ========================= */
+
+        .container {
+
+            width: 100%;
+
+            padding: 40px 50px;
+
+        }
+
+
+        .page-title {
+
+            margin: 0 0 25px;
+
+            font-size: 30px;
+
+        }
+
+
+        /* =========================
+           FILTERS
+        ========================= */
+
+        .filters {
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 12px;
+
+            margin-bottom: 35px;
+
+            padding: 18px;
+
+            background: #111;
+
+            border: 1px solid #222;
+
+            border-radius: 8px;
+
+        }
+
+
+        .filter {
+
+            min-width: 160px;
+
+            height: 42px;
+
+            padding: 0 12px;
+
+            border: 1px solid #333;
+
+            border-radius: 5px;
+
+            outline: none;
+
+            background: #1b1b1b;
+
+            color: white;
+
+            cursor: pointer;
+
+        }
+
+
+        .filter:focus {
+
+            border-color: #555;
+
+        }
+
+
+        .filter-button {
+
+            height: 42px;
+
+            padding: 0 20px;
+
+            border: 0;
+
+            border-radius: 5px;
+
+            background: #e50914;
+
+            color: white;
+
+            font-weight: 600;
+
+            cursor: pointer;
+
+        }
+
+
+        .clear-button {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            height: 42px;
+
+            padding: 0 20px;
+
+            border-radius: 5px;
+
+            background: #222;
+
+            color: #aaa;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+        }
+
+
+        .clear-button:hover {
+
+            color: white;
+
+            background: #2a2a2a;
+
+        }
+
+
+        /* =========================
+           MOVIE GRID
+        ========================= */
+
+        .movie-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(6, 1fr);
+
+            gap: 22px;
+
+        }
+
+
+        .movie-card {
+
+            display: block;
+
+            color: white;
+
+            text-decoration: none;
+
+            background: #151515;
+
+            border-radius: 8px;
+
+            overflow: hidden;
+
+            transition:
+                transform .25s ease;
+
+        }
+
+
+        .movie-card:hover {
+
+            transform:
+                translateY(-6px);
+
+        }
+
+
+        .poster {
+
+            position: relative;
+
+        }
+
+
+        .poster img {
+
+            display: block;
+
+            width: 100%;
+
+            aspect-ratio: 2 / 3;
+
+            object-fit: cover;
+
+        }
+
+
+        .rating {
+
+            position: absolute;
+
+            left: 8px;
+
+            bottom: 8px;
+
+            background:
+                rgba(0,0,0,.85);
+
+            padding:
+                5px 8px;
+
+            border-radius: 4px;
+
+            font-size: 12px;
+
+        }
+
+
+        .card-info {
+
+            padding: 12px;
+
+        }
+
+
+        .card-title {
+
+            margin: 0 0 7px;
+
+            font-size: 15px;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
+
+        }
+
+
+        .card-year {
+
+            margin: 0;
+
+            color: #777;
+
+            font-size: 13px;
+
+        }
+
+
+        /* =========================
+           PAGINATION
+        ========================= */
+
+        .pagination {
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 45px;
+
+        }
+
+
+        .pagination a {
+
+            min-width: 40px;
+
+            height: 40px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            padding: 0 12px;
+
+            border-radius: 5px;
+
+            background: #181818;
+
+            color: #aaa;
+
+            text-decoration: none;
+
+        }
+
+
+        .pagination a:hover {
+
+            background: #252525;
+
+            color: white;
+
+        }
+
+
+        .pagination .active {
+
+            background: #e50914;
+
+            color: white;
+
+        }
+
+
+        .page-info {
+
+            color: #666;
+
+            font-size: 13px;
+
+            margin: 0 10px;
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1100px) {
+
+            .movie-grid {
+
+                grid-template-columns:
+                    repeat(5, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 900px) {
+
+            .movie-grid {
+
+                grid-template-columns:
+                    repeat(4, 1fr);
+
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .navbar {
+
+                padding: 0 25px;
+
+            }
+
+            .nav-links {
+
+                gap: 15px;
+
+            }
+
+            .container {
+
+                padding: 30px 25px;
+
+            }
+
+            .movie-grid {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+
+                gap: 15px;
+
+            }
+
+        }
+
+
+        @media (max-width: 500px) {
+
+            .nav-links {
+
+                display: none;
+
+            }
+
+            .container {
+
+                padding: 25px 15px;
+
+            }
+
+            .filters {
+
+                padding: 12px;
+
+            }
+
+            .filter,
+            .filter-button,
+            .clear-button {
+
+                width: 100%;
+
+            }
+
+            .movie-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar">
+
+    <div class="logo">
+
+        Movie<span>Box</span>
+
+    </div>
+
+
+    <div class="nav-links">
+
+        <a href="/">
+            Home
+        </a>
+
+        <a
+            href="/movies"
+            class="active"
+        >
+            Movies
+        </a>
+
+        <a href="/tv">
+            TV Series
+        </a>
+
+    </div>
+
+</nav>
+
+
+
+<!-- =========================
+     CONTENT
+========================= -->
+
+<div class="container">
+
+
+    <h1 class="page-title">
+        Movies
+    </h1>
+
+
+    <!-- =========================
+         FILTERS
+    ========================= -->
+
+    <form
+        class="filters"
+        method="GET"
+        action="/movies"
+    >
+
+
+        <!-- GENRE -->
+
+        <select
+            name="genre"
+            class="filter"
+        >
+
+            <option value="">
+                All Genres
+            </option>
+
+
+            {% for genre in genres %}
+
+            <option
+                value="{{ genre.id }}"
+                {% if current_genre == genre.id|string %}
+                    selected
+                {% endif %}
+            >
+
+                {{ genre.name }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+
+        <!-- YEAR -->
+
+        <select
+            name="year"
+            class="filter"
+        >
+
+            <option value="">
+                All Years
+            </option>
+
+
+            {% for year in range(2026, 1999, -1) %}
+
+            <option
+                value="{{ year }}"
+                {% if current_year == year|string %}
+                    selected
+                {% endif %}
+            >
+
+                {{ year }}
+
+            </option>
+
+            {% endfor %}
+
+        </select>
+
+
+
+        <!-- RATING -->
+
+        <select
+            name="rating"
+            class="filter"
+        >
+
+            <option value="">
+                Any Rating
+            </option>
+
+            <option
+                value="5"
+                {% if current_rating == "5" %}
+                    selected
+                {% endif %}
+            >
+                5+
+            </option>
+
+            <option
+                value="6"
+                {% if current_rating == "6" %}
+                    selected
+                {% endif %}
+            >
+                6+
+            </option>
+
+            <option
+                value="7"
+                {% if current_rating == "7" %}
+                    selected
+                {% endif %}
+            >
+                7+
+            </option>
+
+            <option
+                value="8"
+                {% if current_rating == "8" %}
+                    selected
+                {% endif %}
+            >
+                8+
+            </option>
+
+        </select>
+
+
+
+        <!-- SORT -->
+
+        <select
+            name="sort"
+            class="filter"
+        >
+
+            <option
+                value="popularity.desc"
+                {% if current_sort == "popularity.desc" %}
+                    selected
+                {% endif %}
+            >
+                Most Popular
+            </option>
+
+            <option
+                value="vote_average.desc"
+                {% if current_sort == "vote_average.desc" %}
+                    selected
+                {% endif %}
+            >
+                Highest Rated
+            </option>
+
+            <option
+                value="primary_release_date.desc"
+                {% if current_sort == "primary_release_date.desc" %}
+                    selected
+                {% endif %}
+            >
+                Newest
+            </option>
+
+            <option
+                value="primary_release_date.asc"
+                {% if current_sort == "primary_release_date.asc" %}
+                    selected
+                {% endif %}
+            >
+                Oldest
+            </option>
+
+        </select>
+
+
+
+        <button
+            type="submit"
+            class="filter-button"
+        >
+            Apply Filters
+        </button>
+
+
+        <a
+            href="/movies"
+            class="clear-button"
+        >
+            Clear
+        </a>
+
+    </form>
+
+
+
+    <!-- =========================
+         MOVIE GRID
+    ========================= -->
+
+    <div class="movie-grid">
+
+
+        {% for movie in movies %}
+
+
+        <a
+            href="/movie/{{ movie.id }}"
+            class="movie-card"
+        >
+
+
+            <div class="poster">
+
+
+                {% if movie.poster_path %}
+
+                <img
+                    src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+                    alt="{{ movie.title }}"
+                    loading="lazy"
+                >
+
+                {% endif %}
+
+
+                <div class="rating">
+
+                    ⭐
+                    {{ "%.1f"|format(movie.vote_average) }}
+
+                </div>
+
+
+            </div>
+
+
+            <div class="card-info">
+
+
+                <h3 class="card-title">
+
+                    {{ movie.title }}
+
+                </h3>
+
+
+                <p class="card-year">
+
+                    {{
+                        movie.release_date[:4]
+                        if movie.release_date
+                        else "N/A"
+                    }}
+
+                </p>
+
+
+            </div>
+
+
+        </a>
+
+
+        {% endfor %}
+
+
+    </div>
+
+
+
+    <!-- =========================
+         PAGINATION
+    ========================= -->
+
+    <div class="pagination">
+
+
+        {% if current_page > 1 %}
+
+        <a
+            href="{{ url_for(
+                'movies_page',
+                genre=current_genre,
+                year=current_year,
+                rating=current_rating,
+                sort=current_sort,
+                page=current_page - 1
+            ) }}"
+        >
+            ←
+        </a>
+
+        {% endif %}
+
+
+
+        <a class="active">
+
+            {{ current_page }}
+
+        </a>
+
+
+        <span class="page-info">
+
+            of {{ total_pages }}
+
+        </span>
+
+
+
+        {% if current_page < total_pages %}
+
+        <a
+            href="{{ url_for(
+                'movies_page',
+                genre=current_genre,
+                year=current_year,
+                rating=current_rating,
+                sort=current_sort,
+                page=current_page + 1
+            ) }}"
+        >
+            →
+        </a>
+
+        {% endif %}
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

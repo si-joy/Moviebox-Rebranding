@@ -1,0 +1,678 @@
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>MovieBox</title>
+
+
+<style>
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #0b0b0b;
+    color: white;
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 1300px;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.logo span {
+    color: #e50914;
+}
+
+.header p {
+    color: #888;
+}
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 24px;
+}
+
+.movie-card {
+    display: block;
+    text-decoration: none;
+    color: white;
+    background: #171717;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.25s ease;
+}
+
+.movie-card:hover {
+    transform: translateY(-7px);
+}
+
+.poster-wrapper {
+    position: relative;
+}
+
+.movie-card img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+}
+
+.rating {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background: rgba(0,0,0,0.8);
+    padding: 6px 9px;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+.movie-info {
+    padding: 14px;
+}
+
+.movie-info h3 {
+    margin: 0 0 8px;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-info p {
+    margin: 0;
+    color: #888;
+    font-size: 14px;
+}
+
+
+@media (max-width: 1000px) {
+
+    .movie-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+}
+
+@media (max-width: 750px) {
+
+    .movie-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+@media (max-width: 500px) {
+
+    .container {
+        padding: 25px 15px;
+    }
+
+    .movie-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="header">
+
+        <div class="logo">
+            Movie<span>Box</span>
+        </div>
+
+        <p>Popular Movies</p>
+
+    </div>
+
+
+    <div class="movie-grid">
+
+        
+    <a href="movie.html?id=969681" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/bjiS5ipwxb9JFy3XRRN4OAilSeX.jpg"
+                alt="Spider-Man: Brand New Day"
+            >
+
+            <div class="rating">
+                ⭐ 7.9
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Spider-Man: Brand New Day</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1423191" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/i7UyjfPio0VFHB9rBUZSFyhOoM8.jpg"
+                alt="Resident Evil"
+            >
+
+            <div class="rating">
+                ⭐ 7.3
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Resident Evil</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1101383" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/fYXqpgPmHMphSF2W30GbTeJVIa5.jpg"
+                alt="The End of Oak Street"
+            >
+
+            <div class="rating">
+                ⭐ 7.0
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>The End of Oak Street</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1204680" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/kYDCl2y0VPvhT5eYWbMRInPoB03.jpg"
+                alt="Coyote vs. Acme"
+            >
+
+            <div class="rating">
+                ⭐ 7.6
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Coyote vs. Acme</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1368337" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/5rhTDKUhPYvpdQIijFIs5VoWsON.jpg"
+                alt="The Odyssey"
+            >
+
+            <div class="rating">
+                ⭐ 8.0
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>The Odyssey</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1032863" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/vfZxVHextAGC70zrNhS8lsROqP1.jpg"
+                alt="The Love Hypothesis"
+            >
+
+            <div class="rating">
+                ⭐ 8.2
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>The Love Hypothesis</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1294189" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/eSS5mvSG84UUuvtbHel5Yu3Wik4.jpg"
+                alt="The Mongoose"
+            >
+
+            <div class="rating">
+                ⭐ 0.0
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>The Mongoose</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1375646" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/tN799oUR0f1gUKDYdMNrDaY7I51.jpg"
+                alt="Colony"
+            >
+
+            <div class="rating">
+                ⭐ 8.1
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Colony</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1288445" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/pu2VxGlpGwffOx292w18b1tv96j.jpg"
+                alt="Mutiny"
+            >
+
+            <div class="rating">
+                ⭐ 7.1
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Mutiny</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1084244" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/sfQtVlIHljToOwYjhe21KPGzZWK.jpg"
+                alt="Toy Story 5"
+            >
+
+            <div class="rating">
+                ⭐ 8.3
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Toy Story 5</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1751701" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/yzDuAQCY2n6zzOlBkn6JzhLhY3k.jpg"
+                alt="After Impact"
+            >
+
+            <div class="rating">
+                ⭐ 5.7
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>After Impact</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1228834" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/yopXjun3ICFfJci2ukcEzceZjUs.jpg"
+                alt="The Fix"
+            >
+
+            <div class="rating">
+                ⭐ 7.0
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>The Fix</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1482547" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/cO7J0XSVKPlAjUCMWC7DVBn1Py2.jpg"
+                alt="Zip Wire"
+            >
+
+            <div class="rating">
+                ⭐ 7.3
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Zip Wire</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1108427" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/gaet1xQ2nxrG0V1Ep9T20ZMNEIC.jpg"
+                alt="Moana"
+            >
+
+            <div class="rating">
+                ⭐ 7.4
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Moana</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1607127" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/niQ4NBh2jqAf1hDZP5m6ReWFAb7.jpg"
+                alt="One Last Shot"
+            >
+
+            <div class="rating">
+                ⭐ 7.5
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>One Last Shot</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1339713" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/bRwnj8WEKBCvmfeUNOukJPwB43K.jpg"
+                alt="Obsession"
+            >
+
+            <div class="rating">
+                ⭐ 8.2
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Obsession</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1440098" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/6rpvddXbaQPOi0fB2HKWbZ3uUSg.jpg"
+                alt="Drawn Together"
+            >
+
+            <div class="rating">
+                ⭐ 6.6
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Drawn Together</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1232569" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/eUJXk3bTvLBi5Zcb0BCedZU7lVL.jpg"
+                alt="Pinocchio: Unstrung"
+            >
+
+            <div class="rating">
+                ⭐ 6.6
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Pinocchio: Unstrung</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1263337" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/1ApfSA8JTqeha3GTFEY8syV4auq.jpg"
+                alt="Heart of the Beast"
+            >
+
+            <div class="rating">
+                ⭐ 7.6
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Heart of the Beast</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+    <a href="movie.html?id=1240889" class="movie-card">
+
+        <div class="poster-wrapper">
+
+            <img
+                src="https://image.tmdb.org/t/p/w500/6Q6Zo6GNXMLP600OJSh6MhW21um.jpg"
+                alt="Teenage Sex and Death at Camp Miasma"
+            >
+
+            <div class="rating">
+                ⭐ 6.3
+            </div>
+
+        </div>
+
+        <div class="movie-info">
+
+            <h3>Teenage Sex and Death at Camp Miasma</h3>
+
+            <p>2026</p>
+
+        </div>
+
+    </a>
+    
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>
