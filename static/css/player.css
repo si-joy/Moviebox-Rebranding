@@ -1,0 +1,59 @@
+.player-page {
+    min-height: calc(100vh - 70px);
+    padding: 35px 0 70px;
+}
+
+.player-container {
+    width: min(1400px, calc(100% - 60px));
+    margin: 0 auto;
+}
+
+.player-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.player-header h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.back-button {
+    color: #aaa;
+}
+
+.back-button:hover {
+    color: white;
+}
+
+.player-wrapper {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid #222;
+    border-radius: 8px;
+}
+
+.player-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.player-notice {
+    margin-top: 15px;
+    color: #666;
+    font-size: 13px;
+}
+
+
+@media (max-width: 650px) {
+
+    .player-container {
+        width: calc(100% - 30px);
+    }
+
+}

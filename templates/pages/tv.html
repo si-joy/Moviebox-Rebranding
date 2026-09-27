@@ -1,0 +1,318 @@
+{% extends "base.html" %}
+
+{% block title %}
+TV Series - MovieBox
+{% endblock %}
+
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/catalog.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="catalog-page">
+
+    <div class="container">
+
+
+        <!-- =====================================
+             HEADER
+        ====================================== -->
+
+        <header class="catalog-header">
+
+            <span class="catalog-label">
+                BROWSE
+            </span>
+
+            <h1 class="catalog-title">
+                TV Series
+            </h1>
+
+            <p class="catalog-description">
+                Explore popular TV shows and series.
+            </p>
+
+        </header>
+
+
+        <!-- =====================================
+             TV GRID
+        ====================================== -->
+
+        {% if shows %}
+
+            <section class="movie-grid">
+
+                {% for show in shows %}
+
+                    <a
+                        href="/tv/{{ show.id }}"
+                        class="movie-card"
+                    >
+
+                        <div class="poster-wrapper">
+
+                            {% if show.poster_path %}
+
+                                <img
+                                    class="poster"
+                                    src="https://image.tmdb.org/t/p/w500{{ show.poster_path }}"
+                                    alt="{{ show.name }}"
+                                    loading="lazy"
+                                >
+
+                            {% else %}
+
+                                <div class="poster-placeholder">
+                                    No Poster
+                                </div>
+
+                            {% endif %}
+
+
+                            <!-- Hover overlay -->
+
+                            <div class="card-overlay">
+
+                                <div class="play-button">
+                                    ▶
+                                </div>
+
+                            </div>
+
+
+                            <!-- Rating -->
+
+                            {% if show.vote_average %}
+
+                                <span class="rating-badge">
+                                    ⭐ {{ "%.1f"|format(show.vote_average) }}
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- Title -->
+
+                        <h3 class="movie-title">
+                            {{ show.name }}
+                        </h3>
+
+
+                        <!-- Meta -->
+
+                        <p class="movie-meta">
+
+                            {% if show.first_air_date %}
+
+                                {{ show.first_air_date[:4] }}
+
+                            {% else %}
+
+                                N/A
+
+                            {% endif %}
+
+
+                            {% if show.vote_average %}
+
+                                · ⭐ {{ "%.1f"|format(show.vote_average) }}
+
+                            {% endif %}
+
+                        </p>
+
+                    </a>
+
+                {% endfor %}
+
+            </section>
+
+
+        {% else %}
+
+
+            <!-- =====================================
+                 EMPTY STATE
+            ====================================== -->
+
+            <div class="empty-state">
+
+                <h2>
+                    No TV shows found
+                </h2>
+
+                <p>
+                    There are no TV shows available right now.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+
+
+        <!-- =====================================
+             PAGINATION
+        ====================================== -->
+
+        {% if total_pages > 1 %}
+
+            <div class="pagination-wrapper">
+
+                <nav
+                    class="pagination"
+                    aria-label="Pagination Navigation"
+                >
+
+
+                    <!-- Previous -->
+
+                    {% if current_page > 1 %}
+
+                        <a
+                            href="{{ url_for('tv.tv_page', page=current_page - 1) }}"
+                            class="pagination-button pagination-prev"
+                        >
+                            ← Previous
+                        </a>
+
+                    {% else %}
+
+                        <span
+                            class="pagination-button pagination-prev disabled"
+                        >
+                            ← Previous
+                        </span>
+
+                    {% endif %}
+
+
+
+                    <!-- Page 1 -->
+
+                    <a
+                        href="{{ url_for('tv.tv_page', page=1) }}"
+                        class="pagination-button pagination-number {% if current_page == 1 %}active{% endif %}"
+                    >
+                        1
+                    </a>
+
+
+
+                    <!-- Page 2 -->
+
+                    {% if total_pages >= 2 %}
+
+                        <a
+                            href="{{ url_for('tv.tv_page', page=2) }}"
+                            class="pagination-button pagination-number {% if current_page == 2 %}active{% endif %}"
+                        >
+                            2
+                        </a>
+
+                    {% endif %}
+
+
+
+                    <!-- Page 3 -->
+
+                    {% if total_pages >= 3 %}
+
+                        <a
+                            href="{{ url_for('tv.tv_page', page=3) }}"
+                            class="pagination-button pagination-number {% if current_page == 3 %}active{% endif %}"
+                        >
+                            3
+                        </a>
+
+                    {% endif %}
+
+
+
+                    <!-- Page 4 -->
+
+                    {% if total_pages >= 4 %}
+
+                        <a
+                            href="{{ url_for('tv.tv_page', page=4) }}"
+                            class="pagination-button pagination-number {% if current_page == 4 %}active{% endif %}"
+                        >
+                            4
+                        </a>
+
+                    {% endif %}
+
+
+
+                    <!-- Dots -->
+
+                    {% if total_pages > 5 %}
+
+                        <span class="pagination-dots">
+                            ...
+                        </span>
+
+                    {% endif %}
+
+
+
+                    <!-- Last page -->
+
+                    {% if total_pages > 4 %}
+
+                        <a
+                            href="{{ url_for('tv.tv_page', page=total_pages) }}"
+                            class="pagination-button pagination-number {% if current_page == total_pages %}active{% endif %}"
+                        >
+                            {{ total_pages }}
+                        </a>
+
+                    {% endif %}
+
+
+
+                    <!-- Next -->
+
+                    {% if current_page < total_pages %}
+
+                        <a
+                            href="{{ url_for('tv.tv_page', page=current_page + 1) }}"
+                            class="pagination-button pagination-next"
+                        >
+                            Next →
+                        </a>
+
+                    {% else %}
+
+                        <span
+                            class="pagination-button pagination-next disabled"
+                        >
+                            Next →
+                        </span>
+
+                    {% endif %}
+
+
+                </nav>
+
+            </div>
+
+        {% endif %}
+
+
+    </div>
+
+</main>
+
+{% endblock %}

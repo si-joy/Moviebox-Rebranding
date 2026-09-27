@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ show.name }} - {{ season.name }} - MovieBox
+{% endblock %}
+
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/episodes.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="episodes-page">
+
+    <div class="container">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <div class="episodes-header">
+
+            <a
+                href="/tv/{{ show.id }}"
+                class="episodes-back"
+            >
+                ← Back to {{ show.name }}
+            </a>
+
+            <div class="episodes-title-wrapper">
+
+                <span class="episodes-label">
+                    TV SERIES
+                </span>
+
+                <h1 class="episodes-title">
+                    {{ show.name }}
+                </h1>
+
+                <h2 class="season-title">
+                    {{ season.name }}
+                </h2>
+
+                <p class="episodes-count">
+                    {{ season.episodes|length }} Episodes
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             EPISODES
+        ========================== -->
+
+        {% if season.episodes %}
+
+            <section class="episodes-list">
+
+                {% for episode in season.episodes %}
+
+                    <article class="episode-card">
+
+                        <!-- Episode Image -->
+
+                        <div class="episode-image-wrapper">
+
+                            {% if episode.still_path %}
+
+                                <img
+                                    src="https://image.tmdb.org/t/p/w780{{ episode.still_path }}"
+                                    alt="{{ episode.name }}"
+                                    class="episode-image"
+                                    loading="lazy"
+                                >
+
+                            {% else %}
+
+                                <div class="episode-image-placeholder">
+                                    No Image
+                                </div>
+
+                            {% endif %}
+
+                            <div class="episode-number">
+
+                                Episode
+                                {{ episode.episode_number }}
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- Episode Content -->
+
+                        <div class="episode-content">
+
+                            <div class="episode-top">
+
+                                <h2 class="episode-name">
+                                    {{ episode.episode_number }}.
+                                    {{ episode.name }}
+                                </h2>
+
+                                {% if episode.vote_average %}
+
+                                    <span class="episode-rating">
+                                        ⭐
+                                        {{ "%.1f"|format(episode.vote_average) }}
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            <div class="episode-meta">
+
+                                {% if episode.air_date %}
+
+                                    <span>
+                                        {{ episode.air_date }}
+                                    </span>
+
+                                {% endif %}
+
+                                {% if episode.runtime %}
+
+                                    <span>
+                                        {{ episode.runtime }} min
+                                    </span>
+
+                                {% endif %}
+
+                            </div>
+
+
+                            {% if episode.overview %}
+
+                                <p class="episode-overview">
+                                    {{ episode.overview }}
+                                </p>
+
+                            {% else %}
+
+                                <p class="episode-overview">
+                                    No episode description available.
+                                </p>
+
+                            {% endif %}
+
+
+                            <a
+                                href="/tv-player/{{ show.id }}/{{ season.season_number }}/{{ episode.episode_number }}"
+                                class="episode-watch-button"
+                            >
+                                ▶ Watch Episode
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                {% endfor %}
+
+            </section>
+
+        {% else %}
+
+            <div class="episodes-empty">
+
+                <h2>
+                    No episodes found
+                </h2>
+
+                <p>
+                    This season doesn't have any available episodes.
+                </p>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+{% endblock %}

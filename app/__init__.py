@@ -5,17 +5,17 @@ from dotenv import load_dotenv
 
 
 def create_app():
-
     load_dotenv()
 
-    app = Flask(__name__)
-
-    app.config["TMDB_API_KEY"] = os.getenv("TMDB_API_KEY")
-    app.config["NEXSTREAM_API_KEY"] = os.getenv(
-        "NEXSTREAM_API_KEY"
+    app = Flask(
+        __name__,
+        template_folder="../templates",
+        static_folder="../static"
     )
 
-    # Register routes
+    app.config["TMDB_API_KEY"] = os.getenv("TMDB_API_KEY")
+    app.config["NEXSTREAM_API_KEY"] = os.getenv("NEXSTREAM_API_KEY")
+
     from app.routes.home import home_bp
     from app.routes.movies import movies_bp
     from app.routes.tv import tv_bp

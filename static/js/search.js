@@ -4,13 +4,8 @@ const searchInput =
 const searchResults =
     document.getElementById("searchResults");
 
-
 let searchTimer;
 
-
-/* =========================================================
-   SEARCH INPUT
-========================================================= */
 
 if (searchInput) {
 
@@ -21,11 +16,8 @@ if (searchInput) {
             const query =
                 this.value.trim();
 
-
             clearTimeout(searchTimer);
 
-
-            // Empty search
 
             if (!query) {
 
@@ -40,24 +32,14 @@ if (searchInput) {
             }
 
 
-            // Wait 300ms before searching
-
             searchTimer = setTimeout(
-                () => {
-
-                    performSearch(query);
-
-                },
+                () => performSearch(query),
                 300
             );
 
         }
     );
 
-
-    /* =====================================================
-       SHOW RESULTS WHEN INPUT IS FOCUSED
-    ===================================================== */
 
     searchInput.addEventListener(
         "focus",
@@ -79,24 +61,15 @@ if (searchInput) {
 }
 
 
-/* =========================================================
-   SEARCH API
-========================================================= */
-
 async function performSearch(query) {
 
     searchResults.style.display =
         "block";
 
-
     searchResults.innerHTML = `
-
         <div class="search-message">
-
             Searching...
-
         </div>
-
     `;
 
 
@@ -109,11 +82,9 @@ async function performSearch(query) {
 
 
         if (!response.ok) {
-
             throw new Error(
                 "Search request failed"
             );
-
         }
 
 
@@ -135,13 +106,9 @@ async function performSearch(query) {
 
 
         searchResults.innerHTML = `
-
             <div class="search-message">
-
                 Something went wrong.
-
             </div>
-
         `;
 
     }
@@ -149,14 +116,9 @@ async function performSearch(query) {
 }
 
 
-/* =========================================================
-   DISPLAY RESULTS
-========================================================= */
-
 function displayResults(results) {
 
-    searchResults.innerHTML =
-        "";
+    searchResults.innerHTML = "";
 
 
     if (
@@ -165,13 +127,9 @@ function displayResults(results) {
     ) {
 
         searchResults.innerHTML = `
-
             <div class="search-message">
-
                 No results found.
-
             </div>
-
         `;
 
         return;
@@ -179,123 +137,95 @@ function displayResults(results) {
     }
 
 
-    results.forEach(
-        item => {
+    results.forEach(item => {
+
+        const result =
+            document.createElement("a");
 
 
-            const result =
-                document.createElement("a");
+        result.href =
+            item.media_type === "movie"
+                ? `/movie/${item.id}`
+                : `/tv/${item.id}`;
 
 
-            /* -----------------------------------------
-               DESTINATION
-            ----------------------------------------- */
-
-            if (
-                item.media_type === "movie"
-            ) {
-
-                result.href =
-                    `/movie/${item.id}`;
-
-            } else {
-
-                result.href =
-                    `/tv/${item.id}`;
-
-            }
+        result.className =
+            "search-result";
 
 
-            result.className =
-                "search-result";
+        const poster =
+            item.poster_path
+                ? `https://image.tmdb.org/t/p/w185${item.poster_path}`
+                : null;
 
 
-            /* -----------------------------------------
-               POSTER
-            ----------------------------------------- */
-
-            const poster =
-                item.poster_path
-                    ? `https://image.tmdb.org/t/p/w185${item.poster_path}`
-                    : null;
+        const year =
+            item.release_date
+                ? item.release_date.substring(0, 4)
+                : "N/A";
 
 
-            /* -----------------------------------------
-               YEAR
-            ----------------------------------------- */
-
-            const year =
-                item.release_date
-                    ? item.release_date.substring(0, 4)
-                    : "N/A";
+        const type =
+            item.media_type === "movie"
+                ? "Movie"
+                : "TV Series";
 
 
-            /* -----------------------------------------
-               TYPE
-            ----------------------------------------- */
+        result.innerHTML = `
 
-            const type =
-                item.media_type === "movie"
-                    ? "Movie"
-                    : "TV Series";
-
-
-            /* -----------------------------------------
-               HTML
-            ----------------------------------------- */
-
-            result.innerHTML = `
-
-                ${
-                    poster
-
+            ${
+                poster
                     ? `
                         <img
                             src="${poster}"
-                            alt="${item.title}"
+                            alt=""
+                            loading="lazy"
                         >
                     `
-
                     : `
-                        <div class="search-no-poster">
-                        </div>
+                        <div
+                            class="search-no-poster"
+                        ></div>
                     `
-                }
+            }
 
 
-                <div class="search-result-info">
+            <div class="search-result-info">
 
-                    <h3 class="search-result-title">
+                <h3 class="search-result-title">
+                    ${escapeHtml(item.title)}
+                </h3>
 
-                        ${item.title}
+                <p class="search-result-meta">
+                    ${type} • ${year}
+                </p>
 
-                    </h3>
+            </div>
 
-
-                    <p class="search-result-meta">
-
-                        ${type} • ${year}
-
-                    </p>
-
-                </div>
-
-            `;
+        `;
 
 
-            searchResults.appendChild(
-                result
-            );
+        searchResults.appendChild(
+            result
+        );
 
-        }
-    );
+    });
 
 }
 
 
-/* =========================================================
-   CLOSE SEARCH WHEN CLICKING OUTSIDE
-========================================================= */
+function escapeHtml(value) {
+
+    const div =
+        document.createElement("div");
+
+    div.textContent =
+        value || "";
+
+    return div.innerHTML;
+
+}
+
 
 document.addEventListener(
     "click",

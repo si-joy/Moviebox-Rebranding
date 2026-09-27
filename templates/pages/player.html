@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+Player - MovieBox
+{% endblock %}
+
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/player.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="player-page">
+
+    <div class="player-container">
+
+        <div class="player-header">
+
+            <a
+                href="javascript:history.back()"
+                class="back-button"
+            >
+                ← Back
+            </a>
+
+            <h1>
+                Watch
+            </h1>
+
+        </div>
+
+
+        <div class="player-wrapper">
+
+            <iframe
+                src="{{ stream_url }}"
+                title="MovieBox Player"
+                allowfullscreen
+                loading="lazy"
+                referrerpolicy="no-referrer"
+            ></iframe>
+
+        </div>
+
+
+        <p class="player-notice">
+            Playback is provided through the configured streaming provider.
+        </p>
+
+    </div>
+
+</main>
+
+{% endblock %}

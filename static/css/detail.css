@@ -1,0 +1,298 @@
+.detail-page {
+    min-height: calc(100vh - 70px);
+}
+
+
+/* Hero */
+
+.detail-hero {
+    min-height: 620px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+}
+
+.detail-container {
+    width: min(1400px, calc(100% - 100px));
+    margin: 0 auto;
+}
+
+.detail-content {
+    max-width: 700px;
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
+.detail-label {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #e50914;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+.detail-title {
+    margin: 0 0 18px;
+    font-size: clamp(42px, 6vw, 78px);
+    line-height: .95;
+}
+
+.detail-meta {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 22px;
+    color: #ddd;
+    font-size: 15px;
+}
+
+.detail-overview {
+    max-width: 650px;
+    margin: 0 0 30px;
+    color: #bbb;
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+
+/* Buttons */
+
+.detail-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.primary-button,
+.secondary-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 22px;
+    border-radius: 6px;
+    font-weight: 700;
+}
+
+.primary-button {
+    background: #e50914;
+    color: white;
+}
+
+.primary-button:hover {
+    background: #f6121d;
+}
+
+.secondary-button {
+    background: rgba(255,255,255,.12);
+    border: 1px solid rgba(255,255,255,.2);
+}
+
+
+/* Information */
+
+.detail-info {
+    padding: 60px 0 100px;
+    background: #0b0b0b;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.info-block {
+    padding: 22px;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+}
+
+.info-block h3 {
+    margin: 0 0 10px;
+    color: #777;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.info-block p {
+    margin: 0;
+    color: white;
+}
+
+
+/* Genres */
+
+.genre-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+}
+
+.genre-tag {
+    padding: 5px 9px;
+    background: #222;
+    border-radius: 4px;
+    color: #ccc;
+    font-size: 12px;
+}
+
+
+/* Cast */
+
+.cast-section {
+    margin-top: 60px;
+}
+
+.cast-section h2,
+.seasons-section h2 {
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+.cast-grid {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 15px;
+}
+
+.cast-card {
+    overflow: hidden;
+}
+
+.cast-card img,
+.cast-placeholder {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 7px;
+    background: #181818;
+}
+
+.cast-card h3 {
+    margin: 10px 0 3px;
+    font-size: 14px;
+}
+
+.cast-card p {
+    margin: 0;
+    color: #777;
+    font-size: 12px;
+}
+
+
+/* Seasons */
+
+.seasons-section {
+    margin-top: 60px;
+}
+
+.season-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.season-card {
+    overflow: hidden;
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+}
+
+.season-card img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+}
+
+.season-info {
+    padding: 15px;
+}
+
+.season-info h3 {
+    margin: 0 0 6px;
+}
+
+.season-info p {
+    margin: 0 0 15px;
+    color: #888;
+}
+
+.season-button {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #222;
+    border-radius: 5px;
+    font-size: 13px;
+}
+
+
+.tv-detail-back {
+    display: inline-flex;
+    align-items: center;
+    margin: 30px 50px 0;
+    color: #999999;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    transition: color 0.2s ease;
+}
+
+.tv-detail-back:hover {
+    color: #ffffff;
+}
+
+.season-button {
+    text-decoration: none !important;
+}
+
+@media (max-width: 1000px) {
+
+    .info-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .cast-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .season-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .detail-container {
+        width: calc(100% - 40px);
+    }
+
+    .detail-hero {
+        min-height: 600px;
+    }
+
+    .detail-content {
+        padding-top: 100px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cast-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .season-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}

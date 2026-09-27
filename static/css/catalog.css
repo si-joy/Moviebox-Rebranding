@@ -1,0 +1,507 @@
+/* =========================================================
+   CATALOG PAGE
+========================================================= */
+
+.catalog-page {
+    width: 100%;
+
+    min-height: calc(100vh - 70px);
+
+    padding: 50px 0 80px;
+}
+
+
+/* =========================================================
+   FULL WIDTH CONTAINER
+========================================================= */
+
+.container {
+    width: 100%;
+
+    margin: 0;
+
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+
+/* =========================================================
+   CATALOG HEADER
+========================================================= */
+
+.catalog-header {
+    margin-bottom: 35px;
+}
+
+.catalog-label {
+    display: inline-block;
+
+    margin-bottom: 10px;
+
+    color: #e50914;
+
+    font-size: 13px;
+    font-weight: 700;
+
+    letter-spacing: 2px;
+}
+
+.catalog-title {
+    margin: 0 0 10px;
+
+    color: #ffffff;
+
+    font-size: 48px;
+    line-height: 1;
+}
+
+.catalog-description {
+    margin: 0;
+
+    color: #999999;
+
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.filters {
+    display: flex;
+    align-items: flex-end;
+
+    gap: 15px;
+
+    flex-wrap: wrap;
+
+    margin-bottom: 40px;
+    padding: 20px;
+
+    background: #111111;
+
+    border: 1px solid #222222;
+    border-radius: 10px;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.filter-group label {
+    color: #999999;
+
+    font-size: 13px;
+}
+
+.filter-group select {
+    min-width: 150px;
+    height: 42px;
+
+    padding: 0 12px;
+
+    background: #181818;
+    color: #ffffff;
+
+    border: 1px solid #333333;
+    border-radius: 6px;
+
+    outline: none;
+
+    cursor: pointer;
+}
+
+.filter-group select:focus {
+    border-color: #555555;
+}
+
+
+/* =========================================================
+   FILTER BUTTON
+========================================================= */
+
+.filter-actions {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.filter-button {
+    height: 42px;
+
+    padding: 0 22px;
+
+    border: 0;
+    border-radius: 6px;
+
+    background: #e50914;
+
+    color: #ffffff;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition: background 0.2s ease;
+}
+
+.filter-button:hover {
+    background: #f6121d;
+}
+
+.reset-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    height: 42px;
+
+    padding: 0 22px;
+
+    border: 1px solid #333333;
+    border-radius: 6px;
+
+    background: transparent;
+
+    color: #aaaaaa;
+
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.reset-button:hover {
+    border-color: #555555;
+
+    background: #181818;
+
+    color: #ffffff;
+}
+
+
+/* =========================================================
+   MOVIE GRID
+========================================================= */
+
+.movie-grid {
+    width: 100%;
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(6, minmax(0, 1fr));
+
+    gap: 25px 20px;
+}
+
+
+/* =========================================================
+   RATING
+========================================================= */
+
+.poster-wrapper {
+    position: relative;
+}
+
+.rating-badge {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+
+    padding: 5px 8px;
+
+    background: rgba(0, 0, 0, 0.8);
+
+    border-radius: 5px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    z-index: 2;
+}
+
+
+/* =========================================================
+   EMPTY STATE
+========================================================= */
+
+.empty-state {
+    width: 100%;
+
+    padding: 80px 20px;
+
+    text-align: center;
+
+    color: #888888;
+}
+
+.empty-state h2 {
+    margin: 0 0 8px;
+
+    color: #ffffff;
+}
+
+.empty-state p {
+    margin: 0;
+}
+
+
+/* =========================================================
+   PAGINATION
+========================================================= */
+
+.pagination {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    background: #111111;
+    border: 1px solid #222222;
+    border-radius: 9999px;
+}
+
+.pagination-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 36px;
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none !important;
+    border-radius: 9999px;
+    user-select: none;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.pagination-number {
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 0;
+}
+
+.pagination-number:hover {
+    background: #222222;
+}
+
+.pagination-number.active {
+    background: #e50914;
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(229, 9, 20, 0.25);
+}
+
+.pagination-prev,
+.pagination-next {
+    padding: 10px 20px;
+    background: #181818;
+    border: 1px solid #333333;
+}
+
+.pagination-prev:hover {
+    background: #222222;
+    border-color: #444444;
+}
+
+.pagination-next {
+    padding: 10px 22px;
+    background: #e50914;
+    border-color: #e50914;
+    font-weight: 600;
+}
+
+.pagination-next:hover {
+    background: #f6121d;
+    border-color: #f6121d;
+}
+
+.pagination-dots {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    color: #777777;
+    font-size: 14px;
+}
+
+.pagination-button.disabled {
+    opacity: 0.35;
+    cursor: default;
+    pointer-events: none;
+}
+
+.pagination-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 60px;
+}
+
+@media (max-width: 600px) {
+    .pagination {
+        gap: 4px;
+        padding: 5px;
+    }
+
+    .pagination-prev,
+    .pagination-next {
+        padding: 9px 13px;
+        font-size: 13px;
+    }
+
+    .pagination-number {
+        width: 32px;
+        height: 32px;
+    }
+
+    .pagination-dots {
+        min-width: 18px;
+    }
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (max-width: 1400px) {
+
+    .movie-grid {
+        grid-template-columns:
+            repeat(5, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   DESKTOP / TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .movie-grid {
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr));
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 800px) {
+
+    .container {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .movie-grid {
+        grid-template-columns:
+            repeat(3, minmax(0, 1fr));
+
+        gap: 22px 15px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .catalog-page {
+        padding-top: 35px;
+    }
+
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .catalog-title {
+        font-size: 36px;
+    }
+
+    .catalog-description {
+        font-size: 14px;
+    }
+
+    .movie-grid {
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr));
+
+        gap: 20px 12px;
+    }
+
+    .filters {
+        align-items: stretch;
+
+        flex-direction: column;
+
+        padding: 15px;
+    }
+
+    .filter-group {
+        width: 100%;
+    }
+
+    .filter-group select {
+        width: 100%;
+    }
+
+    .filter-actions {
+        width: 100%;
+    }
+
+    .filter-button,
+    .reset-button {
+        flex: 1;
+
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .container {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .movie-grid {
+        gap: 18px 10px;
+    }
+
+}

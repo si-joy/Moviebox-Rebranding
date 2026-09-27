@@ -1,0 +1,127 @@
+{% extends "base.html" %} {% block title %} {{ show.name }} - MovieBox {%
+endblock %} {% block page_css %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/detail.css') }}"
+/>
+
+{% endblock %} {% block content %}
+
+<main class="detail-page">
+  <a href="/tv" class="tv-detail-back"> ← Back to TV Series </a>
+
+  <section
+    class="detail-hero"
+    style="
+            background-image:
+                linear-gradient(
+                    90deg,
+                    #0b0b0b 10%,
+                    rgba(11,11,11,.8) 45%,
+                    rgba(11,11,11,.3) 100%
+                ),
+                linear-gradient(
+                    0deg,
+                    #0b0b0b 0%,
+                    transparent 50%
+                ),
+                url('https://image.tmdb.org/t/p/original{{ show.backdrop_path }}');
+        "
+  >
+    <div class="detail-container">
+      <div class="detail-content">
+        <span class="detail-label"> TV SERIES </span>
+
+        <h1 class="detail-title">{{ show.name }}</h1>
+
+        <div class="detail-meta">
+          {% if show.first_air_date %}
+
+          <span> {{ show.first_air_date[:4] }} </span>
+
+          {% endif %} {% if show.number_of_seasons %}
+
+          <span> {{ show.number_of_seasons }} Seasons </span>
+
+          {% endif %} {% if show.vote_average %}
+
+          <span> ⭐ {{ "%.1f"|format(show.vote_average) }} </span>
+
+          {% endif %}
+        </div>
+
+        <p class="detail-overview">{{ show.overview }}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="detail-info">
+    <div class="detail-container">
+      <div class="info-grid">
+        <div class="info-block">
+          <h3>Status</h3>
+
+          <p>{{ show.status or "N/A" }}</p>
+        </div>
+
+        <div class="info-block">
+          <h3>Seasons</h3>
+
+          <p>{{ show.number_of_seasons or "N/A" }}</p>
+        </div>
+
+        <div class="info-block">
+          <h3>Episodes</h3>
+
+          <p>{{ show.number_of_episodes or "N/A" }}</p>
+        </div>
+
+        <div class="info-block">
+          <h3>First Air Date</h3>
+
+          <p>{{ show.first_air_date or "N/A" }}</p>
+        </div>
+      </div>
+
+      <!-- Seasons -->
+
+      <div class="seasons-section">
+        <h2>Seasons</h2>
+
+        <div class="season-list">
+          {% for season in show.seasons %} {% if season.season_number > 0 %}
+
+          <div class="season-card">
+            {% if season.poster_path %}
+
+            <img
+              src="https://image.tmdb.org/t/p/w300{{ season.poster_path }}"
+              alt="{{ season.name }}"
+              loading="lazy"
+            />
+
+            {% endif %}
+
+            <div class="season-info">
+              <h3>{{ season.name }}</h3>
+
+              <p>{{ season.episode_count }} Episodes</p>
+
+              <a
+                href="/tv/{{ show.id }}/season/{{ season.season_number }}"
+                class="season-button"
+              >
+                View Episodes
+              </a>
+            </div>
+          </div>
+
+          {% endif %} {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+{% endblock %}

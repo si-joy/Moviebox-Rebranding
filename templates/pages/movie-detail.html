@@ -1,0 +1,252 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+{{ movie.title }} - MovieBox
+{% endblock %}
+
+
+{% block page_css %}
+
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/detail.css') }}"
+>
+
+{% endblock %}
+
+
+{% block content %}
+
+<main class="detail-page">
+
+    <!-- Hero -->
+
+    <section
+        class="detail-hero"
+        style="
+            background-image:
+                linear-gradient(
+                    90deg,
+                    #0b0b0b 10%,
+                    rgba(11,11,11,.8) 45%,
+                    rgba(11,11,11,.3) 100%
+                ),
+                linear-gradient(
+                    0deg,
+                    #0b0b0b 0%,
+                    transparent 50%
+                ),
+                url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
+        "
+    >
+
+        <div class="detail-container">
+
+            <div class="detail-content">
+
+                <span class="detail-label">
+                    MOVIE
+                </span>
+
+
+                <h1 class="detail-title">
+                    {{ movie.title }}
+                </h1>
+
+
+                <div class="detail-meta">
+
+                    {% if movie.release_date %}
+                        <span>
+                            {{ movie.release_date[:4] }}
+                        </span>
+                    {% endif %}
+
+                    {% if movie.runtime %}
+                        <span>
+                            {{ movie.runtime }} min
+                        </span>
+                    {% endif %}
+
+                    {% if movie.vote_average %}
+                        <span>
+                            ⭐ {{ "%.1f"|format(movie.vote_average) }}
+                        </span>
+                    {% endif %}
+
+                </div>
+
+
+                <p class="detail-overview">
+                    {{ movie.overview }}
+                </p>
+
+
+                <div class="detail-actions">
+
+                    <a
+                        href="/movie-player/{{ movie.id }}"
+                        class="primary-button"
+                    >
+                        ▶ Watch Now
+                    </a>
+
+
+                    {% if trailer %}
+
+                        <a
+                            href="https://www.youtube.com/watch?v={{ trailer.key }}"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="secondary-button"
+                        >
+                            ▶ Trailer
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- Information -->
+
+    <section class="detail-info">
+
+        <div class="detail-container">
+
+            <div class="info-grid">
+
+
+                <div class="info-block">
+
+                    <h3>
+                        Genres
+                    </h3>
+
+                    <div class="genre-list">
+
+                        {% for genre in movie.genres %}
+
+                            <span class="genre-tag">
+                                {{ genre.name }}
+                            </span>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-block">
+
+                    <h3>
+                        Release Date
+                    </h3>
+
+                    <p>
+                        {{ movie.release_date or "N/A" }}
+                    </p>
+
+                </div>
+
+
+                <div class="info-block">
+
+                    <h3>
+                        Runtime
+                    </h3>
+
+                    <p>
+                        {% if movie.runtime %}
+                            {{ movie.runtime }} minutes
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </p>
+
+                </div>
+
+
+                <div class="info-block">
+
+                    <h3>
+                        Original Language
+                    </h3>
+
+                    <p>
+                        {{ movie.original_language|upper }}
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            {% if movie.credits and movie.credits.cast %}
+
+                <div class="cast-section">
+
+                    <h2>
+                        Cast
+                    </h2>
+
+                    <div class="cast-grid">
+
+                        {% for person in movie.credits.cast[:8] %}
+
+                            <div class="cast-card">
+
+                                {% if person.profile_path %}
+
+                                    <img
+                                        src="https://image.tmdb.org/t/p/w185{{ person.profile_path }}"
+                                        alt="{{ person.name }}"
+                                        loading="lazy"
+                                    >
+
+                                {% else %}
+
+                                    <div class="cast-placeholder">
+                                        No Image
+                                    </div>
+
+                                {% endif %}
+
+
+                                <h3>
+                                    {{ person.name }}
+                                </h3>
+
+                                {% if person.character %}
+
+                                    <p>
+                                        {{ person.character }}
+                                    </p>
+
+                                {% endif %}
+
+                            </div>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+</main>
+
+{% endblock %}
