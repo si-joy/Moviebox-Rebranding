@@ -1,204 +1,543 @@
-
 {% extends "base.html" %}
 
 {% block title %}
-Midnight - MovieBox
+Midnight — Mature Movies & TV
 {% endblock %}
+
 
 {% block page_css %}
+
 <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/catalog.css') }}"
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/midnight.css') }}"
 >
+
 {% endblock %}
 
+
 {% block content %}
-<main class="catalog-page">
+
+<main class="midnight-page">
+
+  <!-- ==========================================
+       AGE NOTICE
+  =========================================== -->
+
+  <section class="midnight-hero">
+
+    <div class="midnight-hero-glow"></div>
+
     <div class="container">
 
-        <!-- Header -->
-        <div class="catalog-header">
-            <span class="catalog-label" style="color: #ff3366;">
-                18+ MIDNIGHT COLLECTION
-            </span>
-            <h1 class="catalog-title">
-                Midnight
-            </h1>
-            <p class="catalog-description">
-                Explore adult and unrestricted movie catalog.
-            </p>
+      <div class="midnight-hero-content">
+
+        <div class="midnight-eyebrow">
+          <span class="midnight-line"></span>
+          <span>18+ COLLECTION</span>
         </div>
 
-        <!-- Filters -->
-        <form
-            method="GET"
-            action="{{ url_for('midnight.midnight_page') }}"
-            class="filters"
-        >
+        <h1>
+          After Dark
+        </h1>
 
-            <!-- Genre -->
-            <div class="filter-group">
-                <label for="genre">Genre</label>
-                <select name="genre" id="genre">
-                    <option value="">All Genres</option>
-                    {% for genre in genres %}
-                        <option
-                            value="{{ genre.id }}"
-                            {% if current_genre == genre.id|string %}selected{% endif %}
-                        >
-                            {{ genre.name }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
+        <p>
+          A curated collection of mature movies and television.
+          Explore darker stories, intense drama, romance, thrillers,
+          and adult-oriented cinema.
+        </p>
 
-            <!-- Year -->
-            <div class="filter-group">
-                <label for="year">Year</label>
-                <select name="year" id="year">
-                    <option value="">All Years</option>
-                    {% for year in range(2026, 1979, -1) %}
-                        <option
-                            value="{{ year }}"
-                            {% if current_year == year|string %}selected{% endif %}
-                        >
-                            {{ year }}
-                        </option>
-                    {% endfor %}
-                </select>
-            </div>
+        <div class="midnight-warning">
+          <span class="warning-icon">18+</span>
 
-            <!-- Rating -->
-            <div class="filter-group">
-                <label for="rating">Rating</label>
-                <select name="rating" id="rating">
-                    <option value="">Any Rating</option>
-                    <option value="8" {% if current_rating == "8" %}selected{% endif %}>8+</option>
-                    <option value="7" {% if current_rating == "7" %}selected{% endif %}>7+</option>
-                    <option value="6" {% if current_rating == "6" %}selected{% endif %}>6+</option>
-                </select>
-            </div>
+          <span>
+            Mature content. Viewer discretion advised.
+          </span>
+        </div>
 
-            <!-- Sort -->
-            <div class="filter-group">
-                <label for="sort">Sort</label>
-                <select name="sort" id="sort">
-                    <option value="popularity.desc" {% if current_sort == "popularity.desc" %}selected{% endif %}>
-                        Popular
-                    </option>
-                    <option value="vote_average.desc" {% if current_sort == "vote_average.desc" %}selected{% endif %}>
-                        Highest Rated
-                    </option>
-                    <option value="primary_release_date.desc" {% if current_sort == "primary_release_date.desc" %}selected{% endif %}>
-                        Newest
-                    </option>
-                </select>
-            </div>
-
-            <!-- Actions -->
-            <div class="filter-actions">
-                <button type="submit" class="filter-button">
-                    Apply Filters
-                </button>
-                <a href="{{ url_for('midnight.midnight_page') }}" class="reset-button">
-                    Reset Filters
-                </a>
-            </div>
-
-        </form>
-
-        <!-- Movie Catalog Grid -->
-        <section class="catalog-section">
-            {% if movies %}
-                <div class="movie-grid">
-                    {% for movie in movies %}
-                        {% include "components/movie-card.html" %}
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="empty-state">
-                    <h2>No contents found</h2>
-                    <p>Try changing your filters.</p>
-                </div>
-            {% endif %}
-        </section>
-
-        <!-- Pagination -->
-        {% if total_pages > 1 %}
-            <div class="pagination-wrapper">
-                <nav class="pagination" aria-label="Pagination Navigation">
-
-                    <!-- Prev -->
-                    {% if current_page > 1 %}
-                        <a
-                            href="{{ url_for('midnight.midnight_page', page=current_page - 1, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
-                            class="pagination-button pagination-prev"
-                        >
-                            Previous
-                        </a>
-                    {% else %}
-                        <span class="pagination-button pagination-prev disabled">
-                            Previous
-                        </span>
-                    {% endif %}
-
-                    <!-- Page Numbers -->
-                    <a
-                        href="{{ url_for('midnight.midnight_page', page=1, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
-                        class="pagination-button pagination-number {% if current_page == 1 %}active{% endif %}"
-                    >
-                        1
-                    </a>
-
-                    {% if total_pages >= 2 %}
-                        <a
-                            href="{{ url_for('midnight.midnight_page', page=2, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
-                            class="pagination-button pagination-number {% if current_page == 2 %}active{% endif %}"
-                        >
-                            2
-                        </a>
-                    {% endif %}
-
-                    {% if total_pages >= 3 %}
-                        <a
-                            href="{{ url_for('midnight.midnight_page', page=3, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
-                            class="pagination-button pagination-number {% if current_page == 3 %}active{% endif %}"
-                        >
-                            3
-                        </a>
-                    {% endif %}
-
-                    {% if total_pages > 5 %}
-                        <span class="pagination-dots">...</span>
-                    {% endif %}
-
-                    {% if total_pages > 3 %}
-                        <a
-                            href="{{ url_for('midnight.midnight_page', page=total_pages, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
-                            class="pagination-button pagination-number {% if current_page == total_pages %}active{% endif %}"
-                        >
-                            {{ total_pages }}
-                        </a>
-                    {% endif %}
-
-                    <!-- Next -->
-                    {% if current_page < total_pages %}
-                        <a
-                            href="{{ url_for('midnight.midnight_page', page=current_page + 1, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
-                            class="pagination-button pagination-next"
-                        >
-                            Next
-                        </a>
-                    {% else %}
-                        <span class="pagination-button pagination-next disabled">
-                            Next
-                        </span>
-                    {% endif %}
-
-                </nav>
-            </div>
-        {% endif %}
+      </div>
 
     </div>
+
+  </section>
+
+
+  <!-- ==========================================
+       FILTERS
+  =========================================== -->
+
+  <section class="midnight-controls">
+
+    <div class="container">
+
+      <form
+        method="GET"
+        action="{{ url_for('midnight.midnight') }}"
+        class="midnight-filter-bar"
+      >
+
+        <!-- TYPE -->
+
+        <div class="filter-group">
+
+          <label for="type">
+            TYPE
+          </label>
+
+          <select
+            id="type"
+            name="type"
+          >
+
+            <option
+              value="all"
+              {% if current_type == "all" %}selected{% endif %}
+            >
+              All
+            </option>
+
+            <option
+              value="movie"
+              {% if current_type == "movie" %}selected{% endif %}
+            >
+              Movies
+            </option>
+
+            <option
+              value="tv"
+              {% if current_type == "tv" %}selected{% endif %}
+            >
+              TV Series
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- GENRE -->
+
+        <div class="filter-group">
+
+          <label for="genre">
+            GENRE
+          </label>
+
+          <select
+            id="genre"
+            name="genre"
+          >
+
+            <option value="">
+              All Genres
+            </option>
+
+            {% for genre_id, genre_name in genres %}
+
+            <option
+              value="{{ genre_id }}"
+              {% if current_genre|string == genre_id|string %}
+              selected
+              {% endif %}
+            >
+              {{ genre_name }}
+            </option>
+
+            {% endfor %}
+
+          </select>
+
+        </div>
+
+
+        <!-- YEAR -->
+
+        <div class="filter-group">
+
+          <label for="year">
+            YEAR
+          </label>
+
+          <select
+            id="year"
+            name="year"
+          >
+
+            <option value="">
+              All Years
+            </option>
+
+            {% for item_year in years %}
+
+            <option
+              value="{{ item_year }}"
+              {% if current_year|string == item_year|string %}
+              selected
+              {% endif %}
+            >
+              {{ item_year }}
+            </option>
+
+            {% endfor %}
+
+          </select>
+
+        </div>
+
+
+        <!-- SORT -->
+
+        <div class="filter-group">
+
+          <label for="sort">
+            SORT
+          </label>
+
+          <select
+            id="sort"
+            name="sort"
+          >
+
+            <option
+              value="popularity.desc"
+              {% if current_sort == "popularity.desc" %}
+              selected
+              {% endif %}
+            >
+              Most Popular
+            </option>
+
+            <option
+              value="vote_average.desc"
+              {% if current_sort == "vote_average.desc" %}
+              selected
+              {% endif %}
+            >
+              Highest Rated
+            </option>
+
+            <option
+              value="vote_count.desc"
+              {% if current_sort == "vote_count.desc" %}
+              selected
+              {% endif %}
+            >
+              Most Rated
+            </option>
+
+            <option
+              value="release_date.desc"
+              {% if current_sort == "release_date.desc" %}
+              selected
+              {% endif %}
+            >
+              Newest
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <button
+          type="submit"
+          class="filter-button"
+        >
+          Apply
+        </button>
+
+
+        <a
+          href="{{ url_for('midnight.midnight') }}"
+          class="reset-button"
+        >
+          Reset
+        </a>
+
+      </form>
+
+    </div>
+
+  </section>
+
+
+  <!-- ==========================================
+       CATALOG
+  =========================================== -->
+
+  <section class="midnight-catalog">
+
+    <div class="container">
+
+      <div class="midnight-section-header">
+
+        <div>
+
+          <span class="section-label">
+            AFTER DARK
+          </span>
+
+          <h2>
+            Mature Collection
+          </h2>
+
+        </div>
+
+        <div class="result-count">
+
+          {% if total_results %}
+            {{ "{:,}".format(total_results) }} titles
+          {% else %}
+            No titles
+          {% endif %}
+
+        </div>
+
+      </div>
+
+
+      {% if content %}
+
+      <div class="midnight-grid">
+
+        {% for item in content %}
+
+        {% set title =
+          item.title if item.media_type == "movie"
+          else item.name
+        %}
+
+        {% set release =
+          item.release_date if item.media_type == "movie"
+          else item.first_air_date
+        %}
+
+
+        <article class="midnight-card">
+
+          <a
+            href="{% if item.media_type == 'movie' %}
+              /movie/{{ item.id }}
+            {% else %}
+              /tv/{{ item.id }}
+            {% endif %}"
+            class="midnight-card-link"
+          >
+
+            <div class="midnight-poster">
+
+              {% if item.poster_path %}
+
+              <img
+                src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}"
+                alt="{{ title }}"
+                loading="lazy"
+              >
+
+              {% else %}
+
+              <div class="poster-placeholder">
+                No Poster
+              </div>
+
+              {% endif %}
+
+
+              <div class="midnight-card-overlay">
+
+                <span class="midnight-play">
+                  ▶
+                </span>
+
+                <span class="midnight-view">
+                  View Details
+                </span>
+
+              </div>
+
+
+              {% if item.vote_average %}
+
+              <span class="midnight-rating">
+                ★ {{ "%.1f"|format(item.vote_average) }}
+              </span>
+
+              {% endif %}
+
+
+              <span class="midnight-type">
+
+                {% if item.media_type == "movie" %}
+                  MOVIE
+                {% else %}
+                  TV
+                {% endif %}
+
+              </span>
+
+            </div>
+
+
+            <div class="midnight-card-info">
+
+              <h3>
+                {{ title }}
+              </h3>
+
+              <div class="midnight-card-meta">
+
+                {% if release %}
+                  <span>{{ release[:4] }}</span>
+                {% endif %}
+
+                <span>•</span>
+
+                <span>
+                  {% if item.media_type == "movie" %}
+                    Movie
+                  {% else %}
+                    Series
+                  {% endif %}
+                </span>
+
+              </div>
+
+            </div>
+
+          </a>
+
+        </article>
+
+        {% endfor %}
+
+      </div>
+
+
+      {% else %}
+
+      <div class="midnight-empty">
+
+        <div class="empty-icon">
+          ◼
+        </div>
+
+        <h3>
+          Nothing Found
+        </h3>
+
+        <p>
+          Try changing your filters or selecting another category.
+        </p>
+
+        <a
+          href="{{ url_for('midnight.midnight') }}"
+          class="empty-button"
+        >
+          Clear Filters
+        </a>
+
+      </div>
+
+      {% endif %}
+
+
+      <!-- ==========================================
+           PAGINATION
+      =========================================== -->
+
+      {% if total_pages > 1 %}
+
+      <nav
+        class="midnight-pagination"
+        aria-label="Pagination"
+      >
+
+        {% if current_page > 1 %}
+
+        <a
+          href="{{ url_for(
+            'midnight.midnight',
+            page=current_page - 1,
+            type=current_type,
+            genre=current_genre,
+            year=current_year,
+            sort=current_sort
+          ) }}"
+          class="page-arrow"
+        >
+          ←
+        </a>
+
+        {% endif %}
+
+
+        {% set start_page = current_page - 2 %}
+
+        {% if start_page < 1 %}
+          {% set start_page = 1 %}
+        {% endif %}
+
+
+        {% set end_page = current_page + 2 %}
+
+        {% if end_page > total_pages %}
+          {% set end_page = total_pages %}
+        {% endif %}
+
+
+        {% for page_number in range(start_page, end_page + 1) %}
+
+        <a
+          href="{{ url_for(
+            'midnight.midnight',
+            page=page_number,
+            type=current_type,
+            genre=current_genre,
+            year=current_year,
+            sort=current_sort
+          ) }}"
+          class="page-number {% if page_number == current_page %}active{% endif %}"
+        >
+          {{ page_number }}
+        </a>
+
+        {% endfor %}
+
+
+        {% if current_page < total_pages %}
+
+        <a
+          href="{{ url_for(
+            'midnight.midnight',
+            page=current_page + 1,
+            type=current_type,
+            genre=current_genre,
+            year=current_year,
+            sort=current_sort
+          ) }}"
+          class="page-arrow"
+        >
+          →
+        </a>
+
+        {% endif %}
+
+      </nav>
+
+      {% endif %}
+
+    </div>
+
+  </section>
+
 </main>
+
+{% endblock %}
+
+
+{% block page_js %}
+
+<script
+  src="{{ url_for('static', filename='js/midnight.js') }}"
+></script>
+
 {% endblock %}

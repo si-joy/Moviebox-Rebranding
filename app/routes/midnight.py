@@ -1,131 +1,271 @@
 from flask import Blueprint, render_template, request
-from app.services.tmdb import get_tmdb, get_watch_providers
+from app.services.tmdb import get_tmdb
 
-midnight_bp = Blueprint("midnight", __name__)
-
-TMDB_PER_PAGE = 20
-SITE_PER_PAGE = 24
-MAX_TMDB_PAGE = 500
+midnight_bp = Blueprint("midnight", __name__, url_prefix="/midnight")
 
 
-@midnight_bp.route("/midnight")
-def midnight_page():
+@midnight_bp.route("/")
+def midnight():
+
+    page = request.args.get("page", 1, type=int)
+    media_type = request.args.get("type", "all")
     genre = request.args.get("genre", "")
     year = request.args.get("year", "")
-    rating = request.args.get("rating", "")
-    provider = request.args.get("provider", "")
     sort = request.args.get("sort", "popularity.desc")
-    page = request.args.get("page", 1, type=int)
 
-    if page < 1:
-        page = 1
+    # Keep page within TMDB's normal pagination range
+    page = max(1, min(page, 500))
 
-    # include_adult: True set kora hoyeche
-    base_params = {
-        "language": "en-US",
-        "sort_by": sort,
-        "include_adult": True,
-        "vote_count.gte": 10
-    }
+    # ==========================================
+    # GENRES
+    # ==========================================
 
-    if genre:
-        base_params["with_genres"] = genre
-
-    if year:
-        base_params["primary_release_year"] = year
-
-    if rating:
-        base_params["vote_average.gte"] = rating
-
-    if provider:
-        base_params["with_watch_providers"] = provider
-
-    start_index = (page - 1) * SITE_PER_PAGE
-    tmdb_page = (start_index // TMDB_PER_PAGE) + 1
-    offset = start_index % TMDB_PER_PAGE
-
-    first_data = get_tmdb(
-        "discover/movie",
-        {
-            **base_params,
-            "page": tmdb_page
-        }
-    )
-
-    total_results = first_data.get("total_results", 0)
-
-    available_results = min(
-        total_results,
-        MAX_TMDB_PAGE * TMDB_PER_PAGE
-    )
-
-    total_pages = (
-        available_results + SITE_PER_PAGE - 1
-    ) // SITE_PER_PAGE
-
-    if total_pages > 0 and page > total_pages:
-        page = total_pages
-
-        start_index = (page - 1) * SITE_PER_PAGE
-        tmdb_page = (start_index // TMDB_PER_PAGE) + 1
-        offset = start_index % TMDB_PER_PAGE
-
-        first_data = get_tmdb(
-            "discover/movie",
-            {
-                **base_params,
-                "page": tmdb_page
-            }
-        )
-
-    movies = first_data.get("results", [])
-
-    while (
-        len(movies) < offset + SITE_PER_PAGE
-        and tmdb_page < MAX_TMDB_PAGE
-    ):
-        tmdb_page += 1
-
-        next_data = get_tmdb(
-            "discover/movie",
-            {
-                **base_params,
-                "page": tmdb_page
-            }
-        )
-
-        next_movies = next_data.get("results", [])
-
-        if not next_movies:
-            break
-
-        movies.extend(next_movies)
-
-    movies = movies[offset:offset + SITE_PER_PAGE]
-
-    genre_data = get_tmdb(
+    movie_genres_data = get_tmdb(
         "genre/movie/list",
         {
             "language": "en-US"
         }
     )
 
-    provider_data = get_watch_providers()
-    providers = sorted(
-        provider_data.get("results", []),
-        key=lambda provider: provider.get("display_priority", 999)
+    movie_genres = movie_genres_data.get("genres", [])
+
+    tv_genres_data = get_tmdb(
+        "genre/tv/list",
+        {
+            "language": "en-US"
+        }
+    )
+
+    tv_genres = tv_genres_data.get("genres", [])
+
+    # Merge genres without duplicates
+    genre_map = {}
+
+    for item in movie_genres + tv_genres:
+        genre_map[item["id"]] = item["name"]
+
+    genres = sorted(
+        genre_map.items(),
+        key=lambda item: item[1]
+    )
+
+    # ==========================================
+    # DISCOVER PARAMS
+    # ==========================================
+
+    params = {
+        "language": "en-US",
+        "page": page,
+        "sort_by": sort,
+        "include_adult": "true"
+    }
+
+    if genre:
+        params["with_genres"] = genre
+
+    if year:
+        if media_type == "tv":
+            params["first_air_date_year"] = year
+        else:
+            params["primary_release_year"] = year
+
+    # ==========================================
+    # MOVIES
+    # ==========================================
+
+    movies = []
+    movie_total_pages = 1
+    movie_total_results = 0
+
+    if media_type in ("all", "movie"):
+
+        movie_data = get_tmdb(
+            "discover/movie",
+            params
+        )
+
+        movies = movie_data.get("results", [])
+
+        movie_total_pages = movie_data.get(
+            "total_pages",
+            1
+        )
+
+        movie_total_results = movie_data.get(
+            "total_results",
+            0
+        )
+
+    # ==========================================
+    # TV
+    # ==========================================
+
+    tv_shows = []
+    tv_total_pages = 1
+    tv_total_results = 0
+
+    if media_type in ("all", "tv"):
+
+        tv_params = {
+            "language": "en-US",
+            "page": page,
+            "sort_by": sort,
+            "include_adult": "true"
+        }
+
+        if genre:
+            tv_params["with_genres"] = genre
+
+        if year:
+            tv_params["first_air_date_year"] = year
+
+        tv_data = get_tmdb(
+            "discover/tv",
+            tv_params
+        )
+
+        tv_shows = tv_data.get(
+            "results",
+            []
+        )
+
+        tv_total_pages = tv_data.get(
+            "total_pages",
+            1
+        )
+
+        tv_total_results = tv_data.get(
+            "total_results",
+            0
+        )
+
+    # ==========================================
+    # COMBINE RESULTS
+    # ==========================================
+
+    content = []
+
+    if media_type == "movie":
+
+        for movie in movies:
+            movie["media_type"] = "movie"
+            content.append(movie)
+
+    elif media_type == "tv":
+
+        for show in tv_shows:
+            show["media_type"] = "tv"
+            content.append(show)
+
+    else:
+
+        for movie in movies:
+            movie["media_type"] = "movie"
+            content.append(movie)
+
+        for show in tv_shows:
+            show["media_type"] = "tv"
+            content.append(show)
+
+        # Sort combined results
+        if sort == "vote_average.desc":
+            content.sort(
+                key=lambda item: item.get(
+                    "vote_average",
+                    0
+                ),
+                reverse=True
+            )
+
+        elif sort == "vote_count.desc":
+            content.sort(
+                key=lambda item: item.get(
+                    "vote_count",
+                    0
+                ),
+                reverse=True
+            )
+
+        elif sort == "release_date.desc":
+
+            def release_date(item):
+                return (
+                    item.get("release_date")
+                    or item.get("first_air_date")
+                    or ""
+                )
+
+            content.sort(
+                key=release_date,
+                reverse=True
+            )
+
+        else:
+            content.sort(
+                key=lambda item: item.get(
+                    "popularity",
+                    0
+                ),
+                reverse=True
+            )
+
+    # ==========================================
+    # PAGINATION
+    # ==========================================
+
+    if media_type == "movie":
+        total_pages = movie_total_pages
+        total_results = movie_total_results
+
+    elif media_type == "tv":
+        total_pages = tv_total_pages
+        total_results = tv_total_results
+
+    else:
+        total_pages = max(
+            movie_total_pages,
+            tv_total_pages
+        )
+
+        total_results = (
+            movie_total_results +
+            tv_total_results
+        )
+
+    total_pages = min(total_pages, 500)
+
+    # ==========================================
+    # YEARS
+    # ==========================================
+
+    years = list(
+        range(
+            2026,
+            1970,
+            -1
+        )
     )
 
     return render_template(
         "pages/midnight.html",
-        movies=movies,
-        genres=genre_data.get("genres", []),
-        providers=providers,
-        current_genre=genre,
-        current_year=year,
-        current_rating=rating,
-        current_provider=provider,
-        current_sort=sort,
+
+        content=content,
+
+        genres=genres,
+
+        years=years,
+
         current_page=page,
-        total_pages=total_pages
+
+        total_pages=total_pages,
+
+        total_results=total_results,
+
+        current_type=media_type,
+
+        current_genre=genre,
+
+        current_year=year,
+
+        current_sort=sort
     )

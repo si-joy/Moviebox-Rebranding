@@ -18,62 +18,113 @@
          HERO SLIDER
     ========================== -->
 
-  <section class="hero-slider">
-    <div class="hero-track" id="heroTrack">
-      {% for movie in popular_movies %}
+  <!-- =========================
+     CINEMATIC HERO
+========================== -->
 
-      <article
-        class="hero-slide"
-        style="
-                        background-image:
-                            linear-gradient(
-                                90deg,
-                                #0b0b0b 5%,
-                                rgba(11,11,11,.75) 40%,
-                                rgba(11,11,11,.25) 75%,
-                                rgba(11,11,11,.1) 100%
-                            ),
-                            linear-gradient(
-                                0deg,
-                                #0b0b0b 0%,
-                                transparent 50%
-                            ),
-                            url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
-                    "
-      >
-        <div class="hero-content">
-          <span class="hero-label"> #{{ loop.index }} MOST POPULAR </span>
+<section class="hero-slider" id="heroSlider">
 
-          <h1 class="hero-title">{{ movie.title }}</h1>
+  <div class="hero-track" id="heroTrack">
 
-          <div class="hero-meta">
-            {% if movie.release_date %}
-            <span> {{ movie.release_date[:4] }} </span>
-            {% endif %}
+    {% for movie in popular_movies %}
 
-            <span> ⭐ {{ "%.1f"|format(movie.vote_average) }} </span>
+    <article
+      class="hero-slide {% if loop.first %}active{% endif %}"
+      data-slide="{{ loop.index0 }}"
+      style="
+        background-image:
+          url(
+            'https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}'
+          );
+      "
+    >
 
-            <span> Movie </span>
-          </div>
+      <div class="hero-content">
 
-          <p class="hero-overview">{{ movie.overview }}</p>
+        <!-- Ranking -->
+        <div class="hero-kicker">
+          <span class="hero-kicker-line"></span>
 
-          <div class="hero-actions">
-            <a href="/movie/{{ movie.id }}" class="hero-watch-button">
-              ▶ Watch Now
-            </a>
-
-            <a href="/movie/{{ movie.id }}" class="hero-details-button">
-              View Details
-            </a>
-          </div>
+          <span>
+            FEATURED {{ "%02d"|format(loop.index) }}
+          </span>
         </div>
-      </article>
 
-      {% endfor %}
-    </div>
 
-    <!-- Navigation -->
+        <!-- Title -->
+        <h1 class="hero-title">
+          {{ movie.title }}
+        </h1>
+
+
+        <!-- Metadata -->
+        <div class="hero-meta">
+
+          {% if movie.release_date %}
+          <span class="hero-year">
+            {{ movie.release_date[:4] }}
+          </span>
+          {% endif %}
+
+          {% if movie.vote_average %}
+          <span class="hero-rating">
+            ★ {{ "%.1f"|format(movie.vote_average) }}
+          </span>
+          {% endif %}
+
+          <span>
+            Movie
+          </span>
+
+        </div>
+
+
+        <!-- Overview -->
+        {% if movie.overview %}
+
+        <p class="hero-overview">
+          {{ movie.overview }}
+        </p>
+
+        {% endif %}
+
+
+        <!-- Actions -->
+        <div class="hero-actions">
+
+          <a
+            href="/movie/{{ movie.id }}"
+            class="hero-watch-button"
+          >
+            <span class="button-icon">▶</span>
+            Watch Now
+          </a>
+
+
+          <a
+            href="/movie/{{ movie.id }}"
+            class="hero-details-button"
+          >
+            More Info
+            <span>→</span>
+          </a>
+
+        </div>
+
+      </div>
+
+    </article>
+
+    {% endfor %}
+
+  </div>
+
+
+  <!-- =========================
+       SLIDER CONTROLS
+  ========================== -->
+
+  <div class="hero-controls">
 
     <button
       type="button"
@@ -84,6 +135,21 @@
       ←
     </button>
 
+
+    <div
+      class="hero-counter"
+      id="heroCounter"
+    >
+      <span id="heroCurrent">01</span>
+
+      <span class="hero-counter-divider">/</span>
+
+      <span>
+        {{ "%02d"|format(popular_movies|length) }}
+      </span>
+    </div>
+
+
     <button
       type="button"
       class="hero-arrow hero-next"
@@ -93,21 +159,19 @@
       →
     </button>
 
-    <!-- Dots -->
+  </div>
 
-    <div class="hero-dots" id="heroDots">
-      {% for movie in popular_movies %}
 
-      <button
-        type="button"
-        class="hero-dot {% if loop.first %}active{% endif %}"
-        data-slide="{{ loop.index0 }}"
-        aria-label="Go to slide {{ loop.index }}"
-      ></button>
+  <!-- =========================
+       PROGRESS
+  ========================== -->
 
-      {% endfor %}
-    </div>
-  </section>
+  <div class="hero-progress">
+    <span id="heroProgress"></span>
+  </div>
+
+
+</section>
 
   <!-- =========================
         PROVIDERS 

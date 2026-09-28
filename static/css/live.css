@@ -1,0 +1,170 @@
+.live-page {
+    padding: 110px 40px 60px;
+    min-height: 100vh;
+}
+
+.live-header {
+    margin-bottom: 30px;
+}
+
+.live-badge {
+    display: inline-block;
+    margin-bottom: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.live-header h1 {
+    margin: 0;
+    font-size: 38px;
+}
+
+.live-header p {
+    margin-top: 8px;
+    opacity: 0.65;
+}
+
+
+/* Layout */
+
+.live-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+}
+
+
+/* Sidebar */
+
+.channel-sidebar {
+    background: #151515;
+    border-radius: 12px;
+    padding: 18px;
+    height: fit-content;
+}
+
+.channel-sidebar h3 {
+    margin: 0 0 15px;
+}
+
+.channel-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    padding: 12px;
+    margin-bottom: 8px;
+
+    border: 0;
+    border-radius: 8px;
+
+    background: transparent;
+    color: white;
+
+    cursor: pointer;
+    text-align: left;
+}
+
+.channel-item:hover {
+    background: #222;
+}
+
+.channel-item.active {
+    background: #2b2b2b;
+}
+
+.channel-item img {
+    width: 50px;
+    height: 40px;
+    object-fit: contain;
+    background: white;
+    border-radius: 6px;
+}
+
+.channel-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.channel-item strong {
+    font-size: 14px;
+}
+
+.channel-item span {
+    font-size: 10px;
+    opacity: 0.6;
+}
+
+
+/* Player */
+
+.live-player-area {
+    min-width: 0;
+}
+
+.player-topbar {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+
+    background: #151515;
+    border-radius: 10px 10px 0 0;
+}
+
+.live-dot {
+    display: inline-block;
+
+    width: 8px;
+    height: 8px;
+
+    margin-right: 8px;
+
+    border-radius: 50%;
+    background: red;
+}
+
+.video-container {
+    position: relative;
+
+    width: 100%;
+    aspect-ratio: 16 / 9;
+
+    background: #000;
+
+    overflow: hidden;
+    border-radius: 0 0 10px 10px;
+}
+
+.video-container iframe {
+    width: 100%;
+    height: 100%;
+
+    border: 0;
+}
+
+
+/* Mobile */
+
+@media (max-width: 800px) {
+
+    .live-page {
+        padding: 100px 15px 40px;
+    }
+
+    .live-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .channel-sidebar {
+        order: 2;
+    }
+
+    .live-player-area {
+        order: 1;
+    }
+
+}

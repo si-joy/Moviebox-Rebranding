@@ -1,0 +1,944 @@
+/* =========================================================
+   MOVIE DETAIL PAGE
+========================================================= */
+
+.movie-detail-page {
+    width: 100%;
+    min-height: 100vh;
+    background: #0b0b0b;
+    color: #fff;
+}
+
+
+/* =========================================================
+   HERO
+========================================================= */
+
+.movie-hero {
+    position: relative;
+    width: 100%;
+    min-height: 720px;
+    overflow: hidden;
+    background: #080808;
+}
+
+.movie-backdrop {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    transform: scale(1.02);
+}
+
+.movie-backdrop-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background:
+        linear-gradient(
+            90deg,
+            rgba(11, 11, 11, 0.98) 0%,
+            rgba(11, 11, 11, 0.90) 28%,
+            rgba(11, 11, 11, 0.60) 55%,
+            rgba(11, 11, 11, 0.25) 100%
+        ),
+        linear-gradient(
+            to bottom,
+            rgba(11, 11, 11, 0.10) 0%,
+            rgba(11, 11, 11, 0.20) 55%,
+            #0b0b0b 100%
+        );
+}
+
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.movie-hero-content {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    padding: 45px 50px 100px;
+}
+
+
+/* =========================================================
+   BACK BUTTON
+========================================================= */
+
+.back-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 55px;
+    color: #aaa;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+    color: #fff;
+    transform: translateX(-4px);
+}
+
+.back-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    font-size: 17px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.back-button:hover .back-icon {
+    background: #e50914;
+    border-color: #e50914;
+}
+
+
+/* =========================================================
+   MAIN MOVIE INFORMATION
+========================================================= */
+
+.movie-main-info {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 900px);
+    gap: 55px;
+    align-items: center;
+    max-width: 1350px;
+}
+
+
+/* =========================================================
+   POSTER
+========================================================= */
+
+.movie-poster {
+    width: 280px;
+    aspect-ratio: 2 / 3;
+    overflow: hidden;
+    border-radius: 10px;
+    background: #151515;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
+}
+
+.movie-poster img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.poster-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #151515;
+    color: #666;
+    font-size: 14px;
+}
+
+
+/* =========================================================
+   MOVIE INFORMATION
+========================================================= */
+
+.movie-info {
+    max-width: 800px;
+}
+
+.movie-label {
+    display: inline-block;
+    margin-bottom: 15px;
+    color: #e50914;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.movie-title {
+    max-width: 900px;
+    margin: 0 0 16px;
+    color: #fff;
+    font-size: clamp(48px, 6vw, 88px);
+    line-height: 0.97;
+    font-weight: 800;
+    letter-spacing: -2.5px;
+}
+
+.movie-tagline {
+    margin: 0 0 22px;
+    color: #aaa;
+    font-size: 16px;
+    line-height: 1.5;
+    font-style: italic;
+}
+
+
+/* =========================================================
+   META
+========================================================= */
+
+.movie-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.movie-meta-item {
+    display: inline-flex;
+    align-items: center;
+}
+
+.movie-meta-item:not(:last-child)::after {
+    content: "";
+    width: 4px;
+    height: 4px;
+    margin: 0 14px;
+    border-radius: 50%;
+    background: #666;
+}
+
+.movie-rating {
+    color: #f5c518;
+}
+
+
+/* =========================================================
+   GENRES
+========================================================= */
+
+.movie-genres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.genre-tag {
+    padding: 7px 11px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.07);
+    color: #ddd;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   OVERVIEW
+========================================================= */
+
+.movie-overview {
+    max-width: 680px;
+    margin: 0 0 30px;
+    color: #c5c5c5;
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.movie-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.watch-button,
+.trailer-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 50px;
+    padding: 0 24px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.watch-button {
+    background: #e50914;
+    color: #fff;
+    box-shadow: 0 12px 30px rgba(229, 9, 20, 0.25);
+}
+
+.watch-button:hover {
+    background: #f6121d;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 16px 38px rgba(229, 9, 20, 0.35);
+}
+
+.trailer-button {
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    backdrop-filter: blur(12px);
+}
+
+.trailer-button:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.movie-content {
+    width: 100%;
+    padding: 80px 0 100px;
+    background: #0b0b0b;
+}
+
+.movie-content-inner {
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+
+/* =========================================================
+   SECTION HEADING
+========================================================= */
+
+.content-heading {
+    margin-bottom: 28px;
+}
+
+.section-label {
+    display: block;
+    margin-bottom: 8px;
+    color: #e50914;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+.content-heading h2 {
+    margin: 0;
+    color: #fff;
+    font-size: 32px;
+    line-height: 1.2;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   STORY + CREDITS
+========================================================= */
+
+.info-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.8fr);
+    gap: 100px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid #1d1d1d;
+}
+
+.story-text {
+    max-width: 800px;
+    margin: 0;
+    color: #aaa;
+    font-size: 16px;
+    line-height: 1.85;
+}
+
+.story-text.muted {
+    color: #666;
+}
+
+.credits-column {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.credit-item {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #1d1d1d;
+}
+
+.credit-label {
+    color: #666;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+}
+
+.credit-item strong {
+    color: #ddd;
+    font-size: 14px;
+    line-height: 1.5;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   WATCH PROVIDERS
+========================================================= */
+
+.watch-section {
+    padding: 75px 0;
+    border-bottom: 1px solid #1d1d1d;
+}
+
+.provider-group {
+    margin-top: 28px;
+}
+
+.provider-heading {
+    display: block;
+    margin-bottom: 12px;
+    color: #777;
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.provider-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.provider-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 52px;
+    padding: 7px 14px 7px 7px;
+    border: 1px solid #222;
+    border-radius: 8px;
+    background: #111;
+}
+
+.provider-card img {
+    width: 38px;
+    height: 38px;
+    object-fit: cover;
+    border-radius: 7px;
+}
+
+.provider-card span {
+    color: #ccc;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   CAST
+========================================================= */
+
+.cast-section {
+    padding: 75px 0;
+    border-bottom: 1px solid #1d1d1d;
+}
+
+.cast-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 25px 18px;
+}
+
+.cast-card {
+    min-width: 0;
+}
+
+.cast-image {
+    width: 100%;
+    aspect-ratio: 2 / 2.8;
+    overflow: hidden;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    background: #151515;
+}
+
+.cast-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.cast-card:hover .cast-image img {
+    transform: scale(1.03);
+}
+
+.cast-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background: #181818;
+    color: #555;
+    font-size: 42px;
+    font-weight: 800;
+}
+
+.cast-info h3 {
+    overflow: hidden;
+    margin: 0 0 4px;
+    color: #eee;
+    font-size: 14px;
+    line-height: 1.3;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.cast-info p {
+    overflow: hidden;
+    margin: 0;
+    color: #777;
+    font-size: 12px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+/* =========================================================
+   RECOMMENDATIONS
+========================================================= */
+
+.recommendations-section {
+    padding-top: 75px;
+}
+
+.recommendation-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 30px 20px;
+}
+
+.recommendation-card {
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    transition: transform 0.25s ease;
+}
+
+.recommendation-card:hover {
+    color: inherit;
+    transform: translateY(-5px);
+}
+
+.recommendation-poster {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 2 / 3;
+    margin-bottom: 12px;
+    border-radius: 7px;
+    background: #151515;
+}
+
+.recommendation-poster img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.recommendation-card:hover .recommendation-poster img {
+    transform: scale(1.04);
+}
+
+.recommendation-rating {
+    position: absolute;
+    top: 9px;
+    right: 9px;
+    z-index: 2;
+    padding: 5px 7px;
+    border-radius: 5px;
+    background: rgba(0, 0, 0, 0.82);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.recommendation-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.55);
+    opacity: 0;
+    transition: opacity 0.25s ease;
+}
+
+.recommendation-card:hover .recommendation-overlay {
+    opacity: 1;
+}
+
+.recommendation-overlay span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #e50914;
+    color: #fff;
+    font-size: 14px;
+}
+
+.recommendation-card h3 {
+    overflow: hidden;
+    margin: 0 0 5px;
+    color: #eee;
+    font-size: 14px;
+    line-height: 1.35;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.recommendation-card p {
+    margin: 0;
+    color: #777;
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   TRAILER MODAL
+========================================================= */
+
+.trailer-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease, visibility 0.25s ease;
+}
+
+.trailer-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.trailer-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.88);
+    backdrop-filter: blur(8px);
+}
+
+.trailer-dialog {
+    position: relative;
+    z-index: 2;
+    width: min(1100px, 100%);
+    overflow: hidden;
+    border: 1px solid #222;
+    border-radius: 10px;
+    background: #111;
+    transform: translateY(20px) scale(0.98);
+    transition: transform 0.25s ease;
+}
+
+.trailer-modal.active .trailer-dialog {
+    transform: translateY(0) scale(1);
+}
+
+.trailer-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.75);
+    color: #fff;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.trailer-close:hover {
+    background: #e50914;
+    border-color: #e50914;
+}
+
+.trailer-video {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #000;
+}
+
+.trailer-video iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1400px) {
+
+    .movie-main-info {
+        grid-template-columns: 250px minmax(0, 750px);
+    }
+
+    .movie-poster {
+        width: 250px;
+    }
+
+    .cast-grid,
+    .recommendation-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 1100px) {
+
+    .movie-hero {
+        min-height: 680px;
+    }
+
+    .movie-main-info {
+        grid-template-columns: 220px minmax(0, 1fr);
+        gap: 35px;
+    }
+
+    .movie-poster {
+        width: 220px;
+    }
+
+    .movie-title {
+        font-size: 58px;
+    }
+
+    .info-layout {
+        gap: 50px;
+    }
+
+    .cast-grid,
+    .recommendation-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 800px) {
+
+    .movie-hero {
+        min-height: auto;
+    }
+
+    .movie-hero-content {
+        padding: 30px;
+        padding-bottom: 70px;
+    }
+
+    .movie-content-inner {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    .back-button {
+        margin-bottom: 35px;
+    }
+
+    .movie-main-info {
+        grid-template-columns: 180px minmax(0, 1fr);
+        gap: 25px;
+    }
+
+    .movie-poster {
+        width: 180px;
+    }
+
+    .movie-title {
+        font-size: 46px;
+        letter-spacing: -1.5px;
+    }
+
+    .movie-overview {
+        font-size: 14px;
+        line-height: 1.7;
+    }
+
+    .info-layout {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .cast-grid,
+    .recommendation-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+
+@media (max-width: 600px) {
+
+    .movie-backdrop-overlay {
+        background:
+            linear-gradient(
+                to bottom,
+                rgba(11, 11, 11, 0.25) 0%,
+                rgba(11, 11, 11, 0.80) 38%,
+                rgba(11, 11, 11, 0.98) 68%,
+                #0b0b0b 100%
+            );
+    }
+
+    .movie-hero-content {
+        padding: 20px 15px 55px;
+    }
+
+    .movie-content {
+        padding: 55px 0 80px;
+    }
+
+    .movie-content-inner {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .back-button {
+        margin-bottom: 30px;
+    }
+
+    .movie-main-info {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .movie-poster {
+        width: 190px;
+        margin: 0 auto;
+    }
+
+    .movie-info {
+        text-align: center;
+    }
+
+    .movie-title {
+        font-size: 40px;
+        letter-spacing: -1px;
+    }
+
+    .movie-meta {
+        justify-content: center;
+    }
+
+    .movie-genres {
+        justify-content: center;
+    }
+
+    .movie-overview {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .movie-actions {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .content-heading h2 {
+        font-size: 27px;
+    }
+
+    .watch-section,
+    .cast-section {
+        padding: 55px 0;
+    }
+
+    .cast-grid,
+    .recommendation-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px 14px;
+    }
+}
+
+
+@media (max-width: 400px) {
+
+    .movie-hero-content {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .movie-content-inner {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .movie-poster {
+        width: 165px;
+    }
+
+    .movie-title {
+        font-size: 34px;
+    }
+
+    .movie-actions {
+        flex-direction: column;
+    }
+
+    .watch-button,
+    .trailer-button {
+        width: 100%;
+    }
+
+    .cast-grid,
+    .recommendation-grid {
+        gap: 22px 10px;
+    }
+}

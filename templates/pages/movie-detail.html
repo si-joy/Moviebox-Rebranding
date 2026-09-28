@@ -1,252 +1,477 @@
-{% extends "base.html" %}
-
-
-{% block title %}
-{{ movie.title }} - MovieBox
-{% endblock %}
-
-
-{% block page_css %}
+{% extends "base.html" %} {% block title %} {{ movie.title }} - MovieBox {%
+endblock %} {% block page_css %}
 
 <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/detail.css') }}"
->
+  rel="stylesheet"
+  href="{{ url_for('static', filename='css/movie-detail.css') }}"
+/>
 
-{% endblock %}
+{% endblock %} {% block content %}
 
+<main class="movie-detail-page">
 
-{% block content %}
+  <!-- =====================================================
+     MOVIE HERO
+====================================================== -->
 
-<main class="detail-page">
+  <section class="movie-hero">
+    <!-- BACKDROP -->
 
-    <!-- Hero -->
+    {% if movie.backdrop_path %}
 
-    <section
-        class="detail-hero"
-        style="
+    <div
+      class="movie-backdrop"
+      style="
             background-image:
-                linear-gradient(
-                    90deg,
-                    #0b0b0b 10%,
-                    rgba(11,11,11,.8) 45%,
-                    rgba(11,11,11,.3) 100%
-                ),
-                linear-gradient(
-                    0deg,
-                    #0b0b0b 0%,
-                    transparent 50%
-                ),
-                url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
+            url('https://image.tmdb.org/t/p/original{{ movie.backdrop_path }}');
         "
-    >
+    ></div>
 
-        <div class="detail-container">
+    {% endif %}
 
-            <div class="detail-content">
+    <!-- BACKDROP OVERLAY -->
 
-                <span class="detail-label">
-                    MOVIE
-                </span>
+    <div class="movie-backdrop-overlay"></div>
 
+    <!-- HERO CONTENT -->
 
-                <h1 class="detail-title">
-                    {{ movie.title }}
-                </h1>
+    <div class="movie-hero-content">
+      <!-- BACK BUTTON -->
 
+      <a href="/movies" class="back-button">
+        <span class="back-icon">←</span>
+        <span>Back to Movies</span>
+      </a>
 
-                <div class="detail-meta">
+      <!-- MOVIE INFORMATION -->
 
-                    {% if movie.release_date %}
-                        <span>
-                            {{ movie.release_date[:4] }}
-                        </span>
-                    {% endif %}
+      <div class="movie-main-info">
+        <!-- POSTER -->
 
-                    {% if movie.runtime %}
-                        <span>
-                            {{ movie.runtime }} min
-                        </span>
-                    {% endif %}
+        <div class="movie-poster">
+          {% if movie.poster_path %}
 
-                    {% if movie.vote_average %}
-                        <span>
-                            ⭐ {{ "%.1f"|format(movie.vote_average) }}
-                        </span>
-                    {% endif %}
+          <img
+            src="https://image.tmdb.org/t/p/w500{{ movie.poster_path }}"
+            alt="{{ movie.title }}"
+          />
 
-                </div>
+          {% else %}
 
+          <div class="poster-placeholder">No Poster</div>
 
-                <p class="detail-overview">
-                    {{ movie.overview }}
-                </p>
-
-
-                <div class="detail-actions">
-
-                    <a
-                        href="/movie-player/{{ movie.id }}"
-                        class="primary-button"
-                    >
-                        ▶ Watch Now
-                    </a>
-
-
-                    {% if trailer %}
-
-                        <a
-                            href="https://www.youtube.com/watch?v={{ trailer.key }}"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="secondary-button"
-                        >
-                            ▶ Trailer
-                        </a>
-
-                    {% endif %}
-
-                </div>
-
-            </div>
-
+          {% endif %}
         </div>
 
-    </section>
+        <!-- INFORMATION -->
 
+        <div class="movie-info">
+          <span class="movie-label"> MOVIE </span>
 
-    <!-- Information -->
+          <h1 class="movie-title">{{ movie.title }}</h1>
 
-    <section class="detail-info">
+          {% if movie.tagline %}
 
-        <div class="detail-container">
+          <p class="movie-tagline">"{{ movie.tagline }}"</p>
 
-            <div class="info-grid">
+          {% endif %}
 
+          <!-- META -->
 
-                <div class="info-block">
+          <div class="movie-meta">
+            {% if movie.release_date %}
 
-                    <h3>
-                        Genres
-                    </h3>
+            <span class="movie-meta-item"> {{ movie.release_date[:4] }} </span>
 
-                    <div class="genre-list">
+            {% endif %} {% if movie.runtime %}
 
-                        {% for genre in movie.genres %}
+            <span class="movie-meta-item">
+              {{ movie.runtime // 60 }}h {% if movie.runtime % 60 %} {{
+              movie.runtime % 60 }}m {% endif %}
+            </span>
 
-                            <span class="genre-tag">
-                                {{ genre.name }}
-                            </span>
+            {% endif %} {% if movie.vote_average %}
 
-                        {% endfor %}
+            <span class="movie-meta-item movie-rating">
+              ★ {{ "%.1f"|format(movie.vote_average) }}
+            </span>
 
-                    </div>
+            {% endif %} {% if movie.vote_count %}
 
-                </div>
-
-
-                <div class="info-block">
-
-                    <h3>
-                        Release Date
-                    </h3>
-
-                    <p>
-                        {{ movie.release_date or "N/A" }}
-                    </p>
-
-                </div>
-
-
-                <div class="info-block">
-
-                    <h3>
-                        Runtime
-                    </h3>
-
-                    <p>
-                        {% if movie.runtime %}
-                            {{ movie.runtime }} minutes
-                        {% else %}
-                            N/A
-                        {% endif %}
-                    </p>
-
-                </div>
-
-
-                <div class="info-block">
-
-                    <h3>
-                        Original Language
-                    </h3>
-
-                    <p>
-                        {{ movie.original_language|upper }}
-                    </p>
-
-                </div>
-
-            </div>
-
-
-            {% if movie.credits and movie.credits.cast %}
-
-                <div class="cast-section">
-
-                    <h2>
-                        Cast
-                    </h2>
-
-                    <div class="cast-grid">
-
-                        {% for person in movie.credits.cast[:8] %}
-
-                            <div class="cast-card">
-
-                                {% if person.profile_path %}
-
-                                    <img
-                                        src="https://image.tmdb.org/t/p/w185{{ person.profile_path }}"
-                                        alt="{{ person.name }}"
-                                        loading="lazy"
-                                    >
-
-                                {% else %}
-
-                                    <div class="cast-placeholder">
-                                        No Image
-                                    </div>
-
-                                {% endif %}
-
-
-                                <h3>
-                                    {{ person.name }}
-                                </h3>
-
-                                {% if person.character %}
-
-                                    <p>
-                                        {{ person.character }}
-                                    </p>
-
-                                {% endif %}
-
-                            </div>
-
-                        {% endfor %}
-
-                    </div>
-
-                </div>
+            <span class="movie-meta-item">
+              {{ "{:,}".format(movie.vote_count) }} votes
+            </span>
 
             {% endif %}
+          </div>
 
+          <!-- GENRES -->
+
+          {% if movie.genres %}
+
+          <div class="movie-genres">
+            {% for genre in movie.genres %}
+
+            <span class="genre-tag"> {{ genre.name }} </span>
+
+            {% endfor %}
+          </div>
+
+          {% endif %}
+
+          <!-- OVERVIEW -->
+
+          {% if movie.overview %}
+
+          <p class="movie-overview">{{ movie.overview }}</p>
+
+          {% endif %}
+
+          <!-- ACTION BUTTONS -->
+
+          <div class="movie-actions">
+            <a
+              href="{{ url_for('player.movie_player', movie_id=movie.id) }}"
+              class="watch-button"
+            >
+              <span class="button-icon">▶</span>
+              Watch Now
+            </a>
+
+            {% if trailer %}
+
+            <button
+              type="button"
+              class="trailer-button"
+              id="openTrailer"
+              data-video-key="{{ trailer.key }}"
+            >
+              <span class="button-icon">▷</span>
+              Trailer
+            </button>
+
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+     MOVIE CONTENT
+====================================================== -->
+
+  <section class="movie-content">
+    <div class="movie-content-inner">
+      <!-- =================================================
+             STORY + CREDITS
+        ================================================== -->
+
+      <section class="story-section">
+        <div class="info-layout">
+          <!-- STORY -->
+
+          <div class="story-column">
+            <div class="content-heading">
+              <span class="section-label"> THE STORY </span>
+
+              <h2>About the Movie</h2>
+            </div>
+
+            {% if movie.overview %}
+
+            <p class="story-text">{{ movie.overview }}</p>
+
+            {% else %}
+
+            <p class="story-text muted">
+              No description is available for this movie.
+            </p>
+
+            {% endif %}
+          </div>
+
+          <!-- CREDITS -->
+
+          <div class="credits-column">
+            {% if director %}
+
+            <div class="credit-item">
+              <span class="credit-label"> DIRECTOR </span>
+
+              <strong> {{ director.name }} </strong>
+            </div>
+
+            {% endif %} {% if writers %}
+
+            <div class="credit-item">
+              <span class="credit-label"> WRITTEN BY </span>
+
+              <strong>
+                {% for writer in writers %} {{ writer.name }}{% if not loop.last
+                %}, {% endif %} {% endfor %}
+              </strong>
+            </div>
+
+            {% endif %} {% if movie.production_companies %}
+
+            <div class="credit-item">
+              <span class="credit-label"> PRODUCTION </span>
+
+              <strong>
+                {% for company in movie.production_companies[:3] %} {{
+                company.name }}{% if not loop.last %}, {% endif %} {% endfor %}
+              </strong>
+            </div>
+
+            {% endif %} {% if movie.original_language %}
+
+            <div class="credit-item">
+              <span class="credit-label"> LANGUAGE </span>
+
+              <strong> {{ movie.original_language|upper }} </strong>
+            </div>
+
+            {% endif %}
+          </div>
+        </div>
+      </section>
+
+      <!-- =================================================
+             WATCH PROVIDERS
+        ================================================== -->
+
+      {% if streaming or rent or buy %}
+
+      <section class="watch-section">
+        <div class="content-heading">
+          <span class="section-label"> WHERE TO WATCH </span>
+
+          <h2>Available Platforms</h2>
         </div>
 
-    </section>
+        {% if streaming %}
 
+        <div class="provider-group">
+          <span class="provider-heading"> Stream </span>
+
+          <div class="provider-list">
+            {% for provider in streaming %}
+
+            <div class="provider-card">
+              {% if provider.logo_path %}
+
+              <img
+                src="https://image.tmdb.org/t/p/w92{{ provider.logo_path }}"
+                alt="{{ provider.provider_name }}"
+                loading="lazy"
+              />
+
+              {% endif %}
+
+              <span> {{ provider.provider_name }} </span>
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+
+        {% endif %} {% if rent %}
+
+        <div class="provider-group">
+          <span class="provider-heading"> Rent </span>
+
+          <div class="provider-list">
+            {% for provider in rent %}
+
+            <div class="provider-card">
+              {% if provider.logo_path %}
+
+              <img
+                src="https://image.tmdb.org/t/p/w92{{ provider.logo_path }}"
+                alt="{{ provider.provider_name }}"
+                loading="lazy"
+              />
+
+              {% endif %}
+
+              <span> {{ provider.provider_name }} </span>
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+
+        {% endif %} {% if buy %}
+
+        <div class="provider-group">
+          <span class="provider-heading"> Buy </span>
+
+          <div class="provider-list">
+            {% for provider in buy %}
+
+            <div class="provider-card">
+              {% if provider.logo_path %}
+
+              <img
+                src="https://image.tmdb.org/t/p/w92{{ provider.logo_path }}"
+                alt="{{ provider.provider_name }}"
+                loading="lazy"
+              />
+
+              {% endif %}
+
+              <span> {{ provider.provider_name }} </span>
+            </div>
+
+            {% endfor %}
+          </div>
+        </div>
+
+        {% endif %}
+      </section>
+
+      {% endif %}
+
+      <!-- =================================================
+             CAST
+        ================================================== -->
+
+      {% if cast %}
+
+      <section class="cast-section">
+        <div class="content-heading">
+          <span class="section-label"> CAST </span>
+
+          <h2>The Cast</h2>
+        </div>
+
+        <div class="cast-grid">
+          {% for person in cast %}
+
+          <div class="cast-card">
+            <div class="cast-image">
+              {% if person.profile_path %}
+
+              <img
+                src="https://image.tmdb.org/t/p/w185{{ person.profile_path }}"
+                alt="{{ person.name }}"
+                loading="lazy"
+              />
+
+              {% else %}
+
+              <div class="cast-placeholder">{{ person.name[:1] }}</div>
+
+              {% endif %}
+            </div>
+
+            <div class="cast-info">
+              <h3>{{ person.name }}</h3>
+
+              {% if person.character %}
+
+              <p>{{ person.character }}</p>
+
+              {% endif %}
+            </div>
+          </div>
+
+          {% endfor %}
+        </div>
+      </section>
+
+      {% endif %}
+
+      <!-- =================================================
+             RECOMMENDATIONS
+        ================================================== -->
+
+      {% if recommendations %}
+
+      <section class="recommendations-section">
+        <div class="content-heading">
+          <span class="section-label"> YOU MAY ALSO LIKE </span>
+
+          <h2>More Like This</h2>
+        </div>
+
+        <div class="recommendation-grid">
+          {% for item in recommendations %}
+
+          <a href="/movie/{{ item.id }}" class="recommendation-card">
+            <div class="recommendation-poster">
+              <img
+                src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}"
+                alt="{{ item.title }}"
+                loading="lazy"
+              />
+
+              {% if item.vote_average %}
+
+              <span class="recommendation-rating">
+                ★ {{ "%.1f"|format(item.vote_average) }}
+              </span>
+
+              {% endif %}
+
+              <div class="recommendation-overlay">
+                <span> ▶ </span>
+              </div>
+            </div>
+
+            <h3>{{ item.title }}</h3>
+
+            <p>
+              {% if item.release_date %} {{ item.release_date[:4] }} {% else %}
+              N/A {% endif %} · Movie
+            </p>
+          </a>
+
+          {% endfor %}
+        </div>
+      </section>
+
+      {% endif %}
+    </div>
+  </section>
+
+  <!-- =====================================================
+     TRAILER MODAL
+====================================================== -->
+
+  {% if trailer %}
+
+  <div class="trailer-modal" id="trailerModal" aria-hidden="true">
+    <div class="trailer-backdrop" id="closeTrailerBackdrop"></div>
+
+    <div class="trailer-dialog">
+      <button
+        type="button"
+        class="trailer-close"
+        id="closeTrailer"
+        aria-label="Close trailer"
+      >
+        ×
+      </button>
+
+      <div class="trailer-video">
+        <iframe
+          id="trailerFrame"
+          src=""
+          title="{{ movie.title }} Trailer"
+          allow="autoplay; encrypted-media"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+
+  {% endif %}
 </main>
+
+{% endblock %} {% block page_js %}
+
+<script src="{{ url_for('static', filename='js/movie-detail.js') }}"></script>
 
 {% endblock %}

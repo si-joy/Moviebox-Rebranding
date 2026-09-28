@@ -1,34 +1,53 @@
 /* =========================================================
+   MOVIEBOX REBRANDING
+   HOME PAGE
+   ========================================================= */
+
+
+/* =========================================================
    HOME PAGE
    ========================================================= */
 
 .home-page {
     width: 100%;
+    min-height: 100vh;
+
     background: #0b0b0b;
 }
 
 
 /* =========================================================
-   HERO SLIDER
+   CINEMATIC HERO
    ========================================================= */
 
 .hero-slider {
     position: relative;
+
     width: 100%;
-    height: 680px;
+    height: 700px;
+
     overflow: hidden;
+
+    background: #080808;
 }
+
 
 .hero-track {
     display: flex;
+
     width: 100%;
     height: 100%;
-    transition: transform 0.7s ease;
+
+    transition:
+        transform 0.8s cubic-bezier(.22, .61, .36, 1);
 }
+
 
 .hero-slide {
     position: relative;
+
     flex: 0 0 100%;
+
     width: 100%;
     height: 100%;
 
@@ -40,67 +59,181 @@
     background-repeat: no-repeat;
 }
 
+/* =========================================================
+   HERO OVERLAY
+========================================================= */
+
+.hero-slide::before {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(8, 8, 8, 0.98) 0%,
+            rgba(8, 8, 8, 0.88) 25%,
+            rgba(8, 8, 8, 0.60) 45%,
+            rgba(8, 8, 8, 0.25) 70%,
+            rgba(8, 8, 8, 0.05) 100%
+        ),
+        linear-gradient(
+            to top,
+            #0b0b0b 0%,
+            rgba(11, 11, 11, 0.75) 12%,
+            rgba(11, 11, 11, 0.20) 45%,
+            rgba(11, 11, 11, 0) 100%
+        );
+}
+
 
 /* =========================================================
    HERO CONTENT
    ========================================================= */
 
 .hero-content {
+    position: relative;
+
+    z-index: 2;
+
     width: 100%;
-    max-width: 850px;
+    max-width: 900px;
 
     padding-left: 80px;
     padding-right: 80px;
+
+    padding-top: 50px;
 }
 
-.hero-label {
-    display: inline-block;
 
-    margin-bottom: 15px;
+/* =========================================================
+   HERO KICKER
+   ========================================================= */
+
+.hero-kicker {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    margin-bottom: 18px;
 
     color: #e50914;
 
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 12px;
+    font-weight: 800;
 
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
 }
 
+
+.hero-kicker-line {
+    display: block;
+
+    width: 28px;
+    height: 2px;
+
+    background: #e50914;
+}
+
+
+/* =========================================================
+   HERO TITLE
+   ========================================================= */
+
 .hero-title {
-    margin: 0 0 18px;
+    max-width: 800px;
+
+    margin: 0 0 20px;
 
     color: #ffffff;
 
-    font-size: clamp(42px, 5vw, 76px);
-    line-height: 1.02;
+    font-size: clamp(46px, 6vw, 88px);
+
+    line-height: .98;
+
     font-weight: 800;
+
+    letter-spacing: -2px;
+
+    text-wrap: balance;
 }
+
+
+/* =========================================================
+   HERO META
+   ========================================================= */
 
 .hero-meta {
     display: flex;
     align-items: center;
 
-    gap: 18px;
+    gap: 16px;
 
-    margin-bottom: 20px;
+    margin-bottom: 22px;
 
-    color: #dddddd;
+    color: #d5d5d5;
 
-    font-size: 15px;
+    font-size: 14px;
 }
 
+
+.hero-meta > span:not(:last-child)::after {
+    content: "";
+
+    display: inline-block;
+
+    width: 4px;
+    height: 4px;
+
+    margin-left: 16px;
+
+    vertical-align: middle;
+
+    border-radius: 50%;
+
+    background: #777777;
+}
+
+
+.hero-rating {
+    color: #f5c518;
+
+    font-weight: 700;
+}
+
+
+.hero-year {
+    color: #ffffff;
+
+    font-weight: 600;
+}
+
+
+/* =========================================================
+   HERO OVERVIEW
+   ========================================================= */
+
 .hero-overview {
-    max-width: 650px;
+    max-width: 620px;
 
-    margin: 0 0 30px;
+    margin: 0 0 32px;
 
-    color: #c5c5c5;
+    color: #c7c7c7;
 
-    font-size: 16px;
-    line-height: 1.7;
+    font-size: 15px;
+
+    line-height: 1.75;
 
     display: -webkit-box;
+
     -webkit-line-clamp: 3;
+
     -webkit-box-orient: vertical;
 
     overflow: hidden;
@@ -108,59 +241,121 @@
 
 
 /* =========================================================
-   HERO BUTTONS
+   HERO ACTIONS
    ========================================================= */
 
 .hero-actions {
     display: flex;
+
     align-items: center;
 
     gap: 12px;
 }
 
+
 .hero-watch-button,
 .hero-details-button {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
 
-    min-height: 48px;
+    gap: 10px;
 
-    padding: 0 25px;
+    min-height: 50px;
 
-    border-radius: 6px;
+    padding: 0 24px;
+
+    border-radius: 7px;
 
     font-size: 14px;
+
     font-weight: 700;
 
     text-decoration: none;
 
     transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
+        transform 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
 }
+
+
+/* =========================================================
+   WATCH BUTTON
+   ========================================================= */
 
 .hero-watch-button {
     background: #e50914;
+
     color: #ffffff;
+
+    box-shadow:
+        0 10px 30px rgba(229, 9, 20, 0.25);
 }
+
 
 .hero-watch-button:hover {
     background: #f6121d;
-}
-
-.hero-details-button {
-    background: rgba(255, 255, 255, 0.1);
-
-    border: 1px solid rgba(255, 255, 255, 0.2);
 
     color: #ffffff;
 
-    backdrop-filter: blur(5px);
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 14px 35px rgba(229, 9, 20, 0.35);
 }
 
+
+.button-icon {
+    font-size: 12px;
+}
+
+
+/* =========================================================
+   DETAILS BUTTON
+   ========================================================= */
+
+.hero-details-button {
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.08);
+
+    border: 1px solid rgba(255, 255, 255, 0.18);
+
+    backdrop-filter: blur(12px);
+}
+
+
 .hero-details-button:hover {
-    background: rgba(255, 255, 255, 0.18);
+    color: #ffffff;
+
+    background: rgba(255, 255, 255, 0.15);
+
+    border-color: rgba(255, 255, 255, 0.3);
+
+    transform: translateY(-2px);
+}
+
+
+/* =========================================================
+   HERO CONTROLS
+   ========================================================= */
+
+.hero-controls {
+    position: absolute;
+
+    right: 50px;
+    bottom: 50px;
+
+    z-index: 10;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
 }
 
 
@@ -169,124 +364,175 @@
    ========================================================= */
 
 .hero-arrow {
-    position: absolute;
-    top: 50%;
-
-    transform: translateY(-50%);
-
-    width: 48px;
-    height: 48px;
+    width: 44px;
+    height: 44px;
 
     display: flex;
+
     align-items: center;
     justify-content: center;
 
     padding: 0;
 
     border: 1px solid rgba(255, 255, 255, 0.2);
+
     border-radius: 50%;
 
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.45);
 
     color: #ffffff;
 
-    font-size: 22px;
+    font-size: 18px;
 
     cursor: pointer;
 
-    z-index: 10;
-
-    backdrop-filter: blur(5px);
+    backdrop-filter: blur(10px);
 
     transition:
-        background 0.2s ease,
-        border-color 0.2s ease;
+        background 0.25s ease,
+        border-color 0.25s ease,
+        transform 0.25s ease;
 }
+
 
 .hero-arrow:hover {
-    background: rgba(0, 0, 0, 0.8);
+    background: #e50914;
 
-    border-color: rgba(255, 255, 255, 0.4);
+    border-color: #e50914;
+
+    color: #ffffff;
+
+    transform: scale(1.05);
 }
 
-.hero-prev {
-    left: 25px;
-}
 
-.hero-next {
-    right: 25px;
+.hero-arrow:focus-visible {
+    outline: 2px solid #ffffff;
+
+    outline-offset: 3px;
 }
 
 
 /* =========================================================
-   HERO DOTS
+   HERO COUNTER
    ========================================================= */
 
-.hero-dots {
-    position: absolute;
+.hero-counter {
+    min-width: 60px;
 
-    bottom: 30px;
-    left: 50%;
+    color: #ffffff;
 
-    transform: translateX(-50%);
+    font-size: 12px;
 
-    display: flex;
-    align-items: center;
+    font-weight: 700;
 
-    gap: 8px;
+    letter-spacing: 1px;
 
-    z-index: 10;
+    text-align: center;
 }
 
-.hero-dot {
-    width: 8px;
-    height: 8px;
 
-    padding: 0;
+.hero-counter-divider {
+    margin: 0 4px;
 
-    border: 0;
-    border-radius: 50%;
-
-    background: rgba(255, 255, 255, 0.4);
-
-    cursor: pointer;
-
-    transition:
-        width 0.3s ease,
-        background 0.3s ease;
+    color: #555555;
 }
 
-.hero-dot.active {
-    width: 28px;
 
-    border-radius: 10px;
-
-    background: #e50914;
+#heroCurrent {
+    color: #e50914;
 }
 
 
 /* =========================================================
-   HOMEPAGE STREAMING PROVIDERS
+   HERO PROGRESS
+   ========================================================= */
+
+.hero-progress {
+    position: absolute;
+
+    left: 0;
+    bottom: 0;
+
+    z-index: 20;
+
+    width: 100%;
+
+    height: 3px;
+
+    background: rgba(255, 255, 255, 0.08);
+}
+
+
+#heroProgress {
+    display: block;
+
+    width: 0%;
+
+    height: 100%;
+
+    background: #e50914;
+
+    transition: width 0.1s linear;
+}
+
+
+/* =========================================================
+   HERO BOTTOM GRADIENT
+   ========================================================= */
+
+.hero-slider::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 180px;
+
+    z-index: 1;
+
+    pointer-events: none;
+
+    background:
+        linear-gradient(
+            to top,
+            #0b0b0b 0%,
+            rgba(11, 11, 11, 0.75) 30%,
+            rgba(11, 11, 11, 0) 100%
+        );
+}
+
+
+/* =========================================================
+   STREAMING PROVIDERS
    ========================================================= */
 
 .home-providers {
     width: 100%;
 
     padding: 30px 50px 10px;
+
+    background: #0b0b0b;
 }
+
 
 .home-providers-container {
     width: 100%;
+
     margin: 0;
 }
 
 
 /* =========================================================
-   PROVIDER ROW
+   PROVIDER LIST
    ========================================================= */
 
 .home-provider-list {
     display: flex;
+
     align-items: center;
 
     gap: 12px;
@@ -299,19 +545,26 @@
     padding: 4px 2px 12px;
 
     scrollbar-width: thin;
-    scrollbar-color: #333333 transparent;
+
+    scrollbar-color:
+        #333333
+        transparent;
 }
+
 
 .home-provider-list::-webkit-scrollbar {
     height: 5px;
 }
 
+
 .home-provider-list::-webkit-scrollbar-track {
     background: transparent;
 }
 
+
 .home-provider-list::-webkit-scrollbar-thumb {
     background: #333333;
+
     border-radius: 999px;
 }
 
@@ -336,6 +589,7 @@
     background: #111111;
 
     border: 1px solid #222222;
+
     border-radius: 10px;
 
     text-decoration: none !important;
@@ -345,6 +599,7 @@
         border-color 0.2s ease,
         transform 0.2s ease;
 }
+
 
 .home-provider-card:hover {
     background: #181818;
@@ -361,6 +616,7 @@
 
 .home-provider-logo-wrapper {
     display: flex;
+
     align-items: center;
     justify-content: center;
 
@@ -373,6 +629,7 @@
 
     border-radius: 9px;
 }
+
 
 .home-provider-logo {
     display: block;
@@ -396,13 +653,19 @@
     padding: 70px 0 20px;
 }
 
+
 .section-header {
     display: flex;
+
     align-items: flex-end;
+
     justify-content: space-between;
+
+    gap: 20px;
 
     margin-bottom: 30px;
 }
+
 
 .section-label {
     display: block;
@@ -412,10 +675,12 @@
     color: #e50914;
 
     font-size: 12px;
+
     font-weight: 700;
 
     letter-spacing: 2px;
 }
+
 
 .section-header h2 {
     margin: 0;
@@ -423,167 +688,290 @@
     color: #ffffff;
 
     font-size: 32px;
+
     line-height: 1.2;
+
+    font-weight: 700;
 }
 
+
 .view-all {
+    flex-shrink: 0;
+
     color: #aaaaaa;
 
     font-size: 14px;
+
     font-weight: 600;
 
     text-decoration: none;
 
-    transition: color 0.2s ease;
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
+
 
 .view-all:hover {
     color: #ffffff;
+
+    transform: translateX(3px);
 }
 
 
 /* =========================================================
-   RESPONSIVE — TABLET
+   TABLET — 1200px
    ========================================================= */
 
 @media (max-width: 1200px) {
 
     .hero-slider {
-        height: 620px;
+        height: 650px;
     }
+
 
     .hero-content {
         padding-left: 60px;
         padding-right: 60px;
     }
+
+
+    .hero-title {
+        max-width: 700px;
+    }
+
 }
 
 
 /* =========================================================
-   RESPONSIVE — SMALL TABLET
+   TABLET — 900px
    ========================================================= */
 
 @media (max-width: 900px) {
 
     .hero-slider {
-        height: 600px;
+        height: 620px;
     }
+
 
     .hero-content {
         padding-left: 50px;
         padding-right: 50px;
     }
 
+
     .hero-title {
-        font-size: 56px;
+        max-width: 620px;
+
+        font-size: 58px;
     }
 
+
     .hero-overview {
-        max-width: 580px;
+        max-width: 560px;
     }
+
+
+    .hero-controls {
+        right: 35px;
+
+        bottom: 40px;
+    }
+
 
     .home-providers {
         padding-left: 30px;
+
         padding-right: 30px;
     }
+
+
+    .home-section {
+        padding-top: 60px;
+    }
+
 }
 
 
 /* =========================================================
-   RESPONSIVE — MOBILE
+   SMALL TABLET — 768px
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .hero-slider {
+        height: 600px;
+    }
+
+
+    .hero-slide {
+        background-position: 60% center;
+    }
+
+
+    .hero-content {
+        padding-left: 35px;
+
+        padding-right: 35px;
+
+        padding-top: 40px;
+    }
+
+
+    .hero-title {
+        font-size: 52px;
+    }
+
+
+    .hero-overview {
+        max-width: 520px;
+
+        font-size: 14px;
+    }
+
+
+    .hero-controls {
+        right: 25px;
+
+        bottom: 35px;
+    }
+
+
+    .section-header h2 {
+        font-size: 29px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE — 650px
    ========================================================= */
 
 @media (max-width: 650px) {
 
     .hero-slider {
-        height: 560px;
+        height: 600px;
     }
 
+
     .hero-slide {
+        align-items: flex-end;
+
         background-position: 65% center;
     }
 
+
     .hero-content {
+
         max-width: 100%;
 
-        padding-left: 25px;
-        padding-right: 25px;
+        padding-left: 24px;
+        padding-right: 24px;
+
+        padding-bottom: 100px;
+
+        padding-top: 0;
     }
 
-    .hero-label {
-        margin-bottom: 12px;
 
-        font-size: 11px;
+    .hero-kicker {
+        margin-bottom: 14px;
+
+        font-size: 10px;
+
+        letter-spacing: 2px;
     }
+
+
+    .hero-kicker-line {
+        width: 22px;
+    }
+
 
     .hero-title {
-        margin-bottom: 15px;
+        max-width: 100%;
+
+        margin-bottom: 16px;
 
         font-size: 42px;
+
+        line-height: 1;
+
+        letter-spacing: -1px;
     }
+
 
     .hero-meta {
         gap: 12px;
 
-        margin-bottom: 15px;
+        margin-bottom: 16px;
 
         font-size: 13px;
     }
 
+
+    .hero-meta > span:not(:last-child)::after {
+        margin-left: 12px;
+    }
+
+
     .hero-overview {
-        margin-bottom: 25px;
+        margin-bottom: 24px;
 
         font-size: 14px;
+
         line-height: 1.6;
 
         -webkit-line-clamp: 3;
     }
 
+
     .hero-actions {
         gap: 8px;
+
+        flex-wrap: wrap;
     }
+
 
     .hero-watch-button,
     .hero-details-button {
-        min-height: 44px;
+        min-height: 46px;
 
-        padding: 0 17px;
+        padding: 0 18px;
 
         font-size: 13px;
     }
+
+
+    .hero-controls {
+        right: 20px;
+
+        bottom: 30px;
+    }
+
 
     .hero-arrow {
         width: 40px;
         height: 40px;
 
-        font-size: 18px;
-    }
-
-    .hero-prev {
-        left: 12px;
-    }
-
-    .hero-next {
-        right: 12px;
-    }
-
-    .hero-dots {
-        bottom: 20px;
+        font-size: 16px;
     }
 
 
-    /* Home sections */
-
-    .section-header h2 {
-        font-size: 26px;
-    }
-
-    .home-section {
-        padding-top: 50px;
+    .hero-counter {
+        display: none;
     }
 
 
-    /* Providers */
+    .hero-slider::after {
+        height: 260px;
+    }
+
+
+    /* =========================
+       PROVIDERS
+       ========================= */
 
     .home-providers {
         padding-top: 25px;
@@ -591,6 +979,7 @@
         padding-left: 15px;
         padding-right: 15px;
     }
+
 
     .home-provider-card {
         flex-basis: 64px;
@@ -601,44 +990,223 @@
         padding: 7px;
     }
 
+
     .home-provider-logo-wrapper,
     .home-provider-logo {
         width: 46px;
         height: 46px;
     }
+
+
+    /* =========================
+       HOME SECTIONS
+       ========================= */
+
+    .home-section {
+        padding-top: 50px;
+
+        padding-bottom: 10px;
+    }
+
+
+    .section-header {
+        align-items: flex-end;
+
+        margin-bottom: 22px;
+    }
+
+
+    .section-label {
+        margin-bottom: 6px;
+
+        font-size: 10px;
+    }
+
+
+    .section-header h2 {
+        font-size: 26px;
+    }
+
+
+    .view-all {
+        font-size: 13px;
+    }
+
 }
 
 
 /* =========================================================
-   VERY SMALL MOBILE
+   SMALL MOBILE — 480px
+   ========================================================= */
+
+@media (max-width: 480px) {
+
+    .hero-slider {
+        height: 570px;
+    }
+
+
+    .hero-content {
+        padding-left: 20px;
+
+        padding-right: 20px;
+
+        padding-bottom: 95px;
+    }
+
+
+    .hero-title {
+        font-size: 38px;
+    }
+
+
+    .hero-overview {
+        max-width: 100%;
+
+        font-size: 13px;
+    }
+
+
+    .hero-watch-button,
+    .hero-details-button {
+        min-height: 44px;
+
+        padding: 0 15px;
+
+        font-size: 12px;
+    }
+
+
+    .hero-controls {
+        right: 15px;
+
+        bottom: 25px;
+    }
+
+
+    .hero-arrow {
+        width: 36px;
+        height: 36px;
+
+        font-size: 15px;
+    }
+
+
+    .home-providers {
+        padding-left: 12px;
+
+        padding-right: 12px;
+    }
+
+
+    .home-provider-card {
+        flex-basis: 60px;
+
+        width: 60px;
+        height: 60px;
+    }
+
+
+    .home-provider-logo-wrapper,
+    .home-provider-logo {
+        width: 43px;
+        height: 43px;
+    }
+
+
+    .section-header h2 {
+        font-size: 23px;
+    }
+
+
+    .view-all {
+        font-size: 12px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL MOBILE — 400px
    ========================================================= */
 
 @media (max-width: 400px) {
 
     .hero-slider {
-        height: 530px;
+        height: 550px;
     }
+
 
     .hero-content {
-        padding-left: 20px;
-        padding-right: 20px;
+        padding-left: 18px;
+
+        padding-right: 18px;
     }
 
+
     .hero-title {
-        font-size: 36px;
+        font-size: 34px;
     }
+
 
     .hero-meta {
         flex-wrap: wrap;
+
+        row-gap: 7px;
     }
+
+
+    .hero-overview {
+        -webkit-line-clamp: 3;
+    }
+
 
     .hero-watch-button,
     .hero-details-button {
-        padding: 0 14px;
+        padding: 0 13px;
     }
 
+
     .home-providers {
-        padding-left: 12px;
-        padding-right: 12px;
+        padding-left: 10px;
+
+        padding-right: 10px;
     }
+
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+   ========================================================= */
+
+.hero-watch-button:focus-visible,
+.hero-details-button:focus-visible,
+.view-all:focus-visible,
+.home-provider-card:focus-visible {
+    outline: 2px solid #ffffff;
+
+    outline-offset: 3px;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .hero-track {
+        transition: none;
+    }
+
+
+    .hero-watch-button,
+    .hero-details-button,
+    .hero-arrow,
+    .home-provider-card,
+    .view-all {
+        transition: none;
+    }
+
 }

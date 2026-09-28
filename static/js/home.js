@@ -1,215 +1,318 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
 
-    const slider = document.querySelector(".hero-slider");
-    const track = document.getElementById("heroTrack");
-    const slides = document.querySelectorAll(".hero-slide");
+    const heroTrack = document.getElementById("heroTrack");
+    const heroSlides = document.querySelectorAll(".hero-slide");
 
-    const prevButton = document.getElementById("heroPrev");
-    const nextButton = document.getElementById("heroNext");
+    const heroPrev = document.getElementById("heroPrev");
+    const heroNext = document.getElementById("heroNext");
 
-    const dots = document.querySelectorAll(".hero-dot");
+    const heroCurrent = document.getElementById("heroCurrent");
+    const heroProgress = document.getElementById("heroProgress");
 
-    if (!slider || !track || slides.length === 0) {
+    const heroSlider = document.getElementById("heroSlider");
+
+    if (!heroTrack || heroSlides.length === 0) {
         return;
     }
 
-
     let currentSlide = 0;
 
-    let autoPlayTimer;
+    const totalSlides = heroSlides.length;
+    const slideDuration = 6000;
 
-    let touchStartX = 0;
-    let touchEndX = 0;
+    let autoplayTimer = null;
+    let progressTimer = null;
 
+    let progressStartTime = null;
+    let progressElapsed = 0;
+
+    let isPaused = false;
+
+
+    // ==========================================
+    // UPDATE SLIDER
+    // ==========================================
 
     function updateSlider() {
 
-        track.style.transform =
+        heroTrack.style.transform =
             `translateX(-${currentSlide * 100}%)`;
 
+        heroSlides.forEach((slide, index) => {
 
-        dots.forEach((dot, index) => {
-
-            dot.classList.toggle(
+            slide.classList.toggle(
                 "active",
                 index === currentSlide
             );
 
         });
 
+
+        // Update number
+
+        if (heroCurrent) {
+
+            heroCurrent.textContent =
+                String(currentSlide + 1).padStart(2, "0");
+
+        }
+
+
+        // Reset progress
+
+        resetProgress();
+
     }
 
+
+    // ==========================================
+    // NEXT SLIDE
+    // ==========================================
 
     function nextSlide() {
 
         currentSlide++;
 
-        if (currentSlide >= slides.length) {
+        if (currentSlide >= totalSlides) {
             currentSlide = 0;
         }
 
         updateSlider();
 
+        if (!isPaused) {
+            startAutoplay();
+        }
+
     }
 
+
+    // ==========================================
+    // PREVIOUS SLIDE
+    // ==========================================
 
     function previousSlide() {
 
         currentSlide--;
 
         if (currentSlide < 0) {
-            currentSlide = slides.length - 1;
+            currentSlide = totalSlides - 1;
         }
 
         updateSlider();
 
-    }
-
-
-    function goToSlide(index) {
-
-        currentSlide = index;
-
-        updateSlider();
-
-    }
-
-
-    function startAutoPlay() {
-
-        clearInterval(autoPlayTimer);
-
-        autoPlayTimer = setInterval(
-            nextSlide,
-            5000
-        );
-
-    }
-
-
-    function stopAutoPlay() {
-
-        clearInterval(autoPlayTimer);
-
-    }
-
-
-    /* Previous */
-
-    prevButton.addEventListener(
-        "click",
-        function () {
-
-            previousSlide();
-
-            startAutoPlay();
-
+        if (!isPaused) {
+            startAutoplay();
         }
-    );
+
+    }
 
 
-    /* Next */
+    // ==========================================
+    // AUTOPLAY
+    // ==========================================
 
-    nextButton.addEventListener(
-        "click",
-        function () {
+    function startAutoplay() {
+
+        clearTimeout(autoplayTimer);
+
+        if (isPaused) {
+            return;
+        }
+
+        autoplayTimer = setTimeout(() => {
 
             nextSlide();
 
-            startAutoPlay();
+        }, slideDuration - progressElapsed);
+
+    }
+
+
+    function stopAutoplay() {
+
+        clearTimeout(autoplayTimer);
+
+        autoplayTimer = null;
+
+    }
+
+
+    // ==========================================
+    // PROGRESS BAR
+    // ==========================================
+
+    function startProgress() {
+
+        if (!heroProgress) {
+            return;
+        }
+
+        clearInterval(progressTimer);
+
+        progressStartTime =
+            Date.now() - progressElapsed;
+
+        progressTimer = setInterval(() => {
+
+            if (isPaused) {
+                return;
+            }
+
+            const elapsed =
+                Date.now() - progressStartTime;
+
+            progressElapsed =
+                Math.min(elapsed, slideDuration);
+
+            const percentage =
+                (progressElapsed / slideDuration) * 100;
+
+            heroProgress.style.width =
+                `${percentage}%`;
+
+
+            if (progressElapsed >= slideDuration) {
+
+                clearInterval(progressTimer);
+
+            }
+
+        }, 50);
+
+    }
+
+
+    function stopProgress() {
+
+        clearInterval(progressTimer);
+
+        progressTimer = null;
+
+    }
+
+
+    function resetProgress() {
+
+        stopProgress();
+
+        progressElapsed = 0;
+
+        if (heroProgress) {
+            heroProgress.style.width = "0%";
+        }
+
+        if (!isPaused) {
+            startProgress();
+        }
+
+    }
+
+
+    // ==========================================
+    // MOUSE ENTER
+    // ==========================================
+
+    if (heroSlider) {
+
+        heroSlider.addEventListener(
+            "mouseenter",
+            () => {
+
+                isPaused = true;
+
+                stopAutoplay();
+                stopProgress();
+
+            }
+        );
+
+
+        // ==========================================
+        // MOUSE LEAVE
+        // ==========================================
+
+        heroSlider.addEventListener(
+            "mouseleave",
+            () => {
+
+                isPaused = false;
+
+                // Continue progress from where it stopped
+
+                startProgress();
+
+                // Continue autoplay from where it stopped
+
+                startAutoplay();
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // BUTTONS
+    // ==========================================
+
+    if (heroNext) {
+
+        heroNext.addEventListener(
+            "click",
+            () => {
+
+                nextSlide();
+
+            }
+        );
+
+    }
+
+
+    if (heroPrev) {
+
+        heroPrev.addEventListener(
+            "click",
+            () => {
+
+                previousSlide();
+
+            }
+        );
+
+    }
+
+
+    // ==========================================
+    // KEYBOARD
+    // ==========================================
+
+    document.addEventListener(
+        "keydown",
+        (event) => {
+
+            if (event.key === "ArrowRight") {
+
+                nextSlide();
+
+            }
+
+            if (event.key === "ArrowLeft") {
+
+                previousSlide();
+
+            }
 
         }
     );
 
 
-    /* Dots */
-
-    dots.forEach((dot, index) => {
-
-        dot.addEventListener(
-            "click",
-            function () {
-
-                goToSlide(index);
-
-                startAutoPlay();
-
-            }
-        );
-
-    });
-
-
-    /* =========================
-       TOUCH SWIPE
-    ========================= */
-
-    slider.addEventListener(
-        "touchstart",
-        function (event) {
-
-            touchStartX =
-                event.changedTouches[0].screenX;
-
-            stopAutoPlay();
-
-        },
-        { passive: true }
-    );
-
-
-    slider.addEventListener(
-        "touchend",
-        function (event) {
-
-            touchEndX =
-                event.changedTouches[0].screenX;
-
-            const swipeDistance =
-                touchStartX - touchEndX;
-
-
-            if (Math.abs(swipeDistance) > 50) {
-
-                if (swipeDistance > 0) {
-
-                    nextSlide();
-
-                } else {
-
-                    previousSlide();
-
-                }
-
-            }
-
-            startAutoPlay();
-
-        },
-        { passive: true }
-    );
-
-
-    /* =========================
-       MOUSE HOVER
-    ========================= */
-
-    slider.addEventListener(
-        "mouseenter",
-        stopAutoPlay
-    );
-
-
-    slider.addEventListener(
-        "mouseleave",
-        startAutoPlay
-    );
-
-
-    /* Start */
+    // ==========================================
+    // INITIALIZE
+    // ==========================================
 
     updateSlider();
 
-    startAutoPlay();
+    startAutoplay();
 
 });
