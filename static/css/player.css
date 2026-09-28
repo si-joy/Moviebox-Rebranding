@@ -1,59 +1,136 @@
+/* ==========================================
+   MovieBox - Player Page Stylesheet
+   ========================================== */
+
 .player-page {
-    min-height: calc(100vh - 70px);
-    padding: 35px 0 70px;
+    min-height: 100vh;
+    background-color: #0d0d0f;
+    color: #e4e6eb;
+    padding: 2rem 1rem;
+    display: flex;
+    justify-content: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 .player-container {
-    width: min(1400px, calc(100% - 60px));
+    width: 100%;
+    max-width: 1100px;
     margin: 0 auto;
 }
 
 .player-header {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 25px;
-    margin-bottom: 25px;
-}
-
-.player-header h1 {
-    margin: 0;
-    font-size: 28px;
+    margin-bottom: 1.25rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .back-button {
-    color: #aaa;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #a0a5b5;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    padding: 0.5rem 1rem;
+    background: #1a1c23;
+    border: 1px solid #2a2d3d;
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
 }
 
 .back-button:hover {
-    color: white;
+    color: #ffffff;
+    background: #252836;
+    border-color: #3b3f54;
+    transform: translateX(-3px);
+}
+
+.server-switch-box {
+    display: flex;
+    align-items: center;
+}
+
+.server-selector {
+    background-color: #1a1c23;
+    color: #e4e6eb;
+    border: 1px solid #2a2d3d;
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.server-selector:hover, 
+.server-selector:focus {
+    border-color: #ff3b30;
+    box-shadow: 0 0 0 2px rgba(255, 59, 48, 0.2);
 }
 
 .player-wrapper {
+    position: relative;
     width: 100%;
-    aspect-ratio: 16 / 9;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    background: #000000;
+    border-radius: 12px;
     overflow: hidden;
-    background: #000;
-    border: 1px solid #222;
-    border-radius: 8px;
+    border: 1px solid #1f222e;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
 }
 
 .player-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
-    border: 0;
+    border: none;
 }
 
 .player-notice {
-    margin-top: 15px;
-    color: #666;
-    font-size: 13px;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: #8a8f9e;
+    background: #14161d;
+    padding: 0.75rem 1rem;
+    border-left: 3px solid #ff3b30;
+    border-radius: 4px;
+    line-height: 1.4;
 }
 
+.player-notice strong {
+    color: #ffffff;
+}
 
-@media (max-width: 650px) {
-
-    .player-container {
-        width: calc(100% - 30px);
+@media (max-width: 600px) {
+    .player-page {
+        padding: 1rem 0.5rem;
     }
 
+    .player-header {
+        flex-direction: row;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .back-button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.85rem;
+    }
+
+    .server-selector {
+        padding: 0.4rem 0.6rem;
+        font-size: 0.82rem;
+    }
+
+    .player-wrapper {
+        border-radius: 8px;
+    }
 }

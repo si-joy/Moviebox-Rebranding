@@ -1,15 +1,23 @@
+/* =========================================
+   DETAIL PAGE
+========================================= */
+
 .detail-page {
     min-height: calc(100vh - 70px);
 }
 
 
-/* Hero */
+/* =========================================
+   HERO
+========================================= */
 
 .detail-hero {
     min-height: 620px;
+
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
+
     display: flex;
     align-items: center;
 }
@@ -21,129 +29,224 @@
 
 .detail-content {
     max-width: 700px;
+
     padding-top: 80px;
     padding-bottom: 80px;
 }
 
+
+/* =========================================
+   LABEL
+========================================= */
+
 .detail-label {
     display: inline-block;
+
     margin-bottom: 15px;
+
     color: #e50914;
+
     font-size: 13px;
     font-weight: 700;
+
     letter-spacing: 2px;
 }
 
+
+/* =========================================
+   TITLE
+========================================= */
+
 .detail-title {
     margin: 0 0 18px;
+
     font-size: clamp(42px, 6vw, 78px);
     line-height: .95;
 }
 
+
+/* =========================================
+   META
+========================================= */
+
 .detail-meta {
     display: flex;
     gap: 18px;
+
     flex-wrap: wrap;
+
     margin-bottom: 22px;
+
     color: #ddd;
+
     font-size: 15px;
 }
 
+
+/* =========================================
+   OVERVIEW
+========================================= */
+
 .detail-overview {
     max-width: 650px;
+
     margin: 0 0 30px;
+
     color: #bbb;
+
     font-size: 17px;
     line-height: 1.7;
 }
 
 
-/* Buttons */
+/* =========================================
+   ACTION BUTTONS
+========================================= */
 
 .detail-actions {
     display: flex;
+
     gap: 12px;
+
     flex-wrap: wrap;
 }
 
 .primary-button,
 .secondary-button {
     display: inline-flex;
+
     align-items: center;
     justify-content: center;
+
     min-height: 46px;
+
     padding: 0 22px;
+
     border-radius: 6px;
+
     font-weight: 700;
+
+    text-decoration: none !important;
+
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease;
 }
+
+
+/* Primary */
 
 .primary-button {
     background: #e50914;
-    color: white;
+
+    color: #fff;
 }
 
 .primary-button:hover {
     background: #f6121d;
+
+    color: #fff;
 }
+
+
+/* Secondary */
 
 .secondary-button {
     background: rgba(255,255,255,.12);
+
     border: 1px solid rgba(255,255,255,.2);
+
+    color: #fff;
+}
+
+.secondary-button:hover {
+    background: rgba(255,255,255,.18);
+
+    color: #fff;
 }
 
 
-/* Information */
+/* =========================================
+   DETAIL INFO
+========================================= */
 
 .detail-info {
     padding: 60px 0 100px;
+
     background: #0b0b0b;
 }
 
+
+/* =========================================
+   INFO GRID
+========================================= */
+
 .info-grid {
     display: grid;
+
     grid-template-columns: repeat(4, 1fr);
+
     gap: 20px;
 }
 
 .info-block {
     padding: 22px;
+
     background: #111;
+
     border: 1px solid #222;
+
     border-radius: 8px;
 }
 
 .info-block h3 {
     margin: 0 0 10px;
+
     color: #777;
+
     font-size: 13px;
+
     text-transform: uppercase;
+
     letter-spacing: 1px;
 }
 
 .info-block p {
     margin: 0;
-    color: white;
+
+    color: #fff;
 }
 
 
-/* Genres */
+/* =========================================
+   GENRES
+========================================= */
 
 .genre-list {
     display: flex;
+
     flex-wrap: wrap;
+
     gap: 7px;
 }
 
 .genre-tag {
     padding: 5px 9px;
+
     background: #222;
+
     border-radius: 4px;
+
     color: #ccc;
+
     font-size: 12px;
 }
 
 
-/* Cast */
+/* =========================================
+   CAST
+========================================= */
 
 .cast-section {
     margin-top: 60px;
@@ -152,12 +255,15 @@
 .cast-section h2,
 .seasons-section h2 {
     margin-bottom: 25px;
+
     font-size: 28px;
 }
 
 .cast-grid {
     display: grid;
+
     grid-template-columns: repeat(8, 1fr);
+
     gap: 15px;
 }
 
@@ -168,96 +274,200 @@
 .cast-card img,
 .cast-placeholder {
     width: 100%;
+
     aspect-ratio: 2 / 3;
+
     object-fit: cover;
+
     border-radius: 7px;
+
     background: #181818;
 }
 
 .cast-card h3 {
     margin: 10px 0 3px;
+
     font-size: 14px;
 }
 
 .cast-card p {
     margin: 0;
+
     color: #777;
+
     font-size: 12px;
 }
 
 
-/* Seasons */
+/* =========================================
+   SEASONS
+========================================= */
 
 .seasons-section {
     margin-top: 60px;
 }
 
+.seasons-section h2 {
+    margin-bottom: 25px;
+
+    font-size: 28px;
+}
+
+
+/* Season grid */
+
 .season-list {
     display: grid;
+
     grid-template-columns: repeat(4, 1fr);
+
     gap: 20px;
 }
 
+
+/* Season card */
+
 .season-card {
+    display: flex;
+
+    flex-direction: column;
+
     overflow: hidden;
+
     background: #111;
+
     border: 1px solid #222;
+
     border-radius: 8px;
 }
 
-.season-card img {
+
+/* Season poster */
+
+.season-card img,
+.season-placeholder {
+    display: block;
+
     width: 100%;
+
     aspect-ratio: 2 / 3;
+
     object-fit: cover;
+
+    background: #181818;
 }
 
+
+/* Season information */
+
 .season-info {
+    display: flex;
+
+    flex-direction: column;
+
+    flex: 1;
+
     padding: 15px;
 }
 
+
+/* Season title */
+
 .season-info h3 {
     margin: 0 0 6px;
+
+    font-size: 18px;
 }
+
+
+/* Episode count */
 
 .season-info p {
-    margin: 0 0 15px;
+    margin: 0 0 18px;
+
     color: #888;
+
+    font-size: 14px;
 }
+
+
+/* =========================================
+   VIEW EPISODES BUTTON
+========================================= */
 
 .season-button {
-    display: inline-block;
-    padding: 8px 12px;
-    background: #222;
-    border-radius: 5px;
-    font-size: 13px;
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    min-height: 46px;
+
+    margin-top: auto;
+
+    padding: 0 22px;
+
+    border-radius: 6px;
+
+    background: #e50914;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    text-decoration: none !important;
+
+    transition:
+        background .2s ease,
+        transform .2s ease;
 }
 
+
+/* Hover */
+
+.season-button:hover {
+    background: #f6121d;
+
+    color: #fff;
+
+    text-decoration: none !important;
+}
+
+
+/* =========================================
+   BACK BUTTON
+========================================= */
 
 .tv-detail-back {
     display: inline-flex;
+
     align-items: center;
+
     margin: 30px 50px 0;
-    color: #999999;
+
+    color: #999;
+
     font-size: 14px;
+
     font-weight: 600;
+
     text-decoration: none !important;
-    transition: color 0.2s ease;
+
+    transition: color .2s ease;
 }
 
 .tv-detail-back:hover {
-    color: #ffffff;
+    color: #fff;
 }
 
-.season-button {
-    text-decoration: none !important;
-}
 
-.primary-button,
-.secondary-button,
-.primary-button:hover,
-.secondary-button:hover {
-    text-decoration: none !important;
-}
+/* =========================================
+   RESPONSIVE
+========================================= */
 
 @media (max-width: 1000px) {
 
@@ -272,7 +482,6 @@
     .season-list {
         grid-template-columns: repeat(3, 1fr);
     }
-
 }
 
 
@@ -302,4 +511,8 @@
         grid-template-columns: repeat(2, 1fr);
     }
 
+    .tv-detail-back {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
 }

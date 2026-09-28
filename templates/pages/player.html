@@ -1,12 +1,43 @@
 {% extends "base.html" %}
 
-
 {% block title %}
-Player - MovieBox
+Watch Now - MovieBox
 {% endblock %}
 
 
 {% block page_css %}
+
+<!-- Preconnect all servers for faster connection -->
+
+<link
+    rel="preconnect"
+    href="https://embed.smashystream.com"
+>
+
+<link
+    rel="preconnect"
+    href="https://embed.su"
+>
+
+<link
+    rel="preconnect"
+    href="https://rivestream.xyz"
+>
+
+<link
+    rel="preconnect"
+    href="https://vidsrc.icu"
+>
+
+<link
+    rel="preconnect"
+    href="https://vidlink.pro"
+>
+
+<link
+    rel="preconnect"
+    href="https://player.autoembed.cc"
+>
 
 <link
     rel="stylesheet"
@@ -22,7 +53,13 @@ Player - MovieBox
 
     <div class="player-container">
 
+        <!-- =========================================
+             PLAYER HEADER
+        ========================================== -->
+
         <div class="player-header">
+
+            <!-- Back Button -->
 
             <a
                 href="javascript:history.back()"
@@ -31,32 +68,153 @@ Player - MovieBox
                 ← Back
             </a>
 
-            <h1>
-                Watch
-            </h1>
+
+            <!-- Server Switcher -->
+
+            <div class="server-switch-box">
+
+                <label
+                    for="serverSelect"
+                    style="
+                        margin-right: 8px;
+                        font-size: 0.88rem;
+                        color: #aaa;
+                    "
+                >
+                    Server:
+                </label>
+
+
+                <select
+                    id="serverSelect"
+                    class="server-selector"
+                    onchange="switchServer(this.value)"
+                >
+
+                    {% for key, server in servers.items() %}
+
+                        <option
+                            value="{{ key }}"
+                            {% if key == current_server %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ server.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
 
         </div>
 
+
+        <!-- =========================================
+             VIDEO PLAYER
+        ========================================== -->
 
         <div class="player-wrapper">
 
             <iframe
+                id="mainPlayer"
                 src="{{ stream_url }}"
                 title="MovieBox Player"
                 allowfullscreen
-                loading="lazy"
-                referrerpolicy="no-referrer"
-            ></iframe>
+                allow="autoplay; encrypted-media; picture-in-picture"
+                loading="eager"
+            >
+            </iframe>
 
         </div>
 
 
+        <!-- =========================================
+             PLAYER NOTICE
+        ========================================== -->
+
         <p class="player-notice">
-            Playback is provided through the configured streaming provider.
+
+            💡 <strong>Tip:</strong>
+            If the current server is buffering, loading slowly,
+            or not playing due to an ad blocker, please try switching
+            to another server from the dropdown above.
+
         </p>
 
     </div>
 
 </main>
+
+
+<script>
+
+    /* =========================================
+       SERVER SWITCH
+    ========================================== */
+
+    function switchServer(serverKey) {
+
+        const urlParams = new URLSearchParams(
+            window.location.search
+        );
+
+        urlParams.set("server", serverKey);
+
+        window.location.search = urlParams.toString();
+
+    }
+
+
+    /* =========================================
+       ADBLOCKER DETECTION
+    ========================================== */
+
+    window.addEventListener("load", function () {
+
+        let fakeAd = document.createElement("div");
+
+        fakeAd.className = "adsbox google-ads ad-zone";
+
+        fakeAd.style.display = "block";
+
+        document.body.appendChild(fakeAd);
+
+
+        setTimeout(function () {
+
+            if (fakeAd.offsetHeight === 0) {
+
+                const notice = document.querySelector(
+                    ".player-notice"
+                );
+
+
+                if (notice) {
+
+                    notice.innerHTML =
+                        '⚠️ <strong>AdBlocker Detected:</strong> ' +
+                        'If the video isn\'t loading properly, ' +
+                        'please disable your ad blocker or try ' +
+                        'switching to another server.';
+
+
+                    notice.style.borderLeftColor = "#ffcc00";
+
+                    notice.style.background = "#2a2400";
+
+                }
+
+            }
+
+
+            fakeAd.remove();
+
+        }, 300);
+
+    });
+
+</script>
 
 {% endblock %}

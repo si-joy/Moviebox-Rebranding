@@ -1,0 +1,204 @@
+
+{% extends "base.html" %}
+
+{% block title %}
+Midnight - MovieBox
+{% endblock %}
+
+{% block page_css %}
+<link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/catalog.css') }}"
+>
+{% endblock %}
+
+{% block content %}
+<main class="catalog-page">
+    <div class="container">
+
+        <!-- Header -->
+        <div class="catalog-header">
+            <span class="catalog-label" style="color: #ff3366;">
+                18+ MIDNIGHT COLLECTION
+            </span>
+            <h1 class="catalog-title">
+                Midnight
+            </h1>
+            <p class="catalog-description">
+                Explore adult and unrestricted movie catalog.
+            </p>
+        </div>
+
+        <!-- Filters -->
+        <form
+            method="GET"
+            action="{{ url_for('midnight.midnight_page') }}"
+            class="filters"
+        >
+
+            <!-- Genre -->
+            <div class="filter-group">
+                <label for="genre">Genre</label>
+                <select name="genre" id="genre">
+                    <option value="">All Genres</option>
+                    {% for genre in genres %}
+                        <option
+                            value="{{ genre.id }}"
+                            {% if current_genre == genre.id|string %}selected{% endif %}
+                        >
+                            {{ genre.name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Year -->
+            <div class="filter-group">
+                <label for="year">Year</label>
+                <select name="year" id="year">
+                    <option value="">All Years</option>
+                    {% for year in range(2026, 1979, -1) %}
+                        <option
+                            value="{{ year }}"
+                            {% if current_year == year|string %}selected{% endif %}
+                        >
+                            {{ year }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Rating -->
+            <div class="filter-group">
+                <label for="rating">Rating</label>
+                <select name="rating" id="rating">
+                    <option value="">Any Rating</option>
+                    <option value="8" {% if current_rating == "8" %}selected{% endif %}>8+</option>
+                    <option value="7" {% if current_rating == "7" %}selected{% endif %}>7+</option>
+                    <option value="6" {% if current_rating == "6" %}selected{% endif %}>6+</option>
+                </select>
+            </div>
+
+            <!-- Sort -->
+            <div class="filter-group">
+                <label for="sort">Sort</label>
+                <select name="sort" id="sort">
+                    <option value="popularity.desc" {% if current_sort == "popularity.desc" %}selected{% endif %}>
+                        Popular
+                    </option>
+                    <option value="vote_average.desc" {% if current_sort == "vote_average.desc" %}selected{% endif %}>
+                        Highest Rated
+                    </option>
+                    <option value="primary_release_date.desc" {% if current_sort == "primary_release_date.desc" %}selected{% endif %}>
+                        Newest
+                    </option>
+                </select>
+            </div>
+
+            <!-- Actions -->
+            <div class="filter-actions">
+                <button type="submit" class="filter-button">
+                    Apply Filters
+                </button>
+                <a href="{{ url_for('midnight.midnight_page') }}" class="reset-button">
+                    Reset Filters
+                </a>
+            </div>
+
+        </form>
+
+        <!-- Movie Catalog Grid -->
+        <section class="catalog-section">
+            {% if movies %}
+                <div class="movie-grid">
+                    {% for movie in movies %}
+                        {% include "components/movie-card.html" %}
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h2>No contents found</h2>
+                    <p>Try changing your filters.</p>
+                </div>
+            {% endif %}
+        </section>
+
+        <!-- Pagination -->
+        {% if total_pages > 1 %}
+            <div class="pagination-wrapper">
+                <nav class="pagination" aria-label="Pagination Navigation">
+
+                    <!-- Prev -->
+                    {% if current_page > 1 %}
+                        <a
+                            href="{{ url_for('midnight.midnight_page', page=current_page - 1, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
+                            class="pagination-button pagination-prev"
+                        >
+                            Previous
+                        </a>
+                    {% else %}
+                        <span class="pagination-button pagination-prev disabled">
+                            Previous
+                        </span>
+                    {% endif %}
+
+                    <!-- Page Numbers -->
+                    <a
+                        href="{{ url_for('midnight.midnight_page', page=1, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
+                        class="pagination-button pagination-number {% if current_page == 1 %}active{% endif %}"
+                    >
+                        1
+                    </a>
+
+                    {% if total_pages >= 2 %}
+                        <a
+                            href="{{ url_for('midnight.midnight_page', page=2, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
+                            class="pagination-button pagination-number {% if current_page == 2 %}active{% endif %}"
+                        >
+                            2
+                        </a>
+                    {% endif %}
+
+                    {% if total_pages >= 3 %}
+                        <a
+                            href="{{ url_for('midnight.midnight_page', page=3, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
+                            class="pagination-button pagination-number {% if current_page == 3 %}active{% endif %}"
+                        >
+                            3
+                        </a>
+                    {% endif %}
+
+                    {% if total_pages > 5 %}
+                        <span class="pagination-dots">...</span>
+                    {% endif %}
+
+                    {% if total_pages > 3 %}
+                        <a
+                            href="{{ url_for('midnight.midnight_page', page=total_pages, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
+                            class="pagination-button pagination-number {% if current_page == total_pages %}active{% endif %}"
+                        >
+                            {{ total_pages }}
+                        </a>
+                    {% endif %}
+
+                    <!-- Next -->
+                    {% if current_page < total_pages %}
+                        <a
+                            href="{{ url_for('midnight.midnight_page', page=current_page + 1, genre=current_genre, year=current_year, rating=current_rating, sort=current_sort) }}"
+                            class="pagination-button pagination-next"
+                        >
+                            Next
+                        </a>
+                    {% else %}
+                        <span class="pagination-button pagination-next disabled">
+                            Next
+                        </span>
+                    {% endif %}
+
+                </nav>
+            </div>
+        {% endif %}
+
+    </div>
+</main>
+{% endblock %}
