@@ -4,41 +4,48 @@
 Midnight — Mature Movies & TV
 {% endblock %}
 
-
 {% block page_css %}
-
 <link
   rel="stylesheet"
   href="{{ url_for('static', filename='css/midnight.css') }}"
 >
-
 {% endblock %}
 
-
 {% block content %}
+
+<!-- ==========================================
+     AGE VERIFICATION MODAL (18+)
+=========================================== -->
+<div id="midnightAgeModal" class="midnight-age-modal">
+  <div class="midnight-modal-content">
+    <div class="modal-badge">18+ RESTRICTED</div>
+    <h2>Mature Content Notice</h2>
+    <p>
+      This section contains adult-oriented themes, intense drama, and mature material. 
+      You must be at least 18 years old to view this collection.
+    </p>
+    <div class="modal-actions">
+      <button id="acceptAgeBtn" class="btn-accept">I am 18 or Older</button>
+      <a href="{{ url_for('main.index') if 'main.index' in url_for.__globals__ else '/' }}" class="btn-decline">Leave Section</a>
+    </div>
+  </div>
+</div>
 
 <main class="midnight-page">
 
   <!-- ==========================================
-       AGE NOTICE
+        HERO SECTION
   =========================================== -->
-
   <section class="midnight-hero">
-
     <div class="midnight-hero-glow"></div>
-
     <div class="container">
-
       <div class="midnight-hero-content">
-
         <div class="midnight-eyebrow">
           <span class="midnight-line"></span>
           <span>18+ COLLECTION</span>
         </div>
 
-        <h1>
-          After Dark
-        </h1>
+        <h1>After Dark</h1>
 
         <p>
           A curated collection of mature movies and television.
@@ -48,496 +55,244 @@ Midnight — Mature Movies & TV
 
         <div class="midnight-warning">
           <span class="warning-icon">18+</span>
-
           <span>
             Mature content. Viewer discretion advised.
           </span>
         </div>
-
       </div>
-
     </div>
-
   </section>
 
-
   <!-- ==========================================
-       FILTERS
+        FILTERS & CONTROLS
   =========================================== -->
-
   <section class="midnight-controls">
-
     <div class="container">
-
       <form
         method="GET"
         action="{{ url_for('midnight.midnight') }}"
         class="midnight-filter-bar"
       >
-
         <!-- TYPE -->
-
         <div class="filter-group">
-
-          <label for="type">
-            TYPE
-          </label>
-
-          <select
-            id="type"
-            name="type"
-          >
-
-            <option
-              value="all"
-              {% if current_type == "all" %}selected{% endif %}
-            >
-              All
-            </option>
-
-            <option
-              value="movie"
-              {% if current_type == "movie" %}selected{% endif %}
-            >
-              Movies
-            </option>
-
-            <option
-              value="tv"
-              {% if current_type == "tv" %}selected{% endif %}
-            >
-              TV Series
-            </option>
-
+          <label for="type">TYPE</label>
+          <select id="type" name="type" onchange="this.form.submit()">
+            <option value="all" {% if current_type == "all" %}selected{% endif %}>All</option>
+            <option value="movie" {% if current_type == "movie" %}selected{% endif %}>Movies</option>
+            <option value="tv" {% if current_type == "tv" %}selected{% endif %}>TV Series</option>
           </select>
-
         </div>
 
-
         <!-- GENRE -->
-
         <div class="filter-group">
-
-          <label for="genre">
-            GENRE
-          </label>
-
-          <select
-            id="genre"
-            name="genre"
-          >
-
-            <option value="">
-              All Genres
-            </option>
-
+          <label for="genre">GENRE</label>
+          <select id="genre" name="genre" onchange="this.form.submit()">
+            <option value="">All Genres</option>
             {% for genre_id, genre_name in genres %}
-
             <option
               value="{{ genre_id }}"
-              {% if current_genre|string == genre_id|string %}
-              selected
-              {% endif %}
+              {% if current_genre|string == genre_id|string %}selected{% endif %}
             >
               {{ genre_name }}
             </option>
-
             {% endfor %}
-
           </select>
-
         </div>
 
-
         <!-- YEAR -->
-
         <div class="filter-group">
-
-          <label for="year">
-            YEAR
-          </label>
-
-          <select
-            id="year"
-            name="year"
-          >
-
-            <option value="">
-              All Years
-            </option>
-
+          <label for="year">YEAR</label>
+          <select id="year" name="year" onchange="this.form.submit()">
+            <option value="">All Years</option>
             {% for item_year in years %}
-
             <option
               value="{{ item_year }}"
-              {% if current_year|string == item_year|string %}
-              selected
-              {% endif %}
+              {% if current_year|string == item_year|string %}selected{% endif %}
             >
               {{ item_year }}
             </option>
-
             {% endfor %}
-
           </select>
-
         </div>
-
 
         <!-- SORT -->
-
         <div class="filter-group">
-
-          <label for="sort">
-            SORT
-          </label>
-
-          <select
-            id="sort"
-            name="sort"
-          >
-
-            <option
-              value="popularity.desc"
-              {% if current_sort == "popularity.desc" %}
-              selected
-              {% endif %}
-            >
-              Most Popular
-            </option>
-
-            <option
-              value="vote_average.desc"
-              {% if current_sort == "vote_average.desc" %}
-              selected
-              {% endif %}
-            >
-              Highest Rated
-            </option>
-
-            <option
-              value="vote_count.desc"
-              {% if current_sort == "vote_count.desc" %}
-              selected
-              {% endif %}
-            >
-              Most Rated
-            </option>
-
-            <option
-              value="release_date.desc"
-              {% if current_sort == "release_date.desc" %}
-              selected
-              {% endif %}
-            >
-              Newest
-            </option>
-
+          <label for="sort">SORT BY</label>
+          <select id="sort" name="sort" onchange="this.form.submit()">
+            <option value="popularity.desc" {% if current_sort == "popularity.desc" %}selected{% endif %}>Most Popular</option>
+            <option value="vote_average.desc" {% if current_sort == "vote_average.desc" %}selected{% endif %}>Highest Rated</option>
+            <option value="vote_count.desc" {% if current_sort == "vote_count.desc" %}selected{% endif %}>Most Rated</option>
+            <option value="release_date.desc" {% if current_sort == "release_date.desc" %}selected{% endif %}>Newest</option>
           </select>
-
         </div>
 
-
-        <button
-          type="submit"
-          class="filter-button"
-        >
-          Apply
-        </button>
-
-
-        <a
-          href="{{ url_for('midnight.midnight') }}"
-          class="reset-button"
-        >
-          Reset
+        <a href="{{ url_for('midnight.midnight') }}" class="reset-button">
+          Reset Filters
         </a>
-
       </form>
-
     </div>
-
   </section>
 
-
   <!-- ==========================================
-       CATALOG
+        CATALOG GRID
   =========================================== -->
-
   <section class="midnight-catalog">
-
     <div class="container">
 
       <div class="midnight-section-header">
-
         <div>
-
-          <span class="section-label">
-            AFTER DARK
-          </span>
-
-          <h2>
-            Mature Collection
-          </h2>
-
+          <span class="section-label">AFTER DARK</span>
+          <h2>Mature Collection</h2>
         </div>
 
         <div class="result-count">
-
           {% if total_results %}
             {{ "{:,}".format(total_results) }} titles
           {% else %}
-            No titles
+            0 titles
           {% endif %}
-
         </div>
-
       </div>
 
-
       {% if content %}
-
       <div class="midnight-grid">
-
         {% for item in content %}
 
-        {% set title =
-          item.title if item.media_type == "movie"
-          else item.name
-        %}
-
-        {% set release =
-          item.release_date if item.media_type == "movie"
-          else item.first_air_date
-        %}
-
+        {% set title = item.title if item.title else (item.name if item.name else 'Untitled') %}
+        {% set release = item.release_date if item.release_date else (item.first_air_date if item.first_air_date else '') %}
+        {% set media_type = item.media_type if item.media_type else 'movie' %}
 
         <article class="midnight-card">
-
           <a
-            href="{% if item.media_type == 'movie' %}
-              /movie/{{ item.id }}
-            {% else %}
-              /tv/{{ item.id }}
-            {% endif %}"
+            href="{% if media_type == 'movie' %}/movie/{{ item.id }}{% else %}/tv/{{ item.id }}{% endif %}"
             class="midnight-card-link"
           >
-
             <div class="midnight-poster">
 
               {% if item.poster_path %}
-
-              <img
-                src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}"
-                alt="{{ title }}"
-                loading="lazy"
-              >
-
+                {% if item.poster_path.startswith('http') %}
+                  <img src="{{ item.poster_path }}" alt="{{ title }}" loading="lazy">
+                {% else %}
+                  <img src="https://image.tmdb.org/t/p/w500{{ item.poster_path }}" alt="{{ title }}" loading="lazy">
+                {% endif %}
               {% else %}
-
-              <div class="poster-placeholder">
-                No Poster
-              </div>
-
+                <div class="poster-placeholder">
+                  <span>No Poster</span>
+                </div>
               {% endif %}
 
-
               <div class="midnight-card-overlay">
-
-                <span class="midnight-play">
-                  ▶
-                </span>
-
-                <span class="midnight-view">
-                  View Details
-                </span>
-
+                <span class="midnight-play">▶</span>
+                <span class="midnight-view">Watch Now</span>
               </div>
 
-
               {% if item.vote_average %}
-
               <span class="midnight-rating">
                 ★ {{ "%.1f"|format(item.vote_average) }}
               </span>
-
               {% endif %}
 
-
               <span class="midnight-type">
-
-                {% if item.media_type == "movie" %}
-                  MOVIE
-                {% else %}
-                  TV
-                {% endif %}
-
+                {{ media_type|upper }}
               </span>
-
             </div>
-
 
             <div class="midnight-card-info">
-
-              <h3>
-                {{ title }}
-              </h3>
-
+              <h3>{{ title }}</h3>
               <div class="midnight-card-meta">
-
                 {% if release %}
                   <span>{{ release[:4] }}</span>
+                  <span>•</span>
                 {% endif %}
-
-                <span>•</span>
-
-                <span>
-                  {% if item.media_type == "movie" %}
-                    Movie
-                  {% else %}
-                    Series
-                  {% endif %}
-                </span>
-
+                <span>{{ 'Movie' if media_type == 'movie' else 'Series' }}</span>
               </div>
-
             </div>
-
           </a>
-
         </article>
 
         {% endfor %}
-
       </div>
-
 
       {% else %}
 
       <div class="midnight-empty">
-
-        <div class="empty-icon">
-          ◼
-        </div>
-
-        <h3>
-          Nothing Found
-        </h3>
-
-        <p>
-          Try changing your filters or selecting another category.
-        </p>
-
-        <a
-          href="{{ url_for('midnight.midnight') }}"
-          class="empty-button"
-        >
+        <div class="empty-icon">◼</div>
+        <h3>Nothing Found</h3>
+        <p>Try changing your filters or selecting another category.</p>
+        <a href="{{ url_for('midnight.midnight') }}" class="empty-button">
           Clear Filters
         </a>
-
       </div>
 
       {% endif %}
 
-
       <!-- ==========================================
-           PAGINATION
+            PAGINATION
       =========================================== -->
-
       {% if total_pages > 1 %}
-
-      <nav
-        class="midnight-pagination"
-        aria-label="Pagination"
-      >
+      <nav class="midnight-pagination" aria-label="Pagination">
 
         {% if current_page > 1 %}
-
         <a
-          href="{{ url_for(
-            'midnight.midnight',
-            page=current_page - 1,
-            type=current_type,
-            genre=current_genre,
-            year=current_year,
-            sort=current_sort
-          ) }}"
+          href="{{ url_for('midnight.midnight', page=current_page - 1, type=current_type, genre=current_genre, year=current_year, sort=current_sort) }}"
           class="page-arrow"
         >
           ←
         </a>
-
         {% endif %}
-
 
         {% set start_page = current_page - 2 %}
-
-        {% if start_page < 1 %}
-          {% set start_page = 1 %}
-        {% endif %}
-
+        {% if start_page < 1 %}{% set start_page = 1 %}{% endif %}
 
         {% set end_page = current_page + 2 %}
-
-        {% if end_page > total_pages %}
-          {% set end_page = total_pages %}
-        {% endif %}
-
+        {% if end_page > total_pages %}{% set end_page = total_pages %}{% endif %}
 
         {% for page_number in range(start_page, end_page + 1) %}
-
         <a
-          href="{{ url_for(
-            'midnight.midnight',
-            page=page_number,
-            type=current_type,
-            genre=current_genre,
-            year=current_year,
-            sort=current_sort
-          ) }}"
+          href="{{ url_for('midnight.midnight', page=page_number, type=current_type, genre=current_genre, year=current_year, sort=current_sort) }}"
           class="page-number {% if page_number == current_page %}active{% endif %}"
         >
           {{ page_number }}
         </a>
-
         {% endfor %}
 
-
         {% if current_page < total_pages %}
-
         <a
-          href="{{ url_for(
-            'midnight.midnight',
-            page=current_page + 1,
-            type=current_type,
-            genre=current_genre,
-            year=current_year,
-            sort=current_sort
-          ) }}"
+          href="{{ url_for('midnight.midnight', page=current_page + 1, type=current_type, genre=current_genre, year=current_year, sort=current_sort) }}"
           class="page-arrow"
         >
           →
         </a>
-
         {% endif %}
 
       </nav>
-
       {% endif %}
 
     </div>
-
   </section>
 
 </main>
 
 {% endblock %}
 
-
 {% block page_js %}
+<script src="{{ url_for('static', filename='js/midnight.js') }}"></script>
+<script>
+  // 18+ Age Modal Logic
+  document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('midnightAgeModal');
+    const btnAccept = document.getElementById('acceptAgeBtn');
 
-<script
-  src="{{ url_for('static', filename='js/midnight.js') }}"
-></script>
+    if (localStorage.getItem('midnight_verified') === 'true') {
+      modal.style.display = 'none';
+    } else {
+      modal.style.display = 'flex';
+    }
 
+    btnAccept.addEventListener('click', function() {
+      localStorage.setItem('midnight_verified', 'true');
+      modal.style.display = 'none';
+    });
+  });
+</script>
 {% endblock %}

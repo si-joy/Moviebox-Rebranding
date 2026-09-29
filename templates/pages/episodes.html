@@ -160,8 +160,13 @@
 
 
                             <a
-                                href="/tv-player/{{ show.id }}/{{ season.season_number }}/{{ episode.episode_number }}"
-                                class="episode-watch-button"
+                                href="{{ url_for(
+                            'player.tv_player',
+                            tv_id=show.id,
+                            season=season.season_number,
+                            episode=episode.episode_number
+                        ) }}"
+                                class="watch-button"
                             >
                                 ▶ Watch Episode
                             </a>

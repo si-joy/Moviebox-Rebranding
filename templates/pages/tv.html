@@ -1,7 +1,10 @@
 {% extends "base.html" %}
 
+
 {% block title %}
+
 TV Series - MovieBox
+
 {% endblock %}
 
 
@@ -22,14 +25,14 @@ TV Series - MovieBox
     <div class="container">
 
 
-        <!-- =====================================
+        <!-- =================================================
              HEADER
-        ====================================== -->
+        ================================================== -->
 
-        <header class="catalog-header">
+        <div class="catalog-header">
 
             <span class="catalog-label">
-                BROWSE
+                TV LIBRARY
             </span>
 
             <h1 class="catalog-title">
@@ -37,134 +40,339 @@ TV Series - MovieBox
             </h1>
 
             <p class="catalog-description">
-                Explore popular TV shows and series.
+                Explore popular and trending TV shows and series.
             </p>
 
-        </header>
+        </div>
 
 
-        <!-- =====================================
-             TV GRID
-        ====================================== -->
+        <!-- =================================================
+             FILTERS
+        ================================================== -->
 
-        {% if shows %}
+        <form
+            method="GET"
+            action="{{ url_for('tv.tv_page') }}"
+            class="filters"
+        >
 
-            <section class="movie-grid">
 
-                {% for show in shows %}
+            <!-- Genre -->
 
-                    <a
-                        href="/tv/{{ show.id }}"
-                        class="movie-card"
-                    >
+            <div class="filter-group">
 
-                        <div class="poster-wrapper">
+                <label for="genre">
+                    Genre
+                </label>
 
-                            {% if show.poster_path %}
+                <select
+                    name="genre"
+                    id="genre"
+                >
 
-                                <img
-                                    class="poster"
-                                    src="https://image.tmdb.org/t/p/w500{{ show.poster_path }}"
-                                    alt="{{ show.name }}"
-                                    loading="lazy"
-                                >
+                    <option value="">
+                        All Genres
+                    </option>
 
-                            {% else %}
+                    {% for genre in genres %}
 
-                                <div class="poster-placeholder">
-                                    No Poster
-                                </div>
-
+                        <option
+                            value="{{ genre.id }}"
+                            {% if current_genre == genre.id|string %}
+                                selected
                             {% endif %}
+                        >
+                            {{ genre.name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
 
 
-                            <!-- Hover overlay -->
+            <!-- Year -->
 
-                            <div class="card-overlay">
+            <div class="filter-group">
 
-                                <div class="play-button">
-                                    ▶
-                                </div>
+                <label for="year">
+                    Year
+                </label>
+
+                <select
+                    name="year"
+                    id="year"
+                >
+
+                    <option value="">
+                        All Years
+                    </option>
+
+                    {% for year in range(2026, 1979, -1) %}
+
+                        <option
+                            value="{{ year }}"
+                            {% if current_year == year|string %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ year }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- Rating -->
+
+            <div class="filter-group">
+
+                <label for="rating">
+                    Rating
+                </label>
+
+                <select
+                    name="rating"
+                    id="rating"
+                >
+
+                    <option value="">
+                        Any Rating
+                    </option>
+
+                    <option
+                        value="8"
+                        {% if current_rating == "8" %}
+                            selected
+                        {% endif %}
+                    >
+                        8+
+                    </option>
+
+                    <option
+                        value="7"
+                        {% if current_rating == "7" %}
+                            selected
+                        {% endif %}
+                    >
+                        7+
+                    </option>
+
+                    <option
+                        value="6"
+                        {% if current_rating == "6" %}
+                            selected
+                        {% endif %}
+                    >
+                        6+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Streaming Platform -->
+
+            <div class="filter-group">
+
+                <label for="provider">
+                    Streaming
+                </label>
+
+                <select
+                    name="provider"
+                    id="provider"
+                >
+
+                    <option value="">
+                        All Platforms
+                    </option>
+
+                    {% for provider in providers %}
+
+                        <option
+                            value="{{ provider.provider_id }}"
+                            {% if current_provider == provider.provider_id|string %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ provider.provider_name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- Sort -->
+
+            <div class="filter-group">
+
+                <label for="sort">
+                    Sort
+                </label>
+
+                <select
+                    name="sort"
+                    id="sort"
+                >
+
+                    <option
+                        value="popularity.desc"
+                        {% if current_sort == "popularity.desc" %}
+                            selected
+                        {% endif %}
+                    >
+                        Popular
+                    </option>
+
+                    <option
+                        value="vote_average.desc"
+                        {% if current_sort == "vote_average.desc" %}
+                            selected
+                        {% endif %}
+                    >
+                        Highest Rated
+                    </option>
+
+                    <option
+                        value="first_air_date.desc"
+                        {% if current_sort == "first_air_date.desc" %}
+                            selected
+                        {% endif %}
+                    >
+                        Newest
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- Filter Actions -->
+
+            <div class="filter-actions">
+
+                <button
+                    type="submit"
+                    class="filter-button"
+                >
+                    Apply Filters
+                </button>
+
+                <a
+                    href="{{ url_for('tv.tv_page') }}"
+                    class="reset-button"
+                >
+                    Reset Filters
+                </a>
+
+            </div>
+
+        </form>
+
+
+        <!-- =================================================
+             TV SHOWS
+        ================================================== -->
+
+        <section class="catalog-section">
+
+            {% if shows %}
+
+                <div class="movie-grid">
+
+                    {% for show in shows %}
+
+                        <a
+                            href="{{ url_for(
+                                'tv.tv_detail',
+                                tv_id=show.id
+                            ) }}"
+                            class="movie-card"
+                        >
+
+                            <div class="poster-wrapper">
+
+                                {% if show.poster_path %}
+
+                                    <img
+                                        src="https://image.tmdb.org/t/p/w500{{ show.poster_path }}"
+                                        alt="{{ show.name }}"
+                                        loading="lazy"
+                                    >
+
+                                {% else %}
+
+                                    <div class="poster-placeholder">
+                                        No Image
+                                    </div>
+
+                                {% endif %}
+
+
+                                {% if show.vote_average %}
+
+                                    <span class="rating-badge">
+                                        ★ {{ "%.1f"|format(show.vote_average) }}
+                                    </span>
+
+                                {% endif %}
 
                             </div>
 
 
-                            <!-- Rating -->
+                            <div class="movie-card-content">
 
-                            {% if show.vote_average %}
+                                <h3>
+                                    {{ show.name }}
+                                </h3>
 
-                                <span class="rating-badge">
-                                    ⭐ {{ "%.1f"|format(show.vote_average) }}
-                                </span>
+                                {% if show.first_air_date %}
 
-                            {% endif %}
+                                    <span>
+                                        {{ show.first_air_date[:4] }}
+                                    </span>
 
-                        </div>
+                                {% endif %}
 
+                            </div>
 
-                        <!-- Title -->
+                        </a>
 
-                        <h3 class="movie-title">
-                            {{ show.name }}
-                        </h3>
+                    {% endfor %}
 
+                </div>
 
-                        <!-- Meta -->
+            {% else %}
 
-                        <p class="movie-meta">
+                <div class="empty-state">
 
-                            {% if show.first_air_date %}
+                    <h2>
+                        No TV shows found
+                    </h2>
 
-                                {{ show.first_air_date[:4] }}
+                    <p>
+                        Try changing your filters.
+                    </p>
 
-                            {% else %}
+                </div>
 
-                                N/A
+            {% endif %}
 
-                            {% endif %}
-
-
-                            {% if show.vote_average %}
-
-                                · ⭐ {{ "%.1f"|format(show.vote_average) }}
-
-                            {% endif %}
-
-                        </p>
-
-                    </a>
-
-                {% endfor %}
-
-            </section>
+        </section>
 
 
-        {% else %}
-
-
-            <!-- =====================================
-                 EMPTY STATE
-            ====================================== -->
-
-            <div class="empty-state">
-
-                <h2>
-                    No TV shows found
-                </h2>
-
-                <p>
-                    There are no TV shows available right now.
-                </p>
-
-            </div>
-
-        {% endif %}
-
-
-
-        <!-- =====================================
+        <!-- =================================================
              PAGINATION
-        ====================================== -->
+        ================================================== -->
 
         {% if total_pages > 1 %}
 
@@ -181,10 +389,18 @@ TV Series - MovieBox
                     {% if current_page > 1 %}
 
                         <a
-                            href="{{ url_for('tv.tv_page', page=current_page - 1) }}"
+                            href="{{ url_for(
+                                'tv.tv_page',
+                                page=current_page - 1,
+                                genre=current_genre,
+                                year=current_year,
+                                rating=current_rating,
+                                provider=current_provider,
+                                sort=current_sort
+                            ) }}"
                             class="pagination-button pagination-prev"
                         >
-                            ← Previous
+                            Previous
                         </a>
 
                     {% else %}
@@ -192,22 +408,28 @@ TV Series - MovieBox
                         <span
                             class="pagination-button pagination-prev disabled"
                         >
-                            ← Previous
+                            Previous
                         </span>
 
                     {% endif %}
 
 
-
                     <!-- Page 1 -->
 
                     <a
-                        href="{{ url_for('tv.tv_page', page=1) }}"
+                        href="{{ url_for(
+                            'tv.tv_page',
+                            page=1,
+                            genre=current_genre,
+                            year=current_year,
+                            rating=current_rating,
+                            provider=current_provider,
+                            sort=current_sort
+                        ) }}"
                         class="pagination-button pagination-number {% if current_page == 1 %}active{% endif %}"
                     >
                         1
                     </a>
-
 
 
                     <!-- Page 2 -->
@@ -215,7 +437,15 @@ TV Series - MovieBox
                     {% if total_pages >= 2 %}
 
                         <a
-                            href="{{ url_for('tv.tv_page', page=2) }}"
+                            href="{{ url_for(
+                                'tv.tv_page',
+                                page=2,
+                                genre=current_genre,
+                                year=current_year,
+                                rating=current_rating,
+                                provider=current_provider,
+                                sort=current_sort
+                            ) }}"
                             class="pagination-button pagination-number {% if current_page == 2 %}active{% endif %}"
                         >
                             2
@@ -224,13 +454,20 @@ TV Series - MovieBox
                     {% endif %}
 
 
-
                     <!-- Page 3 -->
 
                     {% if total_pages >= 3 %}
 
                         <a
-                            href="{{ url_for('tv.tv_page', page=3) }}"
+                            href="{{ url_for(
+                                'tv.tv_page',
+                                page=3,
+                                genre=current_genre,
+                                year=current_year,
+                                rating=current_rating,
+                                provider=current_provider,
+                                sort=current_sort
+                            ) }}"
                             class="pagination-button pagination-number {% if current_page == 3 %}active{% endif %}"
                         >
                             3
@@ -239,20 +476,26 @@ TV Series - MovieBox
                     {% endif %}
 
 
-
                     <!-- Page 4 -->
 
                     {% if total_pages >= 4 %}
 
                         <a
-                            href="{{ url_for('tv.tv_page', page=4) }}"
+                            href="{{ url_for(
+                                'tv.tv_page',
+                                page=4,
+                                genre=current_genre,
+                                year=current_year,
+                                rating=current_rating,
+                                provider=current_provider,
+                                sort=current_sort
+                            ) }}"
                             class="pagination-button pagination-number {% if current_page == 4 %}active{% endif %}"
                         >
                             4
                         </a>
 
                     {% endif %}
-
 
 
                     <!-- Dots -->
@@ -266,13 +509,20 @@ TV Series - MovieBox
                     {% endif %}
 
 
-
-                    <!-- Last page -->
+                    <!-- Last Page -->
 
                     {% if total_pages > 4 %}
 
                         <a
-                            href="{{ url_for('tv.tv_page', page=total_pages) }}"
+                            href="{{ url_for(
+                                'tv.tv_page',
+                                page=total_pages,
+                                genre=current_genre,
+                                year=current_year,
+                                rating=current_rating,
+                                provider=current_provider,
+                                sort=current_sort
+                            ) }}"
                             class="pagination-button pagination-number {% if current_page == total_pages %}active{% endif %}"
                         >
                             {{ total_pages }}
@@ -281,16 +531,23 @@ TV Series - MovieBox
                     {% endif %}
 
 
-
                     <!-- Next -->
 
                     {% if current_page < total_pages %}
 
                         <a
-                            href="{{ url_for('tv.tv_page', page=current_page + 1) }}"
+                            href="{{ url_for(
+                                'tv.tv_page',
+                                page=current_page + 1,
+                                genre=current_genre,
+                                year=current_year,
+                                rating=current_rating,
+                                provider=current_provider,
+                                sort=current_sort
+                            ) }}"
                             class="pagination-button pagination-next"
                         >
-                            Next →
+                            Next
                         </a>
 
                     {% else %}
@@ -298,18 +555,16 @@ TV Series - MovieBox
                         <span
                             class="pagination-button pagination-next disabled"
                         >
-                            Next →
+                            Next
                         </span>
 
                     {% endif %}
-
 
                 </nav>
 
             </div>
 
         {% endif %}
-
 
     </div>
 

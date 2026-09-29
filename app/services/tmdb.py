@@ -1,10 +1,12 @@
 import requests
 from flask import current_app
 
+
 TMDB_BASE_URL = "https://api.themoviedb.org/3"
 
 
 def get_tmdb(endpoint, params=None):
+
     if params is None:
         params = {}
 
@@ -18,6 +20,7 @@ def get_tmdb(endpoint, params=None):
     url = f"{TMDB_BASE_URL}/{endpoint}"
 
     try:
+
         response = requests.get(
             url,
             params=params,
@@ -32,14 +35,37 @@ def get_tmdb(endpoint, params=None):
         return response.json()
 
     except requests.RequestException as error:
+
         print("TMDB ERROR:", error)
+
         return {}
 
 
+# =========================================
+# MOVIE WATCH PROVIDERS
+# =========================================
+
 def get_watch_providers():
+
     return get_tmdb(
         "watch/providers/movie",
         {
-            "language": "en-US"
+            "language": "en-US",
+            "watch_region": "US"
+        }
+    )
+
+
+# =========================================
+# TV WATCH PROVIDERS
+# =========================================
+
+def get_tv_watch_providers():
+
+    return get_tmdb(
+        "watch/providers/tv",
+        {
+            "language": "en-US",
+            "watch_region": "US"
         }
     )

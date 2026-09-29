@@ -1,136 +1,649 @@
-/* ==========================================
-   MovieBox - Player Page Stylesheet
-   ========================================== */
+/* =========================================================
+   PLAYER PAGE
+========================================================= */
 
 .player-page {
-    min-height: 100vh;
-    background-color: #0d0d0f;
-    color: #e4e6eb;
-    padding: 2rem 1rem;
-    display: flex;
-    justify-content: center;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-}
-
-.player-container {
     width: 100%;
-    max-width: 1100px;
-    margin: 0 auto;
+    min-height: 100vh;
+    background: #0b0b0b;
+    color: #fff;
+    padding: 0 50px 80px;
+    box-sizing: border-box;
 }
 
-.player-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1.25rem;
-    gap: 1rem;
-    flex-wrap: wrap;
+
+/* =========================================================
+   TOP BAR
+========================================================= */
+
+.player-topbar {
+    width: 100%;
+    padding: 40px 0 25px;
+    background: transparent;
 }
 
 .back-button {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    color: #a0a5b5;
+    gap: 10px;
+
+    color: #aaa;
+    font-size: 14px;
+    font-weight: 600;
+
     text-decoration: none;
-    font-weight: 500;
-    font-size: 0.95rem;
-    padding: 0.5rem 1rem;
-    background: #1a1c23;
-    border: 1px solid #2a2d3d;
-    border-radius: 8px;
-    transition: all 0.2s ease-in-out;
+
+    transition:
+        color 0.2s ease,
+        transform 0.2s ease;
 }
 
 .back-button:hover {
-    color: #ffffff;
-    background: #252836;
-    border-color: #3b3f54;
-    transform: translateX(-3px);
+    color: #fff;
+    transform: translateX(-4px);
 }
 
-.server-switch-box {
-    display: flex;
-    align-items: center;
+
+/* =========================================================
+   WATCH LAYOUT
+========================================================= */
+
+.watch-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        350px;
+
+    gap: 30px;
+
+    width: 100%;
+
+    align-items: start;
 }
 
-.server-selector {
-    background-color: #1a1c23;
-    color: #e4e6eb;
-    border: 1px solid #2a2d3d;
-    padding: 0.55rem 1rem;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    outline: none;
-    cursor: pointer;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
 
-.server-selector:hover, 
-.server-selector:focus {
-    border-color: #ff3b30;
-    box-shadow: 0 0 0 2px rgba(255, 59, 48, 0.2);
+/* =========================================================
+   PLAYER SECTION
+========================================================= */
+
+.player-section {
+    min-width: 0;
 }
 
 .player-wrapper {
     position: relative;
+
     width: 100%;
-    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-    height: 0;
-    background: #000000;
-    border-radius: 12px;
+
+    aspect-ratio: 16 / 9;
+
+    background: #000;
+
     overflow: hidden;
-    border: 1px solid #1f222e;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+
+    border-radius: 8px;
+
+    border: 1px solid #1d1d1d;
+
+    box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.35);
 }
 
 .player-wrapper iframe {
     position: absolute;
-    top: 0;
-    left: 0;
+
+    inset: 0;
+
     width: 100%;
     height: 100%;
-    border: none;
+
+    display: block;
+
+    border: 0;
 }
 
+
+/* =========================================================
+   PLAYER INFORMATION BAR
+========================================================= */
+
+.player-bottom {
+    display: flex;
+
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 14px 2px;
+
+    border-bottom: 1px solid #1d1d1d;
+}
+
+.player-status {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    color: #aaa;
+
+    font-size: 13px;
+}
+
+.status-dot {
+    width: 7px;
+    height: 7px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: #e50914;
+}
+
+.current-server {
+    color: #666;
+
+    font-size: 12px;
+}
+
+.current-server strong {
+    color: #aaa;
+}
+
+
+/* =========================================================
+   PLAYER NOTICE
+========================================================= */
+
 .player-notice {
-    margin-top: 1rem;
-    font-size: 0.85rem;
-    color: #8a8f9e;
-    background: #14161d;
-    padding: 0.75rem 1rem;
-    border-left: 3px solid #ff3b30;
-    border-radius: 4px;
-    line-height: 1.4;
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
+    margin-top: 15px;
+
+    padding: 13px 15px;
+
+    background: #111;
+
+    border-left: 2px solid #e50914;
+
+    border-radius: 5px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    line-height: 1.5;
 }
 
 .player-notice strong {
-    color: #ffffff;
+    color: #aaa;
 }
 
-@media (max-width: 600px) {
+
+/* =========================================================
+   RIGHT SIDEBAR
+========================================================= */
+
+.watch-sidebar {
+    display: flex;
+    flex-direction: column;
+
+    gap: 15px;
+
+    min-width: 0;
+}
+
+
+/* =========================================================
+   SIDEBAR CARD
+========================================================= */
+
+.sidebar-card {
+    padding: 16px;
+
+    background: #111;
+
+    border: 1px solid #1d1d1d;
+
+    border-radius: 8px;
+}
+
+
+/* =========================================================
+   MOVIE INFO
+========================================================= */
+
+.movie-info {
+    display: flex;
+
+    gap: 13px;
+}
+
+.sidebar-poster {
+    width: 85px;
+    height: 125px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 6px;
+
+    background: #151515;
+}
+
+.movie-info-content {
+    min-width: 0;
+}
+
+.movie-info-content h1 {
+    margin: 0 0 9px;
+
+    color: #fff;
+
+    font-size: 18px;
+    line-height: 1.3;
+
+    font-weight: 700;
+}
+
+.movie-meta {
+    display: flex;
+
+    flex-wrap: wrap;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: #777;
+
+    font-size: 11px;
+}
+
+.movie-meta span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.movie-meta span:not(:last-child)::after {
+    content: "•";
+
+    margin-left: 6px;
+
+    color: #444;
+}
+
+.movie-meta .rating {
+    color: #f5c518;
+}
+
+.movie-overview {
+    margin: 15px 0 0;
+
+    color: #888;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+
+    overflow: hidden;
+}
+
+
+/* =========================================================
+   SIDEBAR HEADING
+========================================================= */
+
+.sidebar-title {
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 13px;
+
+    color: #fff;
+
+    font-size: 14px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   SERVER LIST
+========================================================= */
+
+.server-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+}
+
+.server-button {
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+
+    gap: 9px;
+
+    padding: 10px 11px;
+
+    background: #181818;
+
+    border: 1px solid #242424;
+
+    border-radius: 6px;
+
+    color: #999;
+
+    font-size: 12px;
+
+    text-align: left;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.server-button:hover {
+    background: #1e1e1e;
+
+    border-color: #333;
+
+    color: #fff;
+}
+
+.server-button.active {
+    background: rgba(229, 9, 20, 0.09);
+
+    border-color: rgba(229, 9, 20, 0.45);
+
+    color: #fff;
+}
+
+.server-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 23px;
+    height: 23px;
+
+    flex-shrink: 0;
+
+    border-radius: 4px;
+
+    background: #222;
+
+    color: #aaa;
+
+    font-size: 8px;
+}
+
+.server-active {
+    margin-left: auto;
+
+    color: #e50914;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   RELATED MOVIES
+========================================================= */
+
+.related-list {
+    display: flex;
+    flex-direction: column;
+
+    gap: 8px;
+}
+
+.related-item {
+    display: flex;
+
+    gap: 10px;
+
+    padding: 5px;
+
+    color: inherit;
+
+    text-decoration: none;
+
+    border-radius: 5px;
+
+    transition: background 0.2s ease;
+}
+
+.related-item:hover {
+    background: #1a1a1a;
+}
+
+.related-item img {
+    width: 50px;
+    height: 70px;
+
+    flex-shrink: 0;
+
+    object-fit: cover;
+
+    border-radius: 4px;
+}
+
+.related-info {
+    min-width: 0;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+
+    gap: 5px;
+}
+
+.related-info h3 {
+    overflow: hidden;
+
+    margin: 0;
+
+    color: #ddd;
+
+    font-size: 12px;
+
+    line-height: 1.4;
+
+    display: -webkit-box;
+
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.related-info span {
+    color: #666;
+
+    font-size: 10px;
+}
+
+.related-info .related-rating {
+    color: #f5c518;
+}
+
+
+/* =========================================================
+   LARGE DESKTOP
+========================================================= */
+
+@media (min-width: 1400px) {
+
+    .watch-layout {
+        grid-template-columns:
+            minmax(0, 1fr)
+            380px;
+
+        gap: 35px;
+    }
+
+}
+
+
+/* =========================================================
+   1100px
+========================================================= */
+
+@media (max-width: 1100px) {
+
+    .watch-layout {
+        grid-template-columns:
+            minmax(0, 1fr)
+            310px;
+
+        gap: 25px;
+    }
+
+    .sidebar-poster {
+        width: 75px;
+        height: 110px;
+    }
+
+}
+
+
+/* =========================================================
+   800px
+   SAME AS MOVIE DETAIL PAGE
+========================================================= */
+
+@media (max-width: 800px) {
+
     .player-page {
-        padding: 1rem 0.5rem;
+        padding-left: 30px;
+        padding-right: 30px;
+        padding-bottom: 70px;
     }
 
-    .player-header {
-        flex-direction: row;
-        justify-content: space-between;
-        width: 100%;
+    .player-topbar {
+        padding-top: 30px;
     }
 
-    .back-button {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
+    .watch-layout {
+        grid-template-columns: 1fr;
+
+        gap: 25px;
     }
 
-    .server-selector {
-        padding: 0.4rem 0.6rem;
-        font-size: 0.82rem;
+    .watch-sidebar {
+        display: grid;
+
+        grid-template-columns: 1fr 1fr;
+
+        gap: 15px;
+    }
+
+    .movie-info-card {
+        grid-column: 1 / -1;
+    }
+
+    .related-card {
+        grid-column: 1 / -1;
+    }
+
+}
+
+
+/* =========================================================
+   600px
+   SAME AS MOVIE DETAIL PAGE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .player-page {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 55px;
+    }
+
+    .player-topbar {
+        padding-top: 20px;
+        padding-bottom: 15px;
+    }
+
+    .watch-layout {
+        gap: 18px;
     }
 
     .player-wrapper {
-        border-radius: 8px;
+        border-radius: 5px;
     }
+
+    .player-bottom {
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 7px;
+
+        padding: 12px 2px;
+    }
+
+    .watch-sidebar {
+        display: flex;
+        flex-direction: column;
+
+        gap: 12px;
+    }
+
+    .sidebar-card {
+        padding: 14px;
+    }
+
+    .sidebar-poster {
+        width: 75px;
+        height: 110px;
+    }
+
+    .movie-info-content h1 {
+        font-size: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   400px
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .player-page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .sidebar-poster {
+        width: 68px;
+        height: 100px;
+    }
+
+    .movie-info-content h1 {
+        font-size: 15px;
+    }
+
 }

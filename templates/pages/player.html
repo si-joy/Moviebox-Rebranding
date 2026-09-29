@@ -4,40 +4,7 @@
 Watch Now - MovieBox
 {% endblock %}
 
-
 {% block page_css %}
-
-<!-- Preconnect all servers for faster connection -->
-
-<link
-    rel="preconnect"
-    href="https://embed.smashystream.com"
->
-
-<link
-    rel="preconnect"
-    href="https://embed.su"
->
-
-<link
-    rel="preconnect"
-    href="https://rivestream.xyz"
->
-
-<link
-    rel="preconnect"
-    href="https://vidsrc.icu"
->
-
-<link
-    rel="preconnect"
-    href="https://vidlink.pro"
->
-
-<link
-    rel="preconnect"
-    href="https://player.autoembed.cc"
->
 
 <link
     rel="stylesheet"
@@ -46,20 +13,14 @@ Watch Now - MovieBox
 
 {% endblock %}
 
-
 {% block content %}
 
 <main class="player-page">
 
-    <div class="player-container">
+    <div class="container">
 
-        <!-- =========================================
-             PLAYER HEADER
-        ========================================== -->
-
-        <div class="player-header">
-
-            <!-- Back Button -->
+        <!-- Back -->
+        <div class="player-topbar">
 
             <a
                 href="javascript:history.back()"
@@ -68,80 +29,250 @@ Watch Now - MovieBox
                 ← Back
             </a>
 
-
-            <!-- Server Switcher -->
-
-            <div class="server-switch-box">
-
-                <label
-                    for="serverSelect"
-                    style="
-                        margin-right: 8px;
-                        font-size: 0.88rem;
-                        color: #aaa;
-                    "
-                >
-                    Server:
-                </label>
+        </div>
 
 
-                <select
-                    id="serverSelect"
-                    class="server-selector"
-                    onchange="switchServer(this.value)"
-                >
+        <!-- Main Watch Layout -->
+        <div class="watch-layout">
 
-                    {% for key, server in servers.items() %}
+            <!-- ==========================================
+                 LEFT - PLAYER
+                 ========================================== -->
 
-                        <option
-                            value="{{ key }}"
-                            {% if key == current_server %}
-                                selected
-                            {% endif %}
+            <section class="player-section">
+
+                <div class="player-wrapper">
+
+                    <iframe
+                        id="mainPlayer"
+                        src="{{ stream_url }}"
+                        title="MovieBox Player"
+                        allowfullscreen
+                        allow="autoplay; encrypted-media; picture-in-picture"
+                        loading="eager"
+                    ></iframe>
+
+                </div>
+
+
+                <!-- Player Bottom -->
+                <div class="player-bottom">
+
+                    <div class="player-status">
+                        <span class="status-dot"></span>
+                        Now Playing
+                    </div>
+
+                    <div class="current-server">
+                        Server:
+                        <strong>
+                            {{ servers[current_server].name }}
+                        </strong>
+                    </div>
+
+                </div>
+
+
+                <div class="player-notice">
+
+                    <strong>💡 Playback Tip</strong>
+
+                    <span>
+                        If the current server is buffering or not
+                        playing, try another server from the panel.
+                    </span>
+
+                </div>
+
+            </section>
+
+
+            <!-- ==========================================
+                 RIGHT - SIDEBAR
+                 ========================================== -->
+
+            <aside class="watch-sidebar">
+
+
+                <!-- Movie Details -->
+                {% if movie %}
+
+                <div class="sidebar-card movie-info-card">
+
+                    <div class="movie-info">
+
+                        {% if movie.poster_path %}
+
+                        <img
+                            src="https://image.tmdb.org/t/p/w300{{ movie.poster_path }}"
+                            alt="{{ movie.title }}"
+                            class="sidebar-poster"
                         >
-                            {{ server.name }}
-                        </option>
 
-                    {% endfor %}
+                        {% endif %}
 
-                </select>
 
-            </div>
+                        <div class="movie-info-content">
+
+                            <h1>
+                                {{ movie.title }}
+                            </h1>
+
+                            <div class="movie-meta">
+
+                                {% if movie.release_date %}
+                                    <span>
+                                        {{ movie.release_date[:4] }}
+                                    </span>
+                                {% endif %}
+
+                                {% if movie.runtime %}
+                                    <span>
+                                        {{ movie.runtime }} min
+                                    </span>
+                                {% endif %}
+
+                                {% if movie.vote_average %}
+                                    <span class="rating">
+                                        ★ {{ "%.1f"|format(movie.vote_average) }}
+                                    </span>
+                                {% endif %}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    {% if movie.overview %}
+
+                    <p class="movie-overview">
+                        {{ movie.overview }}
+                    </p>
+
+                    {% endif %}
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- Servers -->
+
+                <div class="sidebar-card">
+
+                    <div class="sidebar-title">
+
+                        <span>Servers</span>
+
+                    </div>
+
+
+                    <div class="server-list">
+
+                        {% for key, server in servers.items() %}
+
+                        <button
+                            type="button"
+                            class="server-button {% if key == current_server %}active{% endif %}"
+                            onclick="switchServer('{{ key }}')"
+                        >
+
+                            <span class="server-icon">
+                                ▶
+                            </span>
+
+                            <span>
+                                {{ server.name }}
+                            </span>
+
+                            {% if key == current_server %}
+
+                            <span class="server-active">
+                                ✓
+                            </span>
+
+                            {% endif %}
+
+                        </button>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+
+                <!-- Related Movies -->
+
+                {% if recommendations %}
+
+                <div class="sidebar-card related-card">
+
+                    <div class="sidebar-title">
+
+                        <span>Related Movies</span>
+
+                    </div>
+
+
+                    <div class="related-list">
+
+                        {% for item in recommendations[:8] %}
+
+                        <a
+                            href="{{ url_for('movies.movie_detail', movie_id=item.id) }}"
+                            class="related-item"
+                        >
+
+                            {% if item.poster_path %}
+
+                            <img
+                                src="https://image.tmdb.org/t/p/w185{{ item.poster_path }}"
+                                alt="{{ item.title }}"
+                            >
+
+                            {% endif %}
+
+
+                            <div class="related-info">
+
+                                <h3>
+                                    {{ item.title }}
+                                </h3>
+
+                                {% if item.release_date %}
+
+                                <span>
+                                    {{ item.release_date[:4] }}
+                                </span>
+
+                                {% endif %}
+
+                                {% if item.vote_average %}
+
+                                <span class="related-rating">
+                                    ★ {{ "%.1f"|format(item.vote_average) }}
+                                </span>
+
+                                {% endif %}
+
+                            </div>
+
+                        </a>
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+            </aside>
 
         </div>
-
-
-        <!-- =========================================
-             VIDEO PLAYER
-        ========================================== -->
-
-        <div class="player-wrapper">
-
-            <iframe
-                id="mainPlayer"
-                src="{{ stream_url }}"
-                title="MovieBox Player"
-                allowfullscreen
-                allow="autoplay; encrypted-media; picture-in-picture"
-                loading="eager"
-            >
-            </iframe>
-
-        </div>
-
-
-        <!-- =========================================
-             PLAYER NOTICE
-        ========================================== -->
-
-        <p class="player-notice">
-
-            💡 <strong>Tip:</strong>
-            If the current server is buffering, loading slowly,
-            or not playing due to an ad blocker, please try switching
-            to another server from the dropdown above.
-
-        </p>
 
     </div>
 
@@ -150,70 +281,17 @@ Watch Now - MovieBox
 
 <script>
 
-    /* =========================================
-       SERVER SWITCH
-    ========================================== */
+function switchServer(serverKey) {
 
-    function switchServer(serverKey) {
+    const urlParams =
+        new URLSearchParams(window.location.search);
 
-        const urlParams = new URLSearchParams(
-            window.location.search
-        );
+    urlParams.set("server", serverKey);
 
-        urlParams.set("server", serverKey);
+    window.location.search =
+        urlParams.toString();
 
-        window.location.search = urlParams.toString();
-
-    }
-
-
-    /* =========================================
-       ADBLOCKER DETECTION
-    ========================================== */
-
-    window.addEventListener("load", function () {
-
-        let fakeAd = document.createElement("div");
-
-        fakeAd.className = "adsbox google-ads ad-zone";
-
-        fakeAd.style.display = "block";
-
-        document.body.appendChild(fakeAd);
-
-
-        setTimeout(function () {
-
-            if (fakeAd.offsetHeight === 0) {
-
-                const notice = document.querySelector(
-                    ".player-notice"
-                );
-
-
-                if (notice) {
-
-                    notice.innerHTML =
-                        '⚠️ <strong>AdBlocker Detected:</strong> ' +
-                        'If the video isn\'t loading properly, ' +
-                        'please disable your ad blocker or try ' +
-                        'switching to another server.';
-
-
-                    notice.style.borderLeftColor = "#ffcc00";
-
-                    notice.style.background = "#2a2400";
-
-                }
-
-            }
-
-
-            fakeAd.remove();
-
-        }, 300);
-
-    });
+}
 
 </script>
 

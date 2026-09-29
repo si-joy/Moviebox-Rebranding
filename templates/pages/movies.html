@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
+
 {% block title %}
+
 Movies - MovieBox
+
 {% endblock %}
+
 
 {% block page_css %}
 
@@ -13,13 +17,17 @@ Movies - MovieBox
 
 {% endblock %}
 
+
 {% block content %}
 
 <main class="catalog-page">
 
     <div class="container">
 
-        <!-- Header -->
+
+        <!-- =================================================
+             HEADER
+        ================================================== -->
 
         <div class="catalog-header">
 
@@ -38,13 +46,16 @@ Movies - MovieBox
         </div>
 
 
-        <!-- Filters -->
+        <!-- =================================================
+             FILTERS
+        ================================================== -->
 
         <form
             method="GET"
             action="{{ url_for('movies.movies_page') }}"
             class="filters"
         >
+
 
             <!-- Genre -->
 
@@ -54,7 +65,10 @@ Movies - MovieBox
                     Genre
                 </label>
 
-                <select name="genre" id="genre">
+                <select
+                    name="genre"
+                    id="genre"
+                >
 
                     <option value="">
                         All Genres
@@ -86,7 +100,10 @@ Movies - MovieBox
                     Year
                 </label>
 
-                <select name="year" id="year">
+                <select
+                    name="year"
+                    id="year"
+                >
 
                     <option value="">
                         All Years
@@ -118,7 +135,10 @@ Movies - MovieBox
                     Rating
                 </label>
 
-                <select name="rating" id="rating">
+                <select
+                    name="rating"
+                    id="rating"
+                >
 
                     <option value="">
                         Any Rating
@@ -156,6 +176,41 @@ Movies - MovieBox
             </div>
 
 
+            <!-- Streaming Platform -->
+
+            <div class="filter-group">
+
+                <label for="provider">
+                    Streaming
+                </label>
+
+                <select
+                    name="provider"
+                    id="provider"
+                >
+
+                    <option value="">
+                        All Platforms
+                    </option>
+
+                    {% for provider in providers %}
+
+                        <option
+                            value="{{ provider.provider_id }}"
+                            {% if current_provider == provider.provider_id|string %}
+                                selected
+                            {% endif %}
+                        >
+                            {{ provider.provider_name }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
             <!-- Sort -->
 
             <div class="filter-group">
@@ -164,7 +219,10 @@ Movies - MovieBox
                     Sort
                 </label>
 
-                <select name="sort" id="sort">
+                <select
+                    name="sort"
+                    id="sort"
+                >
 
                     <option
                         value="popularity.desc"
@@ -198,7 +256,7 @@ Movies - MovieBox
             </div>
 
 
-            <!-- Buttons -->
+            <!-- Filter Actions -->
 
             <div class="filter-actions">
 
@@ -221,7 +279,9 @@ Movies - MovieBox
         </form>
 
 
-        <!-- Movies -->
+        <!-- =================================================
+             MOVIES
+        ================================================== -->
 
         <section class="catalog-section">
 
@@ -256,7 +316,9 @@ Movies - MovieBox
         </section>
 
 
-        <!-- Pagination -->
+        <!-- =================================================
+             PAGINATION
+        ================================================== -->
 
         {% if total_pages > 1 %}
 
@@ -266,6 +328,7 @@ Movies - MovieBox
                     class="pagination"
                     aria-label="Pagination Navigation"
                 >
+
 
                     <!-- Previous -->
 
@@ -278,6 +341,7 @@ Movies - MovieBox
                                 genre=current_genre,
                                 year=current_year,
                                 rating=current_rating,
+                                provider=current_provider,
                                 sort=current_sort
                             ) }}"
                             class="pagination-button pagination-prev"
@@ -287,7 +351,9 @@ Movies - MovieBox
 
                     {% else %}
 
-                        <span class="pagination-button pagination-prev disabled">
+                        <span
+                            class="pagination-button pagination-prev disabled"
+                        >
                             Previous
                         </span>
 
@@ -303,6 +369,7 @@ Movies - MovieBox
                             genre=current_genre,
                             year=current_year,
                             rating=current_rating,
+                            provider=current_provider,
                             sort=current_sort
                         ) }}"
                         class="pagination-button pagination-number {% if current_page == 1 %}active{% endif %}"
@@ -322,6 +389,7 @@ Movies - MovieBox
                                 genre=current_genre,
                                 year=current_year,
                                 rating=current_rating,
+                                provider=current_provider,
                                 sort=current_sort
                             ) }}"
                             class="pagination-button pagination-number {% if current_page == 2 %}active{% endif %}"
@@ -343,6 +411,7 @@ Movies - MovieBox
                                 genre=current_genre,
                                 year=current_year,
                                 rating=current_rating,
+                                provider=current_provider,
                                 sort=current_sort
                             ) }}"
                             class="pagination-button pagination-number {% if current_page == 3 %}active{% endif %}"
@@ -364,6 +433,7 @@ Movies - MovieBox
                                 genre=current_genre,
                                 year=current_year,
                                 rating=current_rating,
+                                provider=current_provider,
                                 sort=current_sort
                             ) }}"
                             class="pagination-button pagination-number {% if current_page == 4 %}active{% endif %}"
@@ -385,7 +455,7 @@ Movies - MovieBox
                     {% endif %}
 
 
-                    <!-- Maximum Page -->
+                    <!-- Last Page -->
 
                     {% if total_pages > 4 %}
 
@@ -396,6 +466,7 @@ Movies - MovieBox
                                 genre=current_genre,
                                 year=current_year,
                                 rating=current_rating,
+                                provider=current_provider,
                                 sort=current_sort
                             ) }}"
                             class="pagination-button pagination-number {% if current_page == total_pages %}active{% endif %}"
@@ -417,6 +488,7 @@ Movies - MovieBox
                                 genre=current_genre,
                                 year=current_year,
                                 rating=current_rating,
+                                provider=current_provider,
                                 sort=current_sort
                             ) }}"
                             class="pagination-button pagination-next"
@@ -426,7 +498,9 @@ Movies - MovieBox
 
                     {% else %}
 
-                        <span class="pagination-button pagination-next disabled">
+                        <span
+                            class="pagination-button pagination-next disabled"
+                        >
                             Next
                         </span>
 

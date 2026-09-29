@@ -1,43 +1,59 @@
+/* =========================================================
+   EPISODES PAGE
+========================================================= */
+
 .episodes-page {
     width: 100%;
     min-height: calc(100vh - 70px);
-    padding: 55px 0 90px;
     background: #0b0b0b;
+    color: #fff;
+    padding: 0 50px 100px;
+    box-sizing: border-box;
 }
-
-
-/* ========================================
-   CONTAINER
-======================================== */
 
 .episodes-page .container {
-    width: min(1500px, calc(100% - 100px));
+    width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
-    padding: 0;
 }
 
 
-/* ========================================
+/* =========================================================
    HEADER
-======================================== */
+========================================================= */
 
 .episodes-header {
-    margin-bottom: 45px;
+    padding-top: 30px;
+    margin-bottom: 50px;
 }
 
 .episodes-back {
     display: inline-flex;
-    margin-bottom: 30px;
+    align-items: center;
+    gap: 8px;
+
+    margin-bottom: 45px;
+
     color: #999;
     font-size: 14px;
     font-weight: 600;
-    text-decoration: none;
-    transition: color 0.2s ease;
+
+    text-decoration: none !important;
+
+    transition:
+        color .2s ease,
+        transform .2s ease;
 }
 
 .episodes-back:hover {
     color: #fff;
+    transform: translateX(-4px);
 }
+
+
+/* =========================================================
+   TITLE
+========================================================= */
 
 .episodes-title-wrapper {
     max-width: 800px;
@@ -45,85 +61,95 @@
 
 .episodes-label {
     display: inline-block;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+
     color: #e50914;
-    font-size: 12px;
+
+    font-size: 13px;
     font-weight: 700;
     letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .episodes-title {
-    margin: 0 0 10px;
+    margin: 0 0 12px;
+
     color: #fff;
-    font-size: 48px;
-    line-height: 1.1;
+
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: .95;
+    font-weight: 700;
 }
 
 .season-title {
-    margin: 0 0 12px;
-    color: #ccc;
-    font-size: 24px;
-    font-weight: 500;
+    margin: 0 0 15px;
+
+    color: #ddd;
+
+    font-size: clamp(22px, 3vw, 32px);
+    line-height: 1.2;
+    font-weight: 600;
 }
 
 .episodes-count {
     margin: 0;
+
     color: #777;
+
     font-size: 14px;
+    font-weight: 500;
 }
 
 
-/* ========================================
-   EPISODE GRID
-======================================== */
+/* =========================================================
+   EPISODE LIST
+   2 ITEMS PER ROW ON DESKTOP
+========================================================= */
 
 .episodes-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-
-    width: 100%;
+    gap: 25px;
 }
 
 
-/* ========================================
-   EPISODE CARD
-======================================== */
+/* =========================================================
+   EPISODE CARD (Horizontal Split Layout)
+========================================================= */
 
 .episode-card {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: row; /* Arranges image and details side-by-side */
 
-    width: 100%;
-    height: 280px;
     min-width: 0;
-
     overflow: hidden;
 
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 12px;
+    background: #0f0f0f;
+
+    border: 1px solid #1c1c1c;
+    border-radius: 8px;
 
     transition:
-        border-color 0.2s ease,
-        transform 0.2s ease;
+        border-color .2s ease,
+        transform .2s ease,
+        background .2s ease;
 }
 
 .episode-card:hover {
-    border-color: #333;
-    transform: translateY(-2px);
+    border-color: #2a2a2a;
+    transform: translateY(-3px);
+    background: #141414;
 }
 
 
-/* ========================================
+/* =========================================================
    EPISODE IMAGE
-======================================== */
+========================================================= */
 
 .episode-image-wrapper {
     position: relative;
-
-    width: 100%;
-    height: 100%;
+    flex: 0 0 42%; /* Image takes roughly 42% of the card width */
+    max-width: 42%;
 
     overflow: hidden;
 
@@ -138,12 +164,17 @@
 
     object-fit: cover;
 
-    transition: transform 0.3s ease;
+    transition: transform .3s ease;
 }
 
 .episode-card:hover .episode-image {
-    transform: scale(1.04);
+    transform: scale(1.03);
 }
+
+
+/* =========================================================
+   IMAGE PLACEHOLDER
+========================================================= */
 
 .episode-image-placeholder {
     display: flex;
@@ -153,169 +184,232 @@
     width: 100%;
     height: 100%;
 
+    background: #181818;
+
     color: #666;
+
     font-size: 14px;
 }
 
 
-/* ========================================
-   EPISODE NUMBER
-======================================== */
+/* =========================================================
+   EPISODE NUMBER (Badge on Bottom Left of Image)
+========================================================= */
 
 .episode-number {
     position: absolute;
 
-    left: 12px;
-    bottom: 12px;
+    left: 10px;
+    bottom: 10px;
 
-    padding: 6px 9px;
+    padding: 4px 8px;
 
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 5px;
+    background: rgba(0, 0, 0, .85);
+
+    border-radius: 4px;
 
     color: #fff;
 
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
+
+    backdrop-filter: blur(5px);
 }
 
 
-/* ========================================
+/* =========================================================
    EPISODE CONTENT
-======================================== */
+========================================================= */
 
 .episode-content {
-    min-width: 0;
-    min-height: 0;
-
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
 
-    padding: 24px;
+    flex: 1;
+    min-width: 0;
+
+    padding: 20px;
 }
 
-.episode-top {
-    width: 100%;
 
+/* =========================================================
+   EPISODE TOP
+========================================================= */
+
+.episode-top {
     display: flex;
+
     align-items: flex-start;
     justify-content: space-between;
 
     gap: 12px;
+
+    margin-bottom: 6px;
 }
 
 .episode-name {
-    min-width: 0;
-
     margin: 0;
 
     color: #fff;
 
-    font-size: 18px;
-    line-height: 1.4;
+    font-size: 16px;
+    line-height: 1.3;
+    font-weight: 700;
 }
+
+
+/* =========================================================
+   RATING (Star + Score)
+========================================================= */
 
 .episode-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     flex-shrink: 0;
 
-    color: #ddd;
+    padding: 0;
 
-    font-size: 12px;
-    font-weight: 600;
+    background: transparent;
+
+    border: none;
+    border-radius: 0;
+
+    color: #ffc107;
+
+    font-size: 13px;
+    font-weight: 700;
 }
 
 
-/* ========================================
+
+
+/* =========================================================
    META
-======================================== */
+========================================================= */
 
 .episode-meta {
     display: flex;
-    flex-wrap: wrap;
+    align-items: center;
 
-    gap: 8px;
+    gap: 12px;
 
-    margin-top: 10px;
+    margin-bottom: 12px;
 
-    color: #777;
+    color: #666;
 
     font-size: 12px;
+}
+
+.episode-meta span {
+    position: relative;
 }
 
 .episode-meta span + span::before {
     content: "•";
 
-    margin-right: 8px;
+    margin-right: 12px;
 
     color: #444;
 }
 
 
-/* ========================================
+/* =========================================================
    OVERVIEW
-======================================== */
+========================================================= */
 
 .episode-overview {
-    width: 100%;
+    margin: 0 0 18px;
 
-    margin: 15px 0 20px;
+    color: #888;
 
-    color: #999;
-
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 12px;
+    line-height: 1.5;
 
     display: -webkit-box;
-    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
 
     overflow: hidden;
 }
 
 
-/* ========================================
-   WATCH BUTTON
-======================================== */
+/* =========================================================
+   PRIMARY BUTTON / WATCH EPISODE
+========================================================= */
 
-.episode-watch-button {
+.primary-button,
+.season-button,
+.watch-button {
     display: inline-flex;
 
     align-items: center;
     justify-content: center;
+    gap: 6px;
 
-    min-height: 40px;
+    min-height: 34px;
 
-    margin-top: auto;
-    padding: 0 16px;
+    padding: 0 14px;
 
     background: #e50914;
 
-    border-radius: 6px;
+    border: 1px solid #e50914;
+    border-radius: 4px;
 
     color: #fff;
 
     font-size: 12px;
     font-weight: 700;
+    line-height: 1;
 
-    text-decoration: none;
+    text-decoration: none !important;
 
-    white-space: nowrap;
+    cursor: pointer;
 
-    transition: background 0.2s ease;
+    transition:
+        background .2s ease,
+        border-color .2s ease,
+        color .2s ease,
+        transform .2s ease;
 }
 
-.episode-watch-button:hover {
+.primary-button:hover,
+.season-button:hover,
+.watch-button:hover {
     background: #f6121d;
+
+    border-color: #f6121d;
+
+    color: #fff;
+
+    transform: translateY(-1px);
+}
+
+.watch-button {
+    width: fit-content;
+    margin-top: auto;
 }
 
 
-/* ========================================
+
+/* =========================================================
    EMPTY STATE
-======================================== */
+========================================================= */
 
 .episodes-empty {
-    padding: 100px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 350px;
+
+    padding: 50px;
+
+    background: #111;
+
+    border: 1px solid #222;
+    border-radius: 8px;
 
     text-align: center;
 }
@@ -324,210 +418,159 @@
     margin: 0 0 10px;
 
     color: #fff;
+
+    font-size: 26px;
 }
 
 .episodes-empty p {
     margin: 0;
 
     color: #777;
+
+    font-size: 15px;
 }
 
 
-/* ========================================
-   LARGE TABLET
-======================================== */
+/* =========================================================
+   1200px (Slight layout adjustment for medium desktop)
+========================================================= */
 
-@media (max-width: 1100px) {
-
-    .episodes-page .container {
-        width: min(1500px, calc(100% - 70px));
-    }
-
-    .episodes-list {
-        gap: 16px;
-    }
-
-    .episode-card {
-        height: 260px;
-    }
-
-    .episode-content {
-        padding: 20px;
-    }
-
-    .episode-name {
-        font-size: 16px;
-    }
-}
-
-
-/* ========================================
-   TABLET
-======================================== */
-
-@media (max-width: 800px) {
-
-    .episodes-page {
-        padding-top: 40px;
-    }
-
-    .episodes-page .container {
-        width: min(1500px, calc(100% - 50px));
-    }
-
-    .episodes-title {
-        font-size: 40px;
-    }
-
-    .episodes-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 15px;
-    }
-
-    .episode-card {
-        grid-template-columns: 1fr 1fr;
-        height: 240px;
-    }
-
-    .episode-content {
-        padding: 18px;
-    }
-
-    .episode-name {
-        font-size: 15px;
-    }
-
-    .episode-overview {
-        font-size: 12px;
-        -webkit-line-clamp: 3;
-    }
-
-    .episode-watch-button {
-        width: 100%;
-    }
-}
-
-
-/* ========================================
-   MOBILE
-======================================== */
-
-@media (max-width: 600px) {
-
-    .episodes-page {
-        padding-top: 30px;
-        padding-bottom: 60px;
-    }
-
-    .episodes-page .container {
-        width: calc(100% - 30px);
-    }
-
-    .episodes-header {
-        margin-bottom: 30px;
-    }
-
-    .episodes-back {
-        margin-bottom: 25px;
-    }
-
-    .episodes-title {
-        font-size: 34px;
-    }
-
-    .season-title {
-        font-size: 20px;
-    }
-
-    /*
-     * One card per row
-     */
-
-    .episodes-list {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-
-    /*
-     * Keep image/content 50/50
-     * on mobile as well, but make
-     * the card shorter.
-     */
-
-    .episode-card {
-        grid-template-columns: 1fr 1fr;
-        height: 220px;
-    }
+@media (max-width: 1200px) {
 
     .episode-image-wrapper {
-        height: 100%;
+        flex: 0 0 45%;
+        max-width: 45%;
     }
 
     .episode-content {
         padding: 16px;
     }
 
-    .episode-top {
-        gap: 8px;
-    }
-
-    .episode-name {
-        font-size: 15px;
-    }
-
-    .episode-rating {
-        font-size: 11px;
-    }
-
-    .episode-meta {
-        font-size: 11px;
-    }
-
     .episode-overview {
-        margin-top: 12px;
-        font-size: 12px;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 2;
     }
 
-    .episode-watch-button {
-        min-height: 36px;
-        padding: 0 10px;
-
-        font-size: 11px;
-    }
 }
 
 
-/* ========================================
-   SMALL MOBILE
-======================================== */
+/* =========================================================
+   1000px
+========================================================= */
 
-@media (max-width: 450px) {
+@media (max-width: 1000px) {
 
-    .episodes-page .container {
-        width: calc(100% - 24px);
+    .episodes-page {
+        padding-left: 30px;
+        padding-right: 30px;
     }
 
-    /*
-     * Very small screens:
-     * stack image and content
-     */
-
-    .episode-card {
-        grid-template-columns: 1fr;
-        height: auto;
+    .episodes-list {
+        grid-template-columns: 1fr; /* Switch to 1 card per row on tablet/smaller screens */
+        gap: 20px;
     }
 
     .episode-image-wrapper {
-        height: 180px;
+        flex: 0 0 38%;
+        max-width: 38%;
+    }
+
+}
+
+
+/* =========================================================
+   650px (Mobile - Stack vertically on small screens)
+========================================================= */
+
+@media (max-width: 650px) {
+
+    .episodes-page {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-bottom: 60px;
+    }
+
+    .episodes-header {
+        padding-top: 20px;
+        margin-bottom: 30px;
+    }
+
+    .episodes-back {
+        margin-bottom: 30px;
+    }
+
+    .episodes-title {
+        font-size: 42px;
+    }
+
+    .season-title {
+        font-size: 24px;
+    }
+
+    .episode-card {
+        flex-direction: column; /* Stack image on top of details on mobile */
+    }
+
+    .episode-image-wrapper {
+        flex: none;
+        width: 100%;
+        max-width: 100%;
+        aspect-ratio: 16 / 9;
     }
 
     .episode-content {
-        min-height: 190px;
-        padding: 17px;
+        padding: 18px;
     }
 
-    .episode-watch-button {
+    .episode-top {
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .episode-name {
+        font-size: 18px;
+    }
+
+    .episode-overview {
+        -webkit-line-clamp: 3;
+    }
+
+    .watch-button {
         width: 100%;
     }
+
+}
+
+
+/* =========================================================
+   400px
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .episodes-page {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    .episodes-title {
+        font-size: 36px;
+    }
+
+    .season-title {
+        font-size: 21px;
+    }
+
+    .episode-content {
+        padding: 15px;
+    }
+
+    .episode-name {
+        font-size: 16px;
+    }
+
+    .watch-button {
+        min-height: 40px;
+    }
+
 }
