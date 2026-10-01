@@ -1,14 +1,11 @@
 <nav class="navbar">
 
-    <a
-        href="/"
-        class="logo"
-    >
-        Movie<span>Box</span>
+    <a href="/" class="logo">
+        Movie<span>Verse</span>
     </a>
 
-
-    <div class="search-wrapper">
+    <!-- Desktop Search -->
+    <div class="search-wrapper desktop-search">
 
         <input
             type="text"
@@ -25,21 +22,110 @@
 
     </div>
 
-
+    <!-- Desktop Navigation -->
     <div class="nav-links">
 
-        <a href="/">
-            Home
-        </a>
+        <a href="/">Home</a>
+        <a href="/movies">Movies</a>
+        <a href="/tv">TV Series</a>
 
-        <a href="/movies">
-            Movies
-        </a>
+    </div>
 
-        <a href="/tv">
-            TV Series
-        </a>
+    <!-- Mobile Actions -->
+    <div class="mobile-nav-actions">
+
+        <!-- Search -->
+        <button
+            type="button"
+            class="mobile-search-toggle"
+            id="mobileSearchToggle"
+            aria-label="Search"
+        >
+            <svg viewBox="0 0 24 24">
+                <circle cx="11" cy="11" r="7"></circle>
+                <line
+                    x1="16.5"
+                    y1="16.5"
+                    x2="21"
+                    y2="21"
+                ></line>
+            </svg>
+        </button>
+
+        <!-- Hamburger -->
+        <button
+            type="button"
+            class="mobile-menu-toggle"
+            id="mobileMenuToggle"
+            aria-label="Menu"
+            aria-expanded="false"
+        >
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
 
     </div>
 
 </nav>
+
+
+<!-- Mobile Search -->
+<div
+    class="mobile-search-panel"
+    id="mobileSearchPanel"
+>
+
+    <div class="mobile-search-box">
+
+        <svg viewBox="0 0 24 24">
+            <circle cx="11" cy="11" r="7"></circle>
+
+            <line
+                x1="16.5"
+                y1="16.5"
+                x2="21"
+                y2="21"
+            ></line>
+        </svg>
+
+        <input
+            type="text"
+            id="mobileSearchInput"
+            class="mobile-search-input"
+            placeholder="Search movies & TV shows..."
+            autocomplete="off"
+        >
+
+        <button
+            type="button"
+            class="mobile-search-close"
+            id="mobileSearchClose"
+            aria-label="Close search"
+        >
+            ×
+        </button>
+
+    </div>
+
+    <div
+        id="mobileSearchResults"
+        class="mobile-search-results"
+    ></div>
+
+</div>
+
+
+<!-- Mobile Menu -->
+<div
+    class="mobile-menu"
+    id="mobileMenu"
+>
+
+    <a href="/">Home</a>
+
+    <a href="/movies">Movies</a>
+
+    <a href="/tv">TV Series</a>
+
+</div>

@@ -1,157 +1,522 @@
-const searchInput =
-    document.getElementById("searchInput");
+document.addEventListener("DOMContentLoaded", function () {
 
-const searchResults =
-    document.getElementById("searchResults");
+    /* =========================================================
+       ELEMENTS
+    ========================================================= */
 
-let searchTimer;
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const searchResults =
+        document.getElementById("searchResults");
+
+    const mobileSearchToggle =
+        document.getElementById("mobileSearchToggle");
+
+    const mobileSearchPanel =
+        document.getElementById("mobileSearchPanel");
+
+    const mobileSearchInput =
+        document.getElementById("mobileSearchInput");
+
+    const mobileSearchResults =
+        document.getElementById("mobileSearchResults");
+
+    const mobileSearchClose =
+        document.getElementById("mobileSearchClose");
+
+    const mobileMenuToggle =
+        document.getElementById("mobileMenuToggle");
+
+    const mobileMenu =
+        document.getElementById("mobileMenu");
 
 
-if (searchInput) {
+    /* =========================================================
+       SEARCH TIMERS
+    ========================================================= */
 
-    searchInput.addEventListener(
-        "input",
-        function () {
-
-            const query =
-                this.value.trim();
-
-            clearTimeout(searchTimer);
+    let desktopSearchTimer = null;
+    let mobileSearchTimer = null;
 
 
-            if (!query) {
+    /* =========================================================
+       DESKTOP SEARCH
+    ========================================================= */
 
-                searchResults.style.display =
-                    "none";
+    if (searchInput) {
 
-                searchResults.innerHTML =
-                    "";
+        searchInput.addEventListener(
+            "input",
+            function () {
 
-                return;
+                const query =
+                    this.value.trim();
+
+                clearTimeout(
+                    desktopSearchTimer
+                );
+
+
+                if (!query) {
+
+                    hideResults(
+                        searchResults
+                    );
+
+                    return;
+                }
+
+
+                desktopSearchTimer =
+                    setTimeout(
+                        function () {
+
+                            searchMovies(
+                                query,
+                                searchResults,
+                                false
+                            );
+
+                        },
+                        300
+                    );
 
             }
-
-
-            searchTimer = setTimeout(
-                () => performSearch(query),
-                300
-            );
-
-        }
-    );
-
-
-    searchInput.addEventListener(
-        "focus",
-        function () {
-
-            if (
-                this.value.trim() &&
-                searchResults.innerHTML
-            ) {
-
-                searchResults.style.display =
-                    "block";
-
-            }
-
-        }
-    );
-
-}
-
-
-async function performSearch(query) {
-
-    searchResults.style.display =
-        "block";
-
-    searchResults.innerHTML = `
-        <div class="search-message">
-            Searching...
-        </div>
-    `;
-
-
-    try {
-
-        const response =
-            await fetch(
-                `/api/search?q=${encodeURIComponent(query)}`
-            );
-
-
-        if (!response.ok) {
-            throw new Error(
-                "Search request failed"
-            );
-        }
-
-
-        const data =
-            await response.json();
-
-
-        displayResults(
-            data.results
         );
 
 
-    } catch (error) {
+        /* Focus */
 
-        console.error(
-            "Search error:",
-            error
+        searchInput.addEventListener(
+            "focus",
+            function () {
+
+                const query =
+                    this.value.trim();
+
+                if (query) {
+
+                    searchMovies(
+                        query,
+                        searchResults,
+                        false
+                    );
+
+                }
+
+            }
         );
-
-
-        searchResults.innerHTML = `
-            <div class="search-message">
-                Something went wrong.
-            </div>
-        `;
 
     }
 
-}
+
+    /* =========================================================
+       MOBILE SEARCH OPEN / CLOSE
+    ========================================================= */
+
+    if (mobileSearchToggle) {
+
+        mobileSearchToggle.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                const isActive =
+                    mobileSearchPanel &&
+                    mobileSearchPanel.classList.contains(
+                        "active"
+                    );
 
 
-function displayResults(results) {
+                /* Close mobile menu */
 
-    searchResults.innerHTML = "";
+                if (mobileMenu) {
+
+                    mobileMenu.classList.remove(
+                        "active"
+                    );
+
+                }
+
+                if (mobileMenuToggle) {
+
+                    mobileMenuToggle.setAttribute(
+                        "aria-expanded",
+                        "false"
+                    );
+
+                }
 
 
-    if (
-        !results ||
-        results.length === 0
+                /* Toggle search */
+
+                if (mobileSearchPanel) {
+
+                    if (isActive) {
+
+                        closeMobileSearch();
+
+                    } else {
+
+                        mobileSearchPanel.classList.add(
+                            "active"
+                        );
+
+
+                        setTimeout(
+                            function () {
+
+                                if (mobileSearchInput) {
+
+                                    mobileSearchInput.focus();
+
+                                }
+
+                            },
+                            150
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       MOBILE SEARCH CLOSE BUTTON
+    ========================================================= */
+
+    if (mobileSearchClose) {
+
+        mobileSearchClose.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                closeMobileSearch();
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       MOBILE SEARCH INPUT
+    ========================================================= */
+
+    if (mobileSearchInput) {
+
+        mobileSearchInput.addEventListener(
+            "input",
+            function () {
+
+                const query =
+                    this.value.trim();
+
+                clearTimeout(
+                    mobileSearchTimer
+                );
+
+
+                if (!query) {
+
+                    hideResults(
+                        mobileSearchResults
+                    );
+
+                    return;
+                }
+
+
+                mobileSearchTimer =
+                    setTimeout(
+                        function () {
+
+                            searchMovies(
+                                query,
+                                mobileSearchResults,
+                                true
+                            );
+
+                        },
+                        300
+                    );
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       MOBILE MENU
+    ========================================================= */
+
+    if (mobileMenuToggle) {
+
+        mobileMenuToggle.addEventListener(
+            "click",
+            function (event) {
+
+                event.stopPropagation();
+
+                const isActive =
+                    mobileMenu &&
+                    mobileMenu.classList.contains(
+                        "active"
+                    );
+
+
+                /* Close search */
+
+                closeMobileSearch();
+
+
+                /* Toggle menu */
+
+                if (mobileMenu) {
+
+                    if (isActive) {
+
+                        mobileMenu.classList.remove(
+                            "active"
+                        );
+
+                        mobileMenuToggle.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                    } else {
+
+                        mobileMenu.classList.add(
+                            "active"
+                        );
+
+                        mobileMenuToggle.setAttribute(
+                            "aria-expanded",
+                            "true"
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       SEARCH FUNCTION
+    ========================================================= */
+
+    async function searchMovies(
+        query,
+        resultContainer,
+        isMobile
     ) {
 
-        searchResults.innerHTML = `
+        if (!resultContainer) {
+            return;
+        }
+
+
+        /*
+        Show loading
+        */
+
+        resultContainer.style.display =
+            "block";
+
+
+        resultContainer.innerHTML = `
             <div class="search-message">
-                No results found.
+                Searching...
             </div>
         `;
 
-        return;
+
+        try {
+
+            /*
+            IMPORTANT:
+            This uses your Flask search API.
+            */
+
+            const response =
+                await fetch(
+                    `/api/search?q=${encodeURIComponent(query)}`
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "Search request failed"
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            /*
+            TMDB search response normally contains:
+            {
+                results: [...]
+            }
+            */
+
+            const results =
+                Array.isArray(data)
+                    ? data
+                    : (
+                        Array.isArray(data.results)
+                            ? data.results
+                            : []
+                    );
+
+
+            /*
+            No results
+            */
+
+            if (!results.length) {
+
+                resultContainer.innerHTML = `
+                    <div class="search-message">
+                        No results found
+                    </div>
+                `;
+
+                return;
+            }
+
+
+            /*
+            Render results
+            */
+
+            resultContainer.innerHTML =
+                results
+                    .slice(0, 10)
+                    .map(
+                        function (item) {
+
+                            return createSearchResult(
+                                item
+                            );
+
+                        }
+                    )
+                    .join("");
+
+
+        }
+        catch (error) {
+
+            console.error(
+                "Search error:",
+                error
+            );
+
+
+            resultContainer.innerHTML = `
+                <div class="search-message">
+                    Search failed. Please try again.
+                </div>
+            `;
+
+        }
 
     }
 
 
-    results.forEach(item => {
+    /* =========================================================
+       CREATE SEARCH RESULT
+    ========================================================= */
 
-        const result =
-            document.createElement("a");
+    function createSearchResult(item) {
+
+        /*
+        Movie:
+        item.title
+
+        TV:
+        item.name
+        */
+
+        const title =
+            item.title ||
+            item.name ||
+            "Unknown";
 
 
-        result.href =
-            item.media_type === "movie"
-                ? `/movie/${item.id}`
-                : `/tv/${item.id}`;
+        /*
+        Release date
+        */
+
+        const date =
+            item.release_date ||
+            item.first_air_date ||
+            "";
 
 
-        result.className =
-            "search-result";
+        const year =
+            date
+                ? date.substring(0, 4)
+                : "";
 
+
+        /*
+        Media type
+        */
+
+        let mediaType =
+            item.media_type;
+
+
+        /*
+        Some backend responses may not include
+        media_type.
+        */
+
+        if (!mediaType) {
+
+            if (item.first_air_date) {
+
+                mediaType = "tv";
+
+            } else {
+
+                mediaType = "movie";
+
+            }
+
+        }
+
+
+        const typeText =
+            mediaType === "tv"
+                ? "TV Series"
+                : "Movie";
+
+
+        /*
+        Poster
+        */
 
         const poster =
             item.poster_path
@@ -159,92 +524,304 @@ function displayResults(results) {
                 : null;
 
 
-        const year =
-            item.release_date
-                ? item.release_date.substring(0, 4)
-                : "N/A";
+        /*
+        Link
+        */
+
+        let link = "#";
 
 
-        const type =
-            item.media_type === "movie"
-                ? "Movie"
-                : "TV Series";
+        if (mediaType === "tv") {
+
+            link =
+                `/tv/${item.id}`;
+
+        } else {
+
+            link =
+                `/movie/${item.id}`;
+
+        }
 
 
-        result.innerHTML = `
+        /*
+        Rating
+        */
 
-            ${
-                poster
-                    ? `
-                        <img
-                            src="${poster}"
-                            alt=""
-                            loading="lazy"
-                        >
-                    `
-                    : `
-                        <div
-                            class="search-no-poster"
-                        ></div>
-                    `
-            }
+        const rating =
+            item.vote_average
+                ? ` • ★ ${Number(item.vote_average).toFixed(1)}`
+                : "";
 
 
-            <div class="search-result-info">
+        /*
+        Poster HTML
+        */
 
-                <h3 class="search-result-title">
-                    ${escapeHtml(item.title)}
-                </h3>
+        const posterHTML =
+            poster
+                ? `
+                    <img
+                        src="${poster}"
+                        alt="${escapeHTML(title)}"
+                        loading="lazy"
+                    >
+                `
+                : `
+                    <div class="search-no-poster">
+                        No Image
+                    </div>
+                `;
 
-                <p class="search-result-meta">
-                    ${type} • ${year}
-                </p>
 
-            </div>
+        return `
+            <a
+                href="${link}"
+                class="search-result"
+            >
 
+                ${posterHTML}
+
+                <div class="search-result-info">
+
+                    <div class="search-result-title">
+                        ${escapeHTML(title)}
+                    </div>
+
+                    <div class="search-result-meta">
+
+                        ${typeText}
+
+                        ${
+                            year
+                                ? ` • ${year}`
+                                : ""
+                        }
+
+                        ${rating}
+
+                    </div>
+
+                </div>
+
+            </a>
         `;
 
-
-        searchResults.appendChild(
-            result
-        );
-
-    });
-
-}
+    }
 
 
-function escapeHtml(value) {
+    /* =========================================================
+       CLOSE MOBILE SEARCH
+    ========================================================= */
 
-    const div =
-        document.createElement("div");
+    function closeMobileSearch() {
 
-    div.textContent =
-        value || "";
+        if (mobileSearchPanel) {
 
-    return div.innerHTML;
+            mobileSearchPanel.classList.remove(
+                "active"
+            );
 
-}
+        }
 
 
-document.addEventListener(
-    "click",
-    function (event) {
+        if (mobileSearchInput) {
 
-        if (
-            !event.target.closest(
-                ".search-wrapper"
-            )
-        ) {
+            mobileSearchInput.value = "";
 
-            if (searchResults) {
+        }
 
-                searchResults.style.display =
-                    "none";
 
-            }
+        if (mobileSearchResults) {
+
+            mobileSearchResults.innerHTML = "";
+
+            mobileSearchResults.style.display =
+                "none";
 
         }
 
     }
-);
+
+
+    /* =========================================================
+       HIDE RESULTS
+    ========================================================= */
+
+    function hideResults(container) {
+
+        if (!container) {
+            return;
+        }
+
+
+        container.innerHTML = "";
+
+        container.style.display =
+            "none";
+
+    }
+
+
+    /* =========================================================
+       ESCAPE HTML
+    ========================================================= */
+
+    function escapeHTML(value) {
+
+        return String(value)
+            .replace(
+                /&/g,
+                "&amp;"
+            )
+            .replace(
+                /</g,
+                "&lt;"
+            )
+            .replace(
+                />/g,
+                "&gt;"
+            )
+            .replace(
+                /"/g,
+                "&quot;"
+            )
+            .replace(
+                /'/g,
+                "&#039;"
+            );
+
+    }
+
+
+    /* =========================================================
+       CLICK OUTSIDE
+    ========================================================= */
+
+    document.addEventListener(
+        "click",
+        function (event) {
+
+            /*
+            Desktop search
+            */
+
+            if (
+                searchResults &&
+                searchInput &&
+                !event.target.closest(
+                    ".desktop-search"
+                )
+            ) {
+
+                hideResults(
+                    searchResults
+                );
+
+            }
+
+
+            /*
+            Mobile search
+            */
+
+            if (
+                mobileSearchPanel &&
+                !event.target.closest(
+                    ".mobile-search-panel"
+                ) &&
+                !event.target.closest(
+                    "#mobileSearchToggle"
+                )
+            ) {
+
+                closeMobileSearch();
+
+            }
+
+
+            /*
+            Mobile menu
+            */
+
+            if (
+                mobileMenu &&
+                mobileMenuToggle &&
+                !event.target.closest(
+                    "#mobileMenu"
+                ) &&
+                !event.target.closest(
+                    "#mobileMenuToggle"
+                )
+            ) {
+
+                mobileMenu.classList.remove(
+                    "active"
+                );
+
+                mobileMenuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       ESC KEY
+    ========================================================= */
+
+    document.addEventListener(
+        "keydown",
+        function (event) {
+
+            if (event.key !== "Escape") {
+                return;
+            }
+
+
+            /*
+            Close mobile search
+            */
+
+            closeMobileSearch();
+
+
+            /*
+            Close mobile menu
+            */
+
+            if (mobileMenu) {
+
+                mobileMenu.classList.remove(
+                    "active"
+                );
+
+            }
+
+
+            if (mobileMenuToggle) {
+
+                mobileMenuToggle.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            }
+
+
+            /*
+            Close desktop results
+            */
+
+            hideResults(
+                searchResults
+            );
+
+        }
+    );
+
+});

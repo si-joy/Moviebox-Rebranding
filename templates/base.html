@@ -10,11 +10,139 @@
         content="width=device-width, initial-scale=1.0"
     >
 
+    <!-- ============================= -->
+    <!-- SEO / PAGE TITLE -->
+    <!-- ============================= -->
+
     <title>
         {% block title %}
-            MovieBox
+            MovieVerse - Movies & TV Series
         {% endblock %}
     </title>
+
+    <meta
+        name="description"
+        content="MovieVerse is a modern movie and TV series discovery platform. Explore movies, TV shows, genres, ratings, trailers and more."
+    >
+
+    <meta
+        name="keywords"
+        content="MovieVerse, movies, TV series, TV shows, movie discovery, movies, entertainment"
+    >
+
+    <meta
+        name="author"
+        content="MovieVerse"
+    >
+
+    <meta
+        name="robots"
+        content="index, follow"
+    >
+
+    <meta
+        name="theme-color"
+        content="#0b0b0b"
+    >
+
+
+    <!-- ============================= -->
+    <!-- FAVICON -->
+    <!-- ============================= -->
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="{{ url_for('static', filename='images/movieverse-favicon.png') }}"
+    >
+
+    <link
+        rel="apple-touch-icon"
+        href="{{ url_for('static', filename='images/movieverse-favicon.png') }}"
+    >
+
+
+    <!-- ============================= -->
+    <!-- CANONICAL URL -->
+    <!-- ============================= -->
+
+    <link
+        rel="canonical"
+        href="{{ request.url }}"
+    >
+
+
+    <!-- ============================= -->
+    <!-- OPEN GRAPH / FACEBOOK -->
+    <!-- ============================= -->
+
+    <meta
+        property="og:type"
+        content="website"
+    >
+
+    <meta
+        property="og:site_name"
+        content="MovieVerse"
+    >
+
+    <meta
+        property="og:title"
+        content="MovieVerse - Movies & TV Series"
+    >
+
+    <meta
+        property="og:description"
+        content="Explore movies and TV series on MovieVerse."
+    >
+
+    <meta
+        property="og:url"
+        content="{{ request.url }}"
+    >
+
+    <meta
+        property="og:image"
+        content="{{ url_for(
+            'static',
+            filename='images/movieverse-logo.png',
+            _external=True
+        ) }}"
+    >
+
+
+    <!-- ============================= -->
+    <!-- TWITTER / X -->
+    <!-- ============================= -->
+
+    <meta
+        name="twitter:card"
+        content="summary"
+    >
+
+    <meta
+        name="twitter:title"
+        content="MovieVerse - Movies & TV Series"
+    >
+
+    <meta
+        name="twitter:description"
+        content="Explore movies and TV series on MovieVerse."
+    >
+
+    <meta
+        name="twitter:image"
+        content="{{ url_for(
+            'static',
+            filename='images/movieverse-logo.png',
+            _external=True
+        ) }}"
+    >
+
+
+    <!-- ============================= -->
+    <!-- STYLES -->
+    <!-- ============================= -->
 
     <link
         rel="stylesheet"
@@ -27,19 +155,25 @@
     >
 
     <link
-    rel="stylesheet"
-    href="{{ url_for('static', filename='css/live.css') }}"
+        rel="stylesheet"
+        href="{{ url_for('static', filename='css/live.css') }}"
     >
 
     {% block page_css %}{% endblock %}
 
 </head>
 
+
 <body>
 
     {% include "components/navbar.html" %}
 
     {% block content %}{% endblock %}
+
+
+    <!-- ============================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ============================= -->
 
     <script
         src="{{ url_for('static', filename='js/main.js') }}"

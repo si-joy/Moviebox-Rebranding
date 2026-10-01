@@ -1,349 +1,205 @@
 /* =========================================================
-   NAVBAR
+   GLOBAL
 ========================================================= */
 
-.navbar {
-
-    height: 70px;
-
-    display: flex;
-
-    align-items: center;
-
-    justify-content: space-between;
-
-    gap: 30px;
-
-    padding: 0 50px;
-
-    background: #111;
-
-    border-bottom:
-        1px solid #222;
-
+* {
+    box-sizing: border-box;
 }
 
-
-.logo {
-
-    color: white;
-
-    text-decoration: none;
-
-    font-size: 26px;
-
-    font-weight: 800;
-
-    flex-shrink: 0;
-
+html {
+    scroll-behavior: smooth;
 }
 
+html,
+body {
+    margin: 0;
+    padding: 0;
 
-.logo span {
+    min-height: 100%;
 
-    color: #e50914;
+    background: #0b0b0b;
+    color: #fff;
 
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
+body {
+    min-height: 100vh;
 
-.nav-links {
-
-    display: flex;
-
-    gap: 30px;
-
-    flex-shrink: 0;
-
+    overflow-x: hidden;
 }
 
-
-.nav-links a {
-
-    color: #aaa;
-
-    text-decoration: none;
-
-    font-size: 15px;
-
+a {
+    color: inherit;
 }
 
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
 
-.nav-links a:hover {
+button {
+    cursor: pointer;
+}
 
-    color: white;
+img {
+    max-width: 100%;
+}
 
+main {
+    width: 100%;
 }
 
 
 /* =========================================================
-   SEARCH
+   COMMON CONTAINER
 ========================================================= */
 
-.search-wrapper {
-
-    position: relative;
-
-    width: 400px;
-
-    margin-left: auto;
-
-    margin-right: auto;
-
-}
-
-
-.search-input {
-
+.container {
     width: 100%;
 
-    height: 42px;
+    margin: 0 auto;
 
-    padding: 0 16px;
+    padding-left: 50px;
+    padding-right: 50px;
 
-    border: 1px solid #333;
-
-    border-radius: 6px;
-
-    outline: none;
-
-    background: #1b1b1b;
-
-    color: white;
-
-    font-size: 14px;
-
-}
-
-
-.search-input::placeholder {
-
-    color: #777;
-
-}
-
-
-.search-input:focus {
-
-    border-color: #555;
-
+    box-sizing: border-box;
 }
 
 
 /* =========================================================
-   SEARCH RESULTS
+   COMMON BUTTON
 ========================================================= */
 
-.search-results {
+.primary-button {
+    display: inline-flex;
 
-    position: absolute;
+    align-items: center;
+    justify-content: center;
 
-    top: 50px;
+    min-height: 46px;
 
-    left: 0;
+    padding: 0 22px;
 
-    right: 0;
+    border: 1px solid #e50914;
+    border-radius: 6px;
 
-    background: #151515;
-
-    border:
-        1px solid #2a2a2a;
-
-    border-radius: 8px;
-
-    overflow: hidden;
-
-    z-index: 1000;
-
-    display: none;
-
-    box-shadow:
-        0 10px 30px rgba(0,0,0,.5);
-
-}
-
-
-.search-result {
-
-    display: flex;
-
-    gap: 12px;
-
-    padding: 10px;
+    background: #e50914;
+    color: #fff;
 
     text-decoration: none;
 
-    color: white;
+    font-size: 14px;
+    font-weight: 700;
 
-    border-bottom:
-        1px solid #222;
+    line-height: 1;
 
     transition:
-        background .2s ease;
-
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
 }
 
+.primary-button:hover {
+    background: #f6121d;
 
-.search-result:last-child {
+    border-color: #f6121d;
 
-    border-bottom: 0;
-
-}
-
-
-.search-result:hover {
-
-    background: #222;
-
-}
-
-
-.search-result img,
-.search-no-poster {
-
-    width: 45px;
-
-    height: 65px;
-
-    object-fit: cover;
-
-    border-radius: 4px;
-
-    background: #222;
-
-    flex-shrink: 0;
-
-}
-
-
-.search-result-info {
-
-    min-width: 0;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-}
-
-
-.search-result-title {
-
-    margin: 0 0 6px;
-
-    font-size: 14px;
-
-    white-space: nowrap;
-
-    overflow: hidden;
-
-    text-overflow: ellipsis;
-
-}
-
-
-.search-result-meta {
-
-    margin: 0;
-
-    color: #888;
-
-    font-size: 12px;
-
-}
-
-
-.search-message {
-
-    padding: 18px;
-
-    text-align: center;
-
-    color: #777;
-
-    font-size: 13px;
-
+    transform: translateY(-1px);
 }
 
 
 /* =========================================================
-   MOBILE NAVBAR
+   SECONDARY BUTTON
 ========================================================= */
 
-@media (max-width: 1000px) {
+.secondary-button {
+    display: inline-flex;
 
-    .navbar {
+    align-items: center;
+    justify-content: center;
 
-        padding: 0 30px;
+    min-height: 46px;
 
-    }
+    padding: 0 22px;
 
+    border: 1px solid #444;
+    border-radius: 6px;
 
-    .search-wrapper {
+    background: #181818;
+    color: #fff;
 
-        width: 300px;
+    text-decoration: none;
 
-    }
+    font-size: 14px;
+    font-weight: 700;
 
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.secondary-button:hover {
+    background: #222;
+
+    border-color: #555;
 }
 
 
-@media (max-width: 750px) {
+/* =========================================================
+   GLOBAL SCROLLBAR
+========================================================= */
 
-    .navbar {
+::-webkit-scrollbar {
+    width: 7px;
+}
 
-        padding: 0 25px;
+::-webkit-scrollbar-track {
+    background: #0b0b0b;
+}
 
-        gap: 15px;
+::-webkit-scrollbar-thumb {
+    background: #333;
 
-    }
+    border-radius: 10px;
+}
 
-
-    .search-wrapper {
-
-        width: 220px;
-
-    }
-
-
-    .nav-links {
-
-        gap: 15px;
-
-    }
-
+::-webkit-scrollbar-thumb:hover {
+    background: #444;
 }
 
 
-@media (max-width: 500px) {
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
-    .navbar {
+@media (max-width: 800px) {
 
-        height: auto;
-
-        min-height: 70px;
-
-        padding: 15px;
-
-        flex-wrap: wrap;
-
+    .container {
+        padding-left: 30px;
+        padding-right: 30px;
     }
+}
 
 
-    .search-wrapper {
+@media (max-width: 600px) {
 
-        order: 3;
-
-        width: 100%;
-
+    .container {
+        padding-left: 15px;
+        padding-right: 15px;
     }
+}
 
 
-    .nav-links {
+@media (max-width: 400px) {
 
-        display: none;
-
+    .container {
+        padding-left: 12px;
+        padding-right: 12px;
     }
-
 }
